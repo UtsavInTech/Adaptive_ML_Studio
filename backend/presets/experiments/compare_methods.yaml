@@ -1,0 +1,9 @@
+name: "Compare methods — validated scenario"
+description: Static, incremental, adaptive and ARF on the validated demo scenario, each in its own process, max speed.
+config:
+  name: "Compare methods — validated scenario"
+  base:
+    seed: 42
+    methods: [static, incremental, adaptive, arf]
+    stream: {length: 16000, noise: 0.05, drifts: [{position: 10000, to_variant: 3}]}
+  seeds: [42]

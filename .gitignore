@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+.pytest_cache/
+
+# Node
+node_modules/
+dist/
+
+# Data and experiment outputs (checksums are committed, files are not)
+data/*
+!data/.gitkeep
+!data/checksums.json
+results/*
+!results/.gitkeep
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/

@@ -1,0 +1,9 @@
+name: "Hard scenario — the original check-4 configuration"
+description: >
+  SEA 0 → 3 with label noise 0.1 and the drift at sample 5,000. Detection at ADWIN's default δ was
+  unreliable here (1/10 seeds in check 4) — kept as a documented hard case.
+config:
+  seed: 1
+  methods: [static, adaptive]
+  stream: {length: 12000, noise: 0.1, rate: 200, drifts: [{position: 5000, to_variant: 3}]}
+  evaluation: {block_size: 25}

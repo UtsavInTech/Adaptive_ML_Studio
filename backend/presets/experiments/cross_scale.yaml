@@ -1,0 +1,13 @@
+name: "Cross scale — stream rate × resource profile (provisional definition)"
+description: >
+  The adaptive pipeline at three stream rates (paced) under both profiles. Rate changes only cost and
+  queueing unless a budget makes the pipeline shed work. Paced trials take length / rate seconds.
+config:
+  name: "Cross scale — stream rate x resource profile"
+  base:
+    seed: 42
+    methods: [adaptive]
+    stream: {length: 16000, noise: 0.05, drifts: [{position: 10000, to_variant: 3}]}
+  profiles: [standard, edge_sim]
+  rates: [1000, 4000, null]
+  seeds: [42]

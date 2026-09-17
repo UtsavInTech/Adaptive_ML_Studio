@@ -1,0 +1,10 @@
+name: "Demo — same scenario, simulated edge profile"
+description: >
+  The validated demo scenario under the simulated edge-constrained profile (PLACEHOLDER budgets, enforced
+  in software on this machine; not measured on edge hardware).
+config:
+  seed: 42
+  methods: [static, adaptive]
+  stream: {length: 16000, noise: 0.05, rate: 200, drifts: [{position: 10000, to_variant: 3}]}
+  evaluation: {block_size: 25}
+  profile: edge_sim

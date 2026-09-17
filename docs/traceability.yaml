@@ -1,0 +1,74 @@
+# Traceability: pipeline component ↔ technique ↔ review-paper reference ↔ research gap.
+# Owned by the Review / Literature member, who sets `verified_by` / `status` after checking.
+# The implementation fills in `implemented_in` and `technique`. Rendered on the Method page.
+gaps:
+  G1: Limited integration of multiple adaptive components into a unified pipeline
+  G2: Accuracy evaluated without the computational cost of continuous adaptation
+  G3: Latency not evaluated consistently together with accuracy
+  G4: Limited evaluation of complete adaptive pipelines under real-world edge constraints
+  G5: Limited dynamic adaptation based simultaneously on data drift and available resources
+  G6: Different datasets, metrics and environments make comparison difficult
+components:
+  - component: Adaptive preprocessing
+    technique: Running-mean imputation; exponentially weighted standardisation (fading factor 0.001); clipping at 5σ
+    references: ["[3] Žliobaitė & Gabrys 2014", "[17] Niloy et al. 2025", "[19] Gupta & Hewett 2019"]
+    gaps: [G1]
+    implemented_in: backend/adaptiveml/preprocessing
+    status: implemented
+    verified_by: pending
+  - component: Online feature selection
+    technique: Relevance = |weight| of an online logistic regression; keep the top-k (the truncation step of OFS, adapted — not a full OFS re-implementation)
+    references: ["[4] Hoi et al. 2012", "[16] Hochma & Last 2025"]
+    gaps: [G1, G2]
+    implemented_in: backend/adaptiveml/features
+    status: implemented
+    verified_by: pending
+  - component: Concept drift detection
+    technique: ADWIN on the model's 0/1 error stream (warning δ 0.01, drift δ 0.002); acts only on error increases
+    references: ["[5] Bifet & Gavaldà 2007"]
+    gaps: [G1, G3]
+    implemented_in: backend/adaptiveml/drift
+    status: implemented
+    verified_by: pending
+  - component: Incremental learning
+    technique: Hoeffding tree (River), test-then-train; alternatives logistic regression, Gaussian NB
+    references: ["[10] Montiel et al. 2021 (River)", "[18] Zhang et al. 2021"]
+    gaps: [G1]
+    implemented_in: backend/adaptiveml/models
+    status: implemented
+    verified_by: pending
+  - component: Model adaptation
+    technique: Replacement model trained from the warning/detection, promoted after 200 samples (background-learner strategy of ARF); reset when background models are disallowed
+    references: ["§VI options: choose the right model / retrain if necessary", "[20] Gomes et al. 2017 (background learners)"]
+    gaps: [G1, G2]
+    implemented_in: backend/adaptiveml/adaptation, backend/adaptiveml/pipeline
+    status: implemented
+    verified_by: pending
+  - component: Resource-aware adaptation
+    technique: Block-level governor under a simulated budget — raise update stride, then reduce features; every decision logged
+    references: ["[12] Petri et al. 2022", "[14] Disabato & Roveri 2024", "[15] Lourenço et al. 2026 (DFDT)", "§VI: change the processing configuration"]
+    gaps: [G4 (partial — simulated), G5]
+    implemented_in: backend/adaptiveml/adaptation/resources.py, backend/adaptiveml/config/profiles.py
+    status: implemented (placeholder budget values)
+    verified_by: pending
+  - component: Monitoring
+    technique: Per-stage timing per sample (contiguous stages), CPU time per block, process CPU/RSS sampled from outside, model-size estimate
+    references: ["§VI metrics: accuracy, F1, prediction latency, model-update time, computational overhead, memory"]
+    gaps: [G2, G3]
+    implemented_in: backend/adaptiveml/engine, backend/adaptiveml/metrics, backend/adaptiveml/api/live.py
+    status: implemented
+    verified_by: pending
+  - component: Unified evaluation
+    technique: One config schema, fixed seeds, isolated trials, result bundles with environment and hashes; re-run reproducibility check
+    references: ["Table III — unified evaluation gap"]
+    gaps: [G6]
+    implemented_in: backend/adaptiveml/results, backend/adaptiveml/experiments
+    status: implemented
+    verified_by: pending
+  - component: Comparator — adaptive ensemble
+    technique: Adaptive Random Forest (River ARFClassifier, 10 trees) as an existing adaptive approach
+    references: ["[20] Gomes et al. 2017"]
+    gaps: [G2]
+    implemented_in: backend/adaptiveml/pipeline (method preset "arf")
+    status: implemented (choice of comparators is a Research + Review decision)
+    verified_by: pending

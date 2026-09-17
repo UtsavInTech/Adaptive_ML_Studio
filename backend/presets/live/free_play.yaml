@@ -1,0 +1,9 @@
+name: "Free play — inject drift manually"
+description: >
+  A stable SEA stream with no scheduled drift. Use "Inject drift" to schedule one; it lands at least
+  177 samples later and is recorded so the run can be replayed exactly.
+config:
+  seed: 7
+  methods: [static, adaptive]
+  stream: {length: 60000, noise: 0.05, rate: 200}
+  evaluation: {block_size: 25}

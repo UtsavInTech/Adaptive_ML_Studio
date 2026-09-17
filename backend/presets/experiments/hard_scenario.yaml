@@ -1,0 +1,8 @@
+name: "Hard scenario — original check-4 configuration, 5 seeds"
+description: Noise 0.1, drift at 5,000 — where ADWIN's default δ rarely detected the drift in check 4.
+config:
+  name: "Hard scenario — original check-4 configuration"
+  base:
+    methods: [static, adaptive]
+    stream: {length: 12000, noise: 0.1, drifts: [{position: 5000, to_variant: 3}]}
+  seeds: [1, 2, 3, 4, 5]

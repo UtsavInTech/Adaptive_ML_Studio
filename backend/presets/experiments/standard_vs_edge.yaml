@@ -1,0 +1,10 @@
+name: "Standard vs simulated edge profile"
+description: Static and adaptive under both profiles (edge budgets are PLACEHOLDERS), max speed.
+config:
+  name: "Standard vs simulated edge profile"
+  base:
+    seed: 42
+    methods: [static, adaptive]
+    stream: {length: 16000, noise: 0.05, drifts: [{position: 10000, to_variant: 3}]}
+  profiles: [standard, edge_sim]
+  seeds: [42]
