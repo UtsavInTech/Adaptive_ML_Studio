@@ -72,7 +72,8 @@ def build_extras(ctx) -> dict:
     return {
         "type": "extras",
         "sample": scenario.cursor + 1,
-        "concept": {"variant": variant, "threshold": scenario.info["thresholds"].get(str(variant))},
+        "concept": {"variant": variant, "threshold": scenario.info.get("thresholds", {}).get(str(variant))},
+        "real_data": not scenario.is_synthetic,
         "axes": [fx, fy],
         "points": points,
         "methods": methods,

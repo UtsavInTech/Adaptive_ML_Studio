@@ -13,6 +13,8 @@ dist/
 data/*
 !data/.gitkeep
 !data/checksums.json
+!data/catalog.json
+!data/README.md
 results/*
 !results/.gitkeep
 

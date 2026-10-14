@@ -40,8 +40,9 @@ export type EventRecord = {
 export type ResourceSample = { t: number; cpu_percent: number; rss_mb: number };
 
 export type Extras = {
+  real_data?: boolean;
   sample: number;
-  concept: { variant: number; threshold: number | null };
+  concept: { variant: number | null; threshold: number | null };
   axes: [string, string];
   points: [number, number, number][];
   methods: Record<string, {
@@ -69,8 +70,32 @@ export type MethodSummary = {
   drift_detections_error_increase: number;
   final_model: { version: number; features: string[]; size_bytes: number | null };
   stability_reference: StabilityReference | null;
+  drift_phases?: DriftPhases | null;
   predictions_sha256: string;
 };
+
+/** Scores over one row window, plus what the detector did inside it. */
+export type PhaseScores = {
+  range: [number, number]; n: number;
+  accuracy: number | null; precision: number | null; recall: number | null; f1: number | null;
+  detector_alerts: number; adaptations: number;
+} | null;
+
+/** Before / during / after a change at a known row. Reference computations, not a verdict. */
+export type DriftPhases = {
+  reference_computation: true;
+  source: string;
+  parameters: { before: number; settle: number; after: number };
+  start: number; end: number;
+  before: PhaseScores; during: PhaseScores; after: PhaseScores;
+  first_alert_after_start: number | null;
+  first_adaptation_after_start: number | null;
+};
+
+export type DriftKind = "abrupt" | "gradual" | "incremental" | "recurring";
+export type Injection = { kind: DriftKind; start: number; width: number; period: number | null; swap: [string, string]; end?: number; label?: string; what?: string };
+export type DriftKindCopy = { label: string; also: string; said: string; example: string };
+export type DriftKinds = { kinds: Record<DriftKind, DriftKindCopy>; phases: { before: number; settle: number; after: number } };
 
 export type Segment = { range: [number, number]; accuracy: number | null; f1: number | null } | null;
 
@@ -101,7 +126,7 @@ export type Profile = { name: string; label: string; simulated: boolean; placeho
 export type Manifest = {
   id: string; kind: string; name: string; status: string; error: string | null;
   created_utc: string; finished_utc: string | null; config_hash: string;
-  provenance: { measured_on: string; simulated_profiles: string[]; placeholder_budgets: boolean; real_data: boolean };
+  provenance: { measured_on: string; simulated_profiles: string[]; placeholder_budgets: boolean; real_data: boolean; injected_drift?: boolean };
   environment: Record<string, unknown>;
   app_version: { commit: string | null; uncommitted_changes: boolean };
   trials: TrialEntry[];
@@ -115,9 +140,11 @@ export type Manifest = {
 export type TrialEntry = {
   trial_id: string; status: string; seed: number; rate: number | null;
   profile: { name: string; label: string; simulated: boolean; placeholder: boolean };
-  scenario: { name: string; real: boolean; length: number; noise: number; drifts: GroundTruthDrift[] };
+  scenario: { name: string; real: boolean; length: number; noise: number; drifts: GroundTruthDrift[]; dataset?: string | null; injection?: Injection | null; drift_ground_truth?: string };
+  /** True for a trial that re-ran a method on the untouched rows, to compare against. */
+  control?: boolean;
   timing: Partial<Timing>;
-  methods: Record<string, { accuracy: number | null; f1: number | null; latency_us: Latency; adaptations: number; predictions_sha256: string }>;
+  methods: Record<string, { accuracy: number | null; precision?: number | null; recall?: number | null; f1: number | null; latency_us: Latency; adaptations: number; predictions_sha256: string }>;
 };
 
 export type GroundTruthDrift = {
@@ -125,6 +152,15 @@ export type GroundTruthDrift = {
 };
 
 export type Preset = { name: string; description: string; config: Record<string, unknown> };
+export type Dataset = {
+  id: string; name: string; description: string; rows: number; features: string[];
+  target: string; labels: Record<string, number>; order: string; source: string;
+  sha256: string; license: string; downloaded: string; notes: string; available: boolean;
+  /** Seconds of real time one row stands for, and the period the file covers. */
+  row_seconds?: number; span?: string;
+  drift_injection?: { swap: [string, string]; rule: string };
+  recommended_warmup?: number; warmup_reason?: string;
+};
 
 export type LiveSnapshot = {
   active: boolean;
@@ -171,6 +207,8 @@ const post = <T,>(path: string, body?: unknown) =>
   request<T>(path, { method: "POST", body: JSON.stringify(body ?? {}) });
 
 export const api = {
+  datasets: () => request<Dataset[]>("/api/datasets"),
+  driftKinds: () => request<DriftKinds>("/api/drift-kinds"),
   health: () => request<{ status: string; python: string; river: string; live_active: boolean; experiment_active: boolean }>("/api/health"),
   presets: () => request<{ live: Record<string, Preset>; experiments: Record<string, Preset> }>("/api/presets"),
   profiles: () => request<Record<string, Profile>>("/api/profiles"),
@@ -198,7 +236,32 @@ export const api = {
   exportUrl: (id: string) => `/api/experiments/${encodeURIComponent(id)}/export`,
 };
 
+/** One trial of a running experiment: a single method, alone in its own process. */
+export type JobTrial = {
+  trial_id: string; method: string; profile: string; seed: number; control: boolean;
+  status: "waiting" | "running" | "done" | "failed";
+  accuracy: number | null; precision: number | null; seconds: number | null;
+  detections: number | null; adaptations: number | null;
+};
+
+/** What the running trial reported a moment ago. */
+export type JobCurrent = {
+  lifecycle: string; sample: number; total: number; elapsed_s?: number;
+  methods: Record<string, {
+    model_version: number; adapting: boolean; background: boolean; learning: boolean; n_features: number;
+    scored: number; accuracy: number | null; precision: number | null; recent_accuracy: number | null;
+  }>;
+};
+
+export type JobContext = {
+  scenario: string; dataset: string | null; length: number; warmup: number;
+  injection: Injection | null; phases: { before: number; settle: number; after: number }; control: boolean;
+};
+
 export type JobProgress = {
   name: string; status: string; done: number; total: number | null;
   trial: string | null; experiment_id: string | null; error?: string | null;
+  started_at?: number; finished_at?: number | null;
+  context?: JobContext | null; plan?: JobTrial[] | null; current?: JobCurrent | null;
+  feed?: (EventRecord & { trial_id: string; control: boolean })[];
 };

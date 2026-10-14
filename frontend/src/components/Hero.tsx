@@ -30,7 +30,7 @@ const PHASE_LABEL: Record<Phase, string> = {
 };
 
 export default function HeroStory({
-  phase, headline, sentence, steps, meta, explain, live,
+  phase, headline, sentence, steps, meta, explain, live, statusLabel,
 }: {
   phase: Phase;
   headline: string;
@@ -39,6 +39,7 @@ export default function HeroStory({
   meta?: ReactNode;
   explain?: ExplainId;
   live?: boolean;
+  statusLabel?: string;
 }) {
   return (
     <section className={`hero ${phase}`} aria-live="polite">
@@ -46,7 +47,7 @@ export default function HeroStory({
         <div style={{ minWidth: 0 }}>
           <span className={`hero-label${live ? " live" : ""}`}>
             <span className="dot" aria-hidden="true" />
-            {PHASE_LABEL[phase]}
+            {statusLabel ?? PHASE_LABEL[phase]}
           </span>
           <h1>
             {headline}

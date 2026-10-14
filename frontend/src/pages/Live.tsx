@@ -12,6 +12,7 @@ import type uPlot from "uplot";
 import UPlotChart from "../charts/UPlot";
 import { STAGE_ORDER, lineChart, methodColor, stack, stackedChart, type Marker } from "../charts/plots";
 import { DecisionCard, WhatHappenedCard } from "../components/Cards";
+import ReplaySetup from "../components/ReplaySetup";
 import DataSnapshot from "../components/DataSnapshot";
 import DemoCard from "../components/DemoCard";
 import EventLog from "../components/EventLog";
@@ -74,6 +75,11 @@ export default function Live() {
   }, []);
 
   const config = store.config;
+  const realData = config?.stream?.scenario === "csv";
+  // A real-data replay can carry one controlled change at a known row. Then the drift story
+  // (where it was, when it was noticed, what was done) is measurable, as it is for synthetic data.
+  const injection = (config?.stream?.injection ?? null) as { kind: string; start: number; swap: [string, string] } | null;
+  const knownDrift = !realData || injection !== null;
   const methods: string[] = config?.methods ?? Object.keys(store.blocks);
   const warmup: number = config?.evaluation?.warmup ?? 1000;
   const simulated = Boolean(config?.profile?.simulated);
@@ -204,7 +210,7 @@ export default function Live() {
     if (!started) {
       return {
         headline: "Nothing is running yet.",
-        sentence: "Choose a scenario below and press Start, or run the guided demo to watch a concept drift happen from beginning to end.",
+        sentence: "Choose a dataset and start a replay. Each row is predicted before its label is used for learning.",
       };
     }
     if (store.status.lifecycle === "warming_up") {
@@ -219,6 +225,14 @@ export default function Live() {
         sentence: "No samples are being processed. Resume to continue from exactly where it stopped.",
       };
     }
+    if (realData && injection && phase === "stable" && store.status.sample < injection.start) return {
+      headline: "Replaying real observations.",
+      sentence: `The rows are untouched so far. At row ${samples(injection.start)} the columns ${injection.swap[0]} and ${injection.swap[1]} will be exchanged (${injection.kind} change), so that its position is known.`,
+    };
+    if (realData && !injection) return {
+      headline: store.status.lifecycle === "completed" ? "Dataset replay complete." : "Replaying real observations.",
+      sentence: "Track prediction quality and detector alerts on the recorded data. Drift locations are not annotated, so detection delay and recovery from a known drift are unavailable.",
+    };
     switch (phase) {
       case "drift":
         return {
@@ -240,8 +254,8 @@ export default function Live() {
         };
       default:
         return {
-          headline: "The model is keeping up with the data.",
-          sentence: "The adaptive pipeline and the static baseline are processing the same stream, and accuracy is holding steady.",
+          headline: "Monitoring the model’s predictions.",
+          sentence: "Both methods are processing the same stream. The charts show their measured prediction quality.",
         };
     }
   };
@@ -328,11 +342,27 @@ export default function Live() {
 
   return (
     <div className="page">
-      <HeroStory
+      <header className="lab-heading">
+        <span className="eyebrow">Research workspace / Dataset test</span>
+        <h1>Watch learning happen.</h1>
+        <p>Replay a static Kaggle dataset row by row. Inspect accuracy, detector alerts, and the work behind every prediction.</p>
+      </header>
+      <ReplaySetup disabled={busy || store.active || store.job?.status === "running"} onStart={async (config, name) => {
+        setDemo(false); await liveActions.start({config, name});
+      }} />
+      {store.job?.status === "running" && <p className="banner">An experiment is running. Wait for it to finish before starting a replay.</p>}
+      {store.active && realData && <div className="replay-toolbar">
+        <span role="status">{store.status.sample.toLocaleString()} / {store.status.total.toLocaleString()} rows · {store.status.lifecycle}</span>
+        <progress aria-label="Dataset replay progress" value={store.status.sample} max={store.status.total} />
+        <button className="btn" disabled={busy} onClick={() => void command(store.status.lifecycle === "paused" ? "resume" : "pause")}>{store.status.lifecycle === "paused" ? "Resume" : "Pause"}</button>
+        <button className="btn danger" disabled={busy} onClick={() => void command("stop")}>Stop replay</button>
+      </div>}
+      {started && <HeroStory
+        statusLabel={realData ? `Dataset replay · ${store.status.lifecycle.replaceAll("_", " ")}` : undefined}
         phase={phase}
         headline={headline}
         sentence={sentence}
-        steps={started ? steps : undefined}
+        steps={started && knownDrift ? steps : undefined}
         live={store.active}
         explain={phase === "drift" || phase === "adapting" ? "drift" : undefined}
         meta={
@@ -341,11 +371,11 @@ export default function Live() {
               {store.status.lifecycle.replace("_", " ")}
             </Badge>
             <ProvenanceBadge kind="measured" />
-            <ProvenanceBadge kind="synthetic" />
+            <ProvenanceBadge kind={injection ? "injected" : realData ? "real" : "synthetic"} />
             {simulated && <ProvenanceBadge kind={placeholder ? "placeholder" : "simulated"} />}
           </>
         }
-      />
+      />}
 
       {started && config && (
         <RunContext
@@ -353,7 +383,7 @@ export default function Live() {
             { k: "Scenario", v: runningScenario },
             { k: "Methods", v: methods.map(methodLabel).join(" vs ") },
             { k: "Profile", v: `${config.profile.label}${simulated ? " (simulated)" : ""}` },
-            { k: "Concept", v: store.extras ? `variant ${store.extras.concept.variant}` : DASH, mono: true },
+            { k: realData ? "Source" : "Concept", v: realData ? "Fixed Kaggle snapshot" : store.extras ? `variant ${store.extras.concept.variant}` : DASH, mono: !realData },
             {
               k: "Samples",
               v: `${samples(store.status.sample)} / ${samples(store.status.total)}${
@@ -378,6 +408,8 @@ export default function Live() {
         />
       )}
 
+      <details className="synthetic-tools" open={store.active && !realData ? true : undefined}>
+      <summary>Synthetic demo · controlled concept changes</summary>
       <RunControlBar
         presets={presets}
         preset={preset}
@@ -389,12 +421,12 @@ export default function Live() {
         injectVariant={injectVariant}
         onInjectVariant={setInjectVariant}
         flip={flips[`${store.extras?.concept.variant ?? 0}->${injectVariant}`] ?? null}
-        active={store.active}
+        active={store.active && !realData}
         lifecycle={store.status.lifecycle}
         sample={store.status.sample}
         total={store.status.total}
         seed={config?.seed ?? null}
-        busy={busy}
+        busy={busy || store.active && realData || store.job?.status === "running"}
         demo={demo}
         onStart={() => { setDemo(false); void start(); }}
         onPause={() => void command("pause")}
@@ -411,6 +443,7 @@ export default function Live() {
         }}
       />
 
+      </details>
       {problem && (
         <div className="banner error">
           <div>
@@ -436,9 +469,10 @@ export default function Live() {
         </div>
       )}
 
+      {started ? <>
       <section className="stack tight">
         <SectionHead title="What happened to the model" hint="One timeline: the stream position, not clock time" />
-        <div className="two-col">
+        <div className={knownDrift ? "two-col" : "stack"}>
           <Panel
             title={metric === "accuracy" ? "Accuracy over time" : "F1 over time"}
             explain={metric === "accuracy" ? "windowedAccuracy" : "f1"}
@@ -463,7 +497,7 @@ export default function Live() {
                 <Legend
                   items={[
                     ...methods.map((m) => ({ label: methodLabel(m), color: methodColor(m), dashed: m === "static" })),
-                    { label: "drift in the data", color: "var(--drift)", dashed: true },
+                    ...(knownDrift ? [{ label: injection ? "the added change" : "drift in the data", color: "var(--drift)", dashed: true }] : []),
                     { label: "detected", color: "var(--detect)" },
                     { label: "adapted", color: "var(--adapt)" },
                   ]}
@@ -476,13 +510,14 @@ export default function Live() {
             ) : (
               <EmptyState
                 title="No run yet"
-                hint="Start a run to watch accuracy for the adaptive pipeline and the static baseline on the same stream, with the drift marked on the timeline."
+                hint="Prediction scores will appear as rows are processed. Detector events are marked when recorded."
               />
             )}
           </Panel>
 
-          <Panel title="The story of this run" sub="drift → detection → adaptation">
+          {knownDrift && <Panel title="The story of this run" sub={injection ? "added change → detection → adaptation" : "drift → detection → adaptation"}>
             <WhatHappenedCard
+              added={injection}
               episode={episode}
               preAccuracy={preAccuracy}
               minAccuracy={minAccuracy}
@@ -490,7 +525,7 @@ export default function Live() {
               staticAccuracy={latest("static", "accuracy")}
               modelVersion={extras?.model_version ?? null}
             />
-          </Panel>
+          </Panel>}
         </div>
       </section>
 
@@ -583,7 +618,7 @@ export default function Live() {
           extras={extras}
           streamDetail={
             config
-              ? `${String(config.stream.scenario).toUpperCase()} · ${config.stream.rate ? `${config.stream.rate}/s` : "max speed"} · noise ${config.stream.noise}`
+              ? `${String(config.stream.scenario).toUpperCase()} · ${config.stream.rate ? `${config.stream.rate}/s` : "max speed"} ${realData ? "· original rows" : `· noise ${config.stream.noise}`}`
               : "not started"
           }
           monitorUs={store.final?.timing.monitor_us_per_sample ?? null}
@@ -668,7 +703,7 @@ export default function Live() {
         <TechnicalDetails summary="View technical details of this run">
           <dl className="kv">
             <dt>Scenario</dt>
-            <dd>{String(config.stream.scenario)} · seed {config.seed} · noise {config.stream.noise} · {samples(config.stream.length)} samples</dd>
+            <dd>{String(config.stream.scenario)} · seed {config.seed} · {realData ? `dataset ${config.stream.dataset}` : `noise ${config.stream.noise}`} · {samples(config.stream.length)} samples</dd>
             <dt>Learner</dt>
             <dd>{String(config.pipeline.learner.type)} (grace period {config.pipeline.learner.grace_period})</dd>
             <dt>Detector</dt>
@@ -685,6 +720,7 @@ export default function Live() {
           </dl>
         </TechnicalDetails>
       )}
+      </> : <div className="replay-idle"><strong>Your results will appear here.</strong><p>Start a replay to see measured accuracy, F1, stage latency, resource use, and detector events. Every run is saved for review in Experiments.</p></div>}
     </div>
   );
 }

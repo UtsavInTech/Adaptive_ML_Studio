@@ -5,13 +5,14 @@ import { useEffect, useMemo, useState } from "react";
 import type uPlot from "uplot";
 
 import UPlotChart from "../charts/UPlot";
-import { lineChart, methodColor, pointsChart, type Marker } from "../charts/plots";
+import { css, lineChart, methodColor, pointsChart, type Band, type Marker } from "../charts/plots";
+import DriftShape from "../components/DriftShape";
 import EventLog from "../components/EventLog";
 import { ExplainButton } from "../components/Explain";
 import {
   Badge, EmptyState, ErrorState, Legend, Loading, MetricCard, MetricGrid, Panel, ProvenanceBadge, SectionHead, TechnicalDetails,
 } from "../components/ui";
-import { api, type EventRecord, type Manifest, type MethodSummary, type Timing, type TrialSeries } from "../lib/api";
+import { api, type DriftPhases, type EventRecord, type Manifest, type MethodSummary, type PhaseScores, type Timing, type TrialSeries } from "../lib/api";
 import type { ExplainId } from "../lib/explain";
 import { DASH, kb, methodLabel, num, pct, samples, us } from "../lib/format";
 import { store, useLive } from "../lib/live";
@@ -43,6 +44,8 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
   const [trials, setTrials] = useState<Record<string, TrialData>>({});
   const [series, setSeries] = useState<TrialSeries | null>(null);
   const [events, setEvents] = useState<EventRecord[]>([]);
+  const [allSeries, setAllSeries] = useState<Record<string, TrialSeries>>({});
+  const [showControl, setShowControl] = useState(false);
   const [problem, setProblem] = useState<{ why: string; technical?: string } | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -75,7 +78,7 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
   const markers = useMemo<Marker[]>(() => {
     const out: Marker[] = [];
     for (const event of events) {
-      if (event.type === "drift_true") out.push({ x: event.i, kind: "true", label: "drift in data" });
+      if (event.type === "drift_true") out.push({ x: event.i, kind: "true", label: event.injected ? "change begins" : "drift in data" });
       else if (event.type === "drift_detected" && event.error_increased) out.push({ x: event.i, kind: "detected", label: "detected" });
       else if (event.type === "adaptation_completed") out.push({ x: event.i, kind: "adaptation", label: "adapted" });
     }
@@ -116,7 +119,12 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
           trialId: entry.trial_id,
           method,
           profile: entry.profile,
+          seed: entry.seed,
+          // A control trial re-ran the method on the untouched rows; it is a comparison, not a result.
+          control: entry.control ?? entry.trial_id.endsWith("__control"),
+          phases: (summary?.drift_phases ?? null) as DriftPhases | null,
           accuracy: headline.accuracy,
+          precision: headline.precision ?? summary?.scores_after_warmup.precision ?? null,
           f1: headline.f1,
           latency: headline.latency_us,
           adaptations: headline.adaptations,
@@ -132,8 +140,91 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
     });
   }, [manifest, trials]);
 
+  /** The results proper. Control trials are kept out of every table, chart and headline except the
+   *  before / during / after comparison, where they are shown beside the trial they belong to. */
+  const all = rows;
+  const mainRows = useMemo(() => all.filter((row) => !row.control), [all]);
+  const controlFor = (row: (typeof all)[number]) => all.find((other) => other.control && other.trialId === `${row.trialId}__control`) ?? null;
+  const phased = mainRows.filter((row) => row.phases);
+  const hasPhases = phased.length > 0;
+  const firstScenario = manifest?.trials.find((t) => !t.control)?.scenario;
+  const injection = firstScenario?.injection ?? null;
+  const hasControls = all.some((row) => row.control);
+
+  // Every method on one chart: needs each trial's series, so only fetched when there is a known change.
+  useEffect(() => {
+    if (!manifest || !hasPhases || manifest.trials.length > 24) return;
+    let cancelled = false;
+    Promise.all(manifest.trials.map(async (t) => [t.trial_id, await api.trialSeries(id, t.trial_id)] as const))
+      .then((entries) => { if (!cancelled) setAllSeries(Object.fromEntries(entries)); })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [id, manifest?.trials.length, hasPhases]);
+
+  const together = useMemo(() => {
+    const first = mainRows[0];
+    if (!first) return { lines: [] as { method: string; trialId: string }[], data: [[]] as unknown as uPlot.AlignedData };
+    const group = all.filter((row) => row.control === showControl && row.profile.name === first.profile.name && row.seed === first.seed);
+    const usable = group.filter((row) => allSeries[row.trialId]?.methods[row.method]);
+    if (!usable.length) return { lines: [], data: [[]] as unknown as uPlot.AlignedData };
+    const x = allSeries[usable[0].trialId].methods[usable[0].method].x;
+    const same = usable.filter((row) => allSeries[row.trialId].methods[row.method].x.length === x.length);
+    return {
+      lines: same.map((row) => ({ method: row.method, trialId: row.trialId })),
+      data: [x, ...same.map((row) => allSeries[row.trialId].methods[row.method].accuracy)] as uPlot.AlignedData,
+    };
+  }, [all, mainRows, allSeries, showControl]);
+
+  const reference = phased[0]?.phases ?? null;
+  const bands = useMemo<Band[]>(() => {
+    if (!reference) return [];
+    const out: Band[] = [];
+    if (reference.before) out.push({ from: reference.before.range[0], to: reference.before.range[1], color: css("--static"), label: "before" });
+    if (reference.during) out.push({ from: reference.during.range[0], to: reference.during.range[1], color: css("--drift"), label: "during" });
+    if (reference.after) out.push({ from: reference.after.range[0], to: reference.after.range[1], color: css("--ok"), label: "after" });
+    return out;
+  }, [reference, theme]);
+  const changeMarkers = useMemo<Marker[]>(() => {
+    if (showControl) return [];
+    const drifts = firstScenario?.drifts ?? [];
+    if (injection?.kind === "recurring") return drifts.map((d, k) => ({ x: d.index, kind: "true" as const, label: k === 0 ? "first switch" : k % 2 ? "back" : "switch" }));
+    if (!reference) return [];
+    const out: Marker[] = [{ x: reference.start, kind: "true", label: "change begins" }];
+    if (reference.end - reference.start > 1) out.push({ x: reference.end, kind: "true", label: "change complete" });
+    return out;
+  }, [reference, firstScenario, injection, showControl]);
+
+  const togetherOptions = useMemo(
+    () =>
+      lineChart({
+        xLabel: "row (position in the data)",
+        yLabel: "accuracy over the last 500 rows",
+        yFormat: (v) => `${(v * 100).toFixed(0)}%`,
+        lines: together.lines.map((line) => ({
+          label: methodLabel(line.method),
+          color: methodColor(line.method),
+          dash: line.method === "static" ? [6, 4] : undefined,
+          width: present ? 2.6 : 1.9,
+        })),
+        bands: () => bands,
+        markers: () => changeMarkers,
+        tooltip: (u, idx) => {
+          const x = u.data[0]?.[idx] as number | undefined;
+          if (x == null) return null;
+          return {
+            title: `Row ${samples(x)}`,
+            rows: together.lines.map((line, i) => {
+              const value = u.data[i + 1]?.[idx];
+              return { k: methodLabel(line.method), v: typeof value === "number" ? pct(value) : DASH };
+            }),
+          };
+        },
+      }),
+    [together.lines.map((l) => l.trialId).join(","), bands, changeMarkers, theme, present],
+  );
+
   const tradeoff = useMemo(() => {
-    const points = rows.filter((row) => row.cpu != null && row.accuracy != null).sort((a, b) => (a.cpu ?? 0) - (b.cpu ?? 0));
+    const points = mainRows.filter((row) => row.cpu != null && row.accuracy != null).sort((a, b) => (a.cpu ?? 0) - (b.cpu ?? 0));
     const labels = [...new Set(points.map((point) => point.method))];
     return {
       labels,
@@ -143,20 +234,20 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
         ...labels.map((m) => points.map((p) => (p.method === m ? p.accuracy : null))),
       ] as uPlot.AlignedData,
     };
-  }, [rows]);
+  }, [mainRows]);
 
   /** The two extremes actually measured in this run, and the adaptive pipeline's own figures.
    *  Deliberately not a ranking: "highest measured accuracy" is a fact, "best method" is a judgement
    *  that belongs to the research workstream. */
   const headlines = useMemo(() => {
-    const withAccuracy = rows.filter((row) => row.accuracy != null);
-    const withCost = rows.filter((row) => row.cpu != null);
+    const withAccuracy = mainRows.filter((row) => row.accuracy != null);
+    const withCost = mainRows.filter((row) => row.cpu != null);
     return {
       mostAccurate: withAccuracy.length ? withAccuracy.reduce((a, b) => ((b.accuracy ?? 0) > (a.accuracy ?? 0) ? b : a)) : null,
       cheapest: withCost.length ? withCost.reduce((a, b) => ((b.cpu ?? 0) < (a.cpu ?? 0) ? b : a)) : null,
-      adaptive: rows.find((row) => row.method === "adaptive") ?? null,
+      adaptive: mainRows.find((row) => row.method === "adaptive") ?? null,
     };
-  }, [rows]);
+  }, [mainRows]);
 
   const tradeoffOptions = useMemo(
     () =>
@@ -213,11 +304,11 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
   };
 
   const facts = (() => {
-    const methodCount = new Set(rows.map((r) => r.method)).size;
+    const methodCount = new Set(mainRows.map((r) => r.method)).size;
     const firstTrial = manifest.trials[0];
     const scenario = firstTrial?.scenario;
-    const totalAdaptations = rows.reduce((sum, r) => sum + (r.adaptations ?? 0), 0);
-    const cpus = rows.map((r) => r.cpu).filter((v): v is number => v != null);
+    const totalAdaptations = mainRows.reduce((sum, r) => sum + (r.adaptations ?? 0), 0);
+    const cpus = mainRows.map((r) => r.cpu).filter((v): v is number => v != null);
     return {
       methodCount,
       samples: scenario?.length ?? null,
@@ -248,7 +339,7 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
           <ProvenanceBadge kind="measured" detail={manifest.provenance.measured_on} />
           {manifest.provenance.simulated_profiles.length > 0 && <ProvenanceBadge kind="simulated" detail={manifest.provenance.simulated_profiles.join(", ")} />}
           {manifest.provenance.placeholder_budgets && <ProvenanceBadge kind="placeholder" />}
-          <ProvenanceBadge kind={manifest.provenance.real_data ? "real" : "synthetic"} />
+          <ProvenanceBadge kind={manifest.provenance.injected_drift ? "injected" : manifest.provenance.real_data ? "real" : "synthetic"} />
         </div>
         {manifest.error && <div className="banner error" style={{ marginTop: 12 }}><div>{manifest.error}</div></div>}
         {manifest.reproducibility && (
@@ -266,8 +357,12 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
         <SectionHead title="What this run contains" hint="counts from the stored bundle — not conclusions" />
         <MetricGrid>
           <MetricCard label="Methods evaluated" value={num(facts.methodCount)} sub={`${facts.trials} trial${facts.trials === 1 ? "" : "s"}, each in a fresh process`} />
-          <MetricCard label="Samples per trial" value={facts.samples != null ? samples(facts.samples) : DASH} explain="warmup" sub="first 1,000 used for warm-up" />
-          <MetricCard label="Scheduled drifts" value={num(facts.drifts)} explain="driftTrue" sub={facts.drifts ? "position known in advance" : "none"} />
+          <MetricCard label="Samples per trial" value={facts.samples != null ? samples(facts.samples) : DASH} explain="warmup" sub={selected && trials[selected] ? `first ${samples(trials[selected].config.evaluation.warmup)} used for warm-up` : "loading evaluation protocol"} />
+          {injection ? (
+            <MetricCard label="Change added to the data" explain="injectedDrift" value={injection.label ?? injection.kind} sub={`first changed row ${samples(injection.start)} · chosen in the setup, so its position is known`} />
+          ) : (
+            <MetricCard label={manifest.provenance.real_data ? "Ground-truth drift" : "Scheduled drifts"} value={manifest.provenance.real_data ? "Unknown" : num(facts.drifts)} sub={manifest.provenance.real_data ? "detector alerts are not drift annotations" : facts.drifts ? "position known in advance" : "none"} />
+          )}
           <MetricCard label="Adaptations recorded" value={num(facts.adaptations)} explain="adaptation" sub="across all methods in this run" />
           <MetricCard
             label="Processor time"
@@ -278,6 +373,129 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
           />
         </MetricGrid>
       </section>
+
+      {manifest.provenance.real_data && selected && trials[selected] && <div className="banner">
+        <div><strong>{trials[selected].scenario.name}</strong> · {trials[selected].scenario.order}
+          {injection ? (
+            <p className="small">
+              <strong>Real rows with one controlled change added.</strong> {injection.what} The data's own drift is still present
+              and still unmarked: only the added change has a known position. Precision and F1 use the positive
+              label {Object.entries(trials[selected].scenario.labels ?? {}).find(([, value]) => value === 1)?.[0]}.
+            </p>
+          ) : (
+            <p className="small">No annotated drift locations: detection delay and before/after-drift scores are unavailable.
+            F1 uses the positive label {Object.entries(trials[selected].scenario.labels ?? {}).find(([, value]) => value === 1)?.[0]}.</p>
+          )}
+          <a href={trials[selected].scenario.source} target="_blank" rel="noreferrer">Dataset source ↗</a>
+          <details><summary>Snapshot checksum</summary><code className="dataset-hash">{trials[selected].scenario.sha256}</code></details>
+        </div>
+      </div>}
+
+      {hasPhases && reference && (
+        <section className="stack tight">
+          <SectionHead title="Before, during and after the change" explain="phases" hint="every method scored over exactly the same rows" />
+          <Panel bodyClass="flush">
+            <div className="phase-head">
+              {injection && <DriftShape kind={injection.kind} />}
+              <p>
+                {injection
+                  ? <><strong>{injection.label ?? injection.kind} change.</strong> {injection.what}</>
+                  : <><strong>Scheduled change in a synthetic stream.</strong> Its position is set by the generator.</>}
+                {" "}Before = rows {samples(reference.before?.range[0] ?? null)}–{samples(reference.before?.range[1] ?? null)},
+                during = {samples(reference.during?.range[0] ?? null)}–{samples(reference.during?.range[1] ?? null)},
+                after = {samples(reference.after?.range[0] ?? null)}–{samples(reference.after?.range[1] ?? null)}.
+              </p>
+            </div>
+            <div className="table-scroll">
+              <table className="table phase-table">
+                <thead>
+                  <tr className="group-header">
+                    <th />
+                    <th colSpan={3}>Accuracy <ExplainButton id="accuracy" /></th>
+                    <th colSpan={3}>Precision <ExplainButton id="precision" /></th>
+                    <th colSpan={2}>Detector</th>
+                  </tr>
+                  <tr>
+                    <th><span className="th-inner">Method</span></th>
+                    {["Before", "During", "After", "Before", "During", "After"].map((label, i) => <th key={i}><span className="th-inner">{label}</span></th>)}
+                    <th><span className="th-inner">First alert after the change <ExplainButton id="detectionDelay" /></span></th>
+                    <th><span className="th-inner">Alerts during</span></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {phased.map((row) => {
+                    const mine = row.phases as DriftPhases;
+                    const control = controlFor(row)?.phases ?? null;
+                    const cell = (key: "before" | "during" | "after", metric: "accuracy" | "precision") => {
+                      const value = (mine[key] as PhaseScores)?.[metric] ?? null;
+                      const base = (control?.[key] as PhaseScores)?.[metric] ?? null;
+                      return (
+                        <td className="num" key={`${key}-${metric}`}>
+                          {pct(value)}
+                          {control && key !== "before" && <div className="cell-sub">untouched: {pct(base)}</div>}
+                        </td>
+                      );
+                    };
+                    const detects = row.method === "adaptive";
+                    return (
+                      <tr key={`phase-${row.trialId}`}>
+                        <td>
+                          {methodLabel(row.method)}
+                          <div className="cell-sub">{row.profile.label}{mainRows.some((r) => r.seed !== row.seed) ? ` · seed ${row.seed}` : ""}</div>
+                        </td>
+                        {(["before", "during", "after"] as const).map((key) => cell(key, "accuracy"))}
+                        {(["before", "during", "after"] as const).map((key) => cell(key, "precision"))}
+                        <td className="num">
+                          {detects ? (mine.first_alert_after_start != null ? `${samples(mine.first_alert_after_start)} rows` : "none") : DASH}
+                          {detects && control && <div className="cell-sub">untouched: {control.first_alert_after_start != null ? `${samples(control.first_alert_after_start)} rows` : "none"}</div>}
+                        </td>
+                        <td className="num">
+                          {detects ? num(mine.during?.detector_alerts ?? null) : DASH}
+                          {detects && control && <div className="cell-sub">untouched: {num(control.during?.detector_alerts ?? null)}</div>}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            <p className="tiny muted" style={{ padding: "10px 16px", margin: 0 }}>
+              {hasControls
+                ? "“Untouched” is the control: the same method on the same rows with no change added. Real data moves on its own, so the gap between a figure and its control, not the figure alone, is what the added change accounts for. "
+                : "No control was run, so a difference between the windows may come from the data itself as well as from the change. "}
+              Only the adaptive pipeline reports detector alerts; on real data it also raises them for the data's own drift.
+              The window sizes are configurable reference values. Measurements only; interpretation belongs to the research workstream.
+            </p>
+          </Panel>
+
+          <Panel
+            title="Every method on the same rows"
+            sub={showControl ? "control: untouched rows" : injection ? "with the added change" : undefined}
+            actions={hasControls ? (
+              <div className="segmented">
+                <button type="button" aria-pressed={!showControl} onClick={() => setShowControl(false)}>With the change</button>
+                <button type="button" aria-pressed={showControl} onClick={() => setShowControl(true)}>Untouched (control)</button>
+              </div>
+            ) : undefined}
+          >
+            {together.lines.length ? (
+              <>
+                <UPlotChart options={togetherOptions} data={together.data} height={present ? 380 : 320} />
+                <Legend
+                  items={[
+                    ...together.lines.map((line) => ({ label: methodLabel(line.method), color: methodColor(line.method), dashed: line.method === "static" })),
+                    ...(showControl ? [] : [{ label: "the change", color: "var(--drift)", dashed: true }]),
+                  ]}
+                />
+                <p className="chart-note">
+                  Each line is one method's accuracy over its most recent 500 rows. The shaded stretches are the before, during
+                  and after windows used in the table above, so the same rows are shaded in both views.
+                </p>
+              </>
+            ) : <Loading label="Loading every method's accuracy" />}
+          </Panel>
+        </section>
+      )}
 
       {(headlines.mostAccurate || headlines.cheapest) && (
         <section className="stack tight">
@@ -354,7 +572,7 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
                 </tr>
               </thead>
               <tbody>
-                {rows.map((row) => (
+                {mainRows.map((row) => (
                   <tr
                     key={`${row.trialId}-${row.method}`}
                     onClick={() => (window.location.hash = `#/experiments/${encodeURIComponent(id)}?trial=${encodeURIComponent(row.trialId)}`)}
@@ -437,7 +655,10 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
               onChange={(e) => (window.location.hash = `#/experiments/${encodeURIComponent(id)}?trial=${encodeURIComponent(e.target.value)}`)}
               aria-label="Trial to display"
             >
-              {manifest.trials.map((t) => <option key={t.trial_id} value={t.trial_id}>{t.trial_id}</option>)}
+              {manifest.trials.map((t) => {
+                const method = Object.keys(t.methods)[0];
+                return <option key={t.trial_id} value={t.trial_id}>{method ? methodLabel(method) : t.trial_id}{t.control ? " · control (untouched rows)" : ""}</option>;
+              })}
             </select>
           }
         >

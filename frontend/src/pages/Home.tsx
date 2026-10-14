@@ -11,7 +11,6 @@ import { useRef } from "react";
 import { ExplainButton } from "../components/Explain";
 import Reveal from "../components/Reveal";
 import RunPreview from "../components/RunPreview";
-import { useGlow } from "../lib/glow";
 import { href } from "../lib/router";
 
 const PROBLEM_STEPS = [
@@ -149,7 +148,6 @@ function StoryCurve() {
 
 export default function Home() {
   const how = useRef<HTMLDivElement>(null);
-  useGlow(how);
 
   return (
     <div className="home">
@@ -160,7 +158,7 @@ export default function Home() {
           </Reveal>
           <Reveal delay={40}>
             <h1 className="hero-type">
-              See a machine-learning model <em>adapt</em> as the data changes.
+              See a machine-learning model adapt as the data changes.
             </h1>
           </Reveal>
           <Reveal delay={80}>
@@ -221,7 +219,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="band dark glow" ref={how}>
+      <section className="band dark" ref={how}>
         <div className="band-inner">
           <Reveal className="section-intro">
             <span className="eyebrow">What the studio does</span>

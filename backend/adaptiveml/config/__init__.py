@@ -1,12 +1,15 @@
 from adaptiveml.config.schema import (
+    CONTROL_SUFFIX,
     AdaptationConfig,
     DetectorConfig,
     DriftSpec,
     EvaluationConfig,
     ExperimentConfig,
     FeatureSelectionConfig,
+    InjectedDrift,
     LearnerConfig,
     MethodName,
+    PhaseConfig,
     PipelineConfig,
     PreprocessingConfig,
     ProfileConfig,
@@ -18,14 +21,17 @@ from adaptiveml.config.schema import (
 from adaptiveml.config.seeding import derive_seed
 
 __all__ = [
+    "CONTROL_SUFFIX",
     "AdaptationConfig",
     "DetectorConfig",
     "DriftSpec",
     "EvaluationConfig",
     "ExperimentConfig",
     "FeatureSelectionConfig",
+    "InjectedDrift",
     "LearnerConfig",
     "MethodName",
+    "PhaseConfig",
     "PipelineConfig",
     "PreprocessingConfig",
     "ProfileConfig",

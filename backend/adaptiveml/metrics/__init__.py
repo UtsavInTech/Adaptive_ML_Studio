@@ -13,7 +13,7 @@ from collections import Counter
 
 import numpy as np
 
-from adaptiveml.config import StabilityConfig
+from adaptiveml.config import PhaseConfig, StabilityConfig
 from adaptiveml.pipeline import STAGE_NAMES
 
 N_STAGES = len(STAGE_NAMES)
@@ -113,6 +113,68 @@ def _scores_between(y_true: np.ndarray, y_pred: np.ndarray, lo: int, hi: int) ->
     return {"range": [lo, hi], "accuracy": s["accuracy"], "f1": s["f1"]}
 
 
+def _phase_scores(y_true: np.ndarray, y_pred: np.ndarray, lo: int, hi: int) -> dict | None:
+    lo, hi = max(lo, 0), min(hi, len(y_true))
+    if hi <= lo:
+        return None
+    t, p = y_true[lo:hi], y_pred[lo:hi]
+    s = classification_scores(int(np.sum(t & p)), int(np.sum(~t & p)), int(np.sum(~t & ~p)), int(np.sum(t & ~p)))
+    return {"range": [lo, hi], **s}
+
+
+def drift_phases(
+    y_true: np.ndarray, y_pred: np.ndarray, start: int, end: int, cfg: PhaseConfig, *,
+    limit: int | None = None, source: str = "known change", events: list[dict] | None = None,
+) -> dict:
+    """Scores before, during and after a change whose position is known.
+
+    `start` is the first row the change can affect and `end` the first row at which it is complete.
+    Every method (and every control trial) is scored over the same rows, so the figures are directly
+    comparable. `limit` stops the "after" window at the next change of a recurring drift.
+
+    Reference computations: the window sizes are configuration, and which definition to adopt is a
+    research-team decision. Precision and recall are None when a window has no predicted, or no
+    actual, positive rows.
+    """
+    during_end = end + cfg.settle
+    after_end = during_end + cfg.after
+    if limit is not None:
+        during_end, after_end = min(during_end, limit), min(after_end, limit)
+    alerts = [e["i"] for e in events or () if e["type"] == "drift_detected" and e.get("error_increased")]
+    adapted = [e["i"] for e in events or () if e["type"] == "adaptation_completed"]
+
+    def window(lo: int, hi: int) -> dict | None:
+        scores = _phase_scores(y_true, y_pred, lo, hi)
+        if scores is None:
+            return None
+        return scores | {
+            "detector_alerts": sum(lo <= i < hi for i in alerts),
+            "adaptations": sum(lo <= i < hi for i in adapted),
+        }
+
+    first_alert = next((i - start for i in alerts if i >= start), None)
+    first_adapted = next((i - start for i in adapted if i >= start), None)
+    return {
+        "reference_computation": True,
+        "source": source,
+        "parameters": cfg.model_dump(),
+        "definitions": {
+            "before": "the `before` rows immediately ahead of the first changed row",
+            "during": "from the first changed row until `settle` rows after the change is complete",
+            "after": "the `after` rows that follow the 'during' window",
+        },
+        "start": start,
+        "end": end,
+        "before": window(start - cfg.before, start),
+        "during": window(start, during_end),
+        "after": window(during_end, after_end),
+        # Rows from the first changed row to the next detector alert / completed model replacement.
+        # On real data the detector also fires on the data's own drift, so compare with the control.
+        "first_alert_after_start": first_alert,
+        "first_adaptation_after_start": first_adapted,
+    }
+
+
 def rolling_accuracy(correct: np.ndarray, window: int) -> np.ndarray:
     """out[j] = accuracy over samples [j, j + window)."""
     c = np.concatenate(([0], np.cumsum(correct, dtype=np.int64)))
@@ -181,7 +243,10 @@ def stability_reference(
     }
 
 
-def summarize_method(rec: MethodRecorder, pipe, *, warmup: int, drift_index: int | None, stability: StabilityConfig) -> dict:
+def summarize_method(
+    rec: MethodRecorder, pipe, *, warmup: int, drift_index: int | None, stability: StabilityConfig,
+    phases: PhaseConfig | None = None, phase_window: tuple[int, int, int | None, str] | None = None,
+) -> dict:
     predicted = rec.predicted_labels()
     y_true = rec.true_labels().astype(bool)
     y_pred = predicted.astype(bool)
@@ -235,6 +300,14 @@ def summarize_method(rec: MethodRecorder, pipe, *, warmup: int, drift_index: int
             None
             if drift_index is None
             else stability_reference(y_true, y_pred, drift_index, pipe.events, stability)
+        ),
+        "drift_phases": (
+            None
+            if phase_window is None or phases is None
+            else drift_phases(
+                y_true, y_pred, phase_window[0], phase_window[1], phases,
+                limit=phase_window[2], source=phase_window[3], events=pipe.events,
+            )
         ),
         # int8 0/1 bytes — identical to the earlier per-sample prediction arrays, so hashes stay comparable
         "predictions_sha256": hashlib.sha256(predicted.tobytes()).hexdigest(),

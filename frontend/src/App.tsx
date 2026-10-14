@@ -16,7 +16,7 @@ import Method from "./pages/Method";
 
 const TABS = [
   { page: "home" as const, label: "Home" },
-  { page: "live" as const, label: "Live" },
+  { page: "live" as const, label: "Dataset test" },
   { page: "experiments" as const, label: "Experiments" },
   { page: "method" as const, label: "Method" },
 ];
@@ -93,7 +93,6 @@ export default function App() {
                 aria-current={route.page === tab.page || (tab.page === "experiments" && route.page === "experiment") ? "page" : undefined}
               >
                 {tab.label}
-                <span className="tab-dot" aria-hidden="true" />
               </a>
             ))}
           </nav>

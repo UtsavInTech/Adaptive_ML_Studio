@@ -4,6 +4,7 @@ invalidate both sets of timings)."""
 from __future__ import annotations
 
 import threading
+import time
 from collections.abc import Callable
 
 from adaptiveml.config import ExperimentConfig
@@ -35,7 +36,10 @@ class ExperimentJobs:
         if self.active:
             raise RuntimeError("an experiment is already running")
         self._stop.clear()
-        self.progress = {"name": name, "status": "running", "done": 0, "total": total, "trial": None, "experiment_id": None}
+        self.progress = {
+            "name": name, "status": "running", "done": 0, "total": total, "trial": None, "experiment_id": None,
+            "started_at": time.time(), "finished_at": None, "context": None, "plan": None, "current": None, "feed": [],
+        }
         self._publish({"type": "experiment_progress", **self.progress})
 
         def on_progress(p: dict) -> None:
@@ -48,6 +52,7 @@ class ExperimentJobs:
                 self.progress.update(status=manifest["status"], experiment_id=manifest["id"], error=manifest.get("error"))
             except Exception as exc:  # noqa: BLE001
                 self.progress.update(status="error", error=repr(exc))
+            self.progress.update(finished_at=time.time(), current=None)
             self._publish({"type": "experiment_progress", **self.progress})
 
         self._thread = threading.Thread(target=work, daemon=True)

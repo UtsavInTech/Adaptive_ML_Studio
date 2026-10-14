@@ -10,8 +10,10 @@ import { ExplainButton } from "./Explain";
 import { EmptyState } from "./ui";
 
 export function WhatHappenedCard({
-  episode, preAccuracy, minAccuracy, postAccuracy, staticAccuracy, modelVersion,
+  episode, preAccuracy, minAccuracy, postAccuracy, staticAccuracy, modelVersion, added,
 }: {
+  /** Set when the change was added to real data: which two columns were exchanged. */
+  added?: { swap: [string, string] } | null;
   episode: Episode | undefined;
   preAccuracy: number | null;
   minAccuracy: number | null;
@@ -35,11 +37,18 @@ export function WhatHappenedCard({
       what: "The data changed",
       at: episode.driftIndex,
       says:
-        episode.driftIndex != null
-          ? "The relationship between the inputs and the correct answer was switched at this point in the stream."
-          : "The stream is real data, so the exact moment of change is not known in advance.",
-      detail: episode.driftIndex != null ? "Scheduled in advance, which is what makes the detection delay measurable." : undefined,
-      explain: "driftTrue" as const,
+        episode.driftIndex == null
+          ? "The stream is real data, so the exact moment of change is not known in advance."
+          : added
+            ? `From this row the columns ${added.swap[0]} and ${added.swap[1]} are exchanged. The rows and their labels are otherwise exactly as recorded.`
+            : "The relationship between the inputs and the correct answer was switched at this point in the stream.",
+      detail:
+        episode.driftIndex == null
+          ? undefined
+          : added
+            ? "This change was added on purpose, at a chosen row, which is what makes the detection delay measurable."
+            : "Scheduled in advance, which is what makes the detection delay measurable.",
+      explain: (added ? "injectedDrift" : "driftTrue") as "injectedDrift" | "driftTrue",
     },
     {
       kind: "detect",

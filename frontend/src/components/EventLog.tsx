@@ -28,6 +28,12 @@ export function describe(event: EventRecord): { text: string; why?: string } {
   const method = event.method ? `${event.method}: ` : "";
   switch (event.type) {
     case "drift_true":
+      if (event.injected) {
+        return {
+          text: `The added change begins (${event.drift_kind})`,
+          why: "two input columns are exchanged from here · the position was chosen in the setup",
+        };
+      }
       return {
         text: `Drift in the data (concept ${event.from_variant} → ${event.to_variant})`,
         why: `${(((event.label_flip_fraction as number) ?? 0) * 100).toFixed(1)} % of the input space changes label · scheduled ground truth`,

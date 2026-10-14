@@ -278,6 +278,70 @@ export const EXPLANATIONS = {
     how: "Known exactly for this generator, because the two concepts are simple thresholds over uniformly drawn inputs.",
     why: "It puts a number on 'how big was the drift', so detection results can be compared between scenarios.",
   },
+  // ---------------------------------------------------------------- real data and controlled drift
+  precision: {
+    term: "Precision",
+    what: "Of all the rows the model labelled positive, the share that really were positive.",
+    how: "Counted from the predictions in the window being scored. It is undefined, and shown as a dash, when the model predicted no positives there.",
+    formula: "precision = true positives / (true positives + false positives)",
+    why: "Accuracy can stay high while a model raises many false alarms. Precision shows how far its positive predictions can be trusted.",
+  },
+  recall: {
+    term: "Recall",
+    what: "Of all the rows that really were positive, the share the model found.",
+    how: "Counted from the predictions in the window being scored.",
+    formula: "recall = true positives / (true positives + false negatives)",
+    why: "It shows what the model misses, which precision alone does not.",
+  },
+  naturalReplay: {
+    term: "Natural replay",
+    what: "The dataset is replayed exactly as it was recorded, row by row, with nothing changed.",
+    how: "The file is checked against its recorded checksum and read in its original order.",
+    why: "Real data drifts on its own, but nobody has marked where. So before and after scores cannot be measured in this mode; only detector alerts can be counted.",
+  },
+  injectedDrift: {
+    term: "Controlled drift",
+    what: "A change we add to real data at a row we choose, so that its position is known.",
+    how: "From that row on, the values of two input columns are exchanged. No row is added, removed or reordered, and no label is altered.",
+    why: "Knowing where the change is makes it possible to measure accuracy before, during and after it. The result is real data plus an injected change, and is always labelled that way.",
+  },
+  driftAbrupt: {
+    term: "Sudden (abrupt) drift",
+    what: "The data changes all at once, at a single row.",
+    how: "Every row from the chosen row onward has the two columns exchanged.",
+    why: "It is the hardest change to survive and the easiest to detect: accuracy falls immediately and a detector should react quickly.",
+  },
+  driftGradual: {
+    term: "Gradual drift",
+    what: "Old and new behaviour are mixed for a while. New-style rows become more frequent until only they remain.",
+    how: "Across the transition each row is either fully old or fully new; the chance of it being new rises steadily from 0 to 1.",
+    why: "The model sees conflicting examples side by side, so the error rate rises slowly and the detector has less to go on.",
+  },
+  driftIncremental: {
+    term: "Incremental drift",
+    what: "Every row shifts a little further from the old behaviour towards the new one, in small steps.",
+    how: "Across the transition each row is a blend of the two arrangements, and the blend moves steadily from all-old to all-new.",
+    why: "No single row looks different from the one before it, so a change this smooth can go unnoticed for longer.",
+  },
+  driftRecurring: {
+    term: "Recurring drift",
+    what: "The data switches to the new behaviour, later switches back to the old one, and keeps alternating.",
+    how: "The two columns are exchanged for a set number of rows, restored for the same number, and so on.",
+    why: "A model that discards what it knew must relearn the old behaviour every time it returns.",
+  },
+  phases: {
+    term: "Before, during and after",
+    what: "The same scores, measured over three stretches of rows around the change.",
+    how: "Before: the rows just ahead of the change. During: from the first changed row until a settling period after the change is complete. After: the rows that follow. Every method is scored over exactly the same rows.",
+    why: "One overall accuracy hides what happens at the change. These three numbers show how far a method falls and whether it comes back.",
+    pending: "The window sizes are configurable reference values; which definition to adopt is a decision for the research team.",
+  },
+  controlRun: {
+    term: "Control run",
+    what: "The same method on the same rows, with no change injected.",
+    how: "It is run separately and scored over the identical row windows.",
+    why: "Real data changes on its own. Comparing with the control shows how much of a drop comes from the injected change rather than from the data itself.",
+  },
 } satisfies Record<string, Explanation>;
 
 /** Keys stay a narrow union for type-safe ids, while values widen to Explanation so that optional

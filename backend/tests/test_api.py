@@ -105,3 +105,37 @@ def test_experiment_job_and_rerun_reproduce(client):
 def test_ids_are_validated(client):
     assert client.get("/api/experiments/..%2Fsecret").status_code in (400, 404)
     assert client.get("/api/experiments/not-there").status_code == 404
+
+
+def test_dataset_catalog_and_bad_requests(client):
+    datasets = client.get('/api/datasets').json()
+    assert {d['id'] for d in datasets} >= {'elec2', 'occupancy'}
+    for dataset in datasets:
+        cfg = {'stream': {'scenario': 'csv', 'dataset': dataset['id'], 'noise': 0,
+                          'length': dataset['rows'] + 1}}
+        response = client.post('/api/config/validate', json={'config': cfg})
+        assert response.status_code == 422
+    cfg = {'stream': {'scenario': 'csv', 'dataset': 'missing', 'noise': 0, 'length': 2000}}
+    assert client.post('/api/live', json={'config': cfg}).status_code == 422
+
+
+def test_real_dataset_live_replay(client):
+    cfg = {'stream': {'scenario': 'csv', 'dataset': 'elec2', 'noise': 0, 'length': 1200, 'rate': 500},
+           'evaluation': {'warmup': 200, 'block_size': 100}, 'methods': ['static', 'adaptive']}
+    assert client.post('/api/live', json={'config': cfg, 'name': 'real replay test'}).status_code == 200
+    assert client.post('/api/live/inject-drift', json={'to_variant': 3}).status_code == 409
+    final = finished_state(client)
+    assert final['status'] == 'completed'
+    state = client.get('/api/live/state').json()
+    assert state['extras']['real_data']
+    assert state['extras']['concept']['threshold'] is None
+    assert final['config']['stream']['dataset_sha256']
+    manifest = client.get(f"/api/experiments/{final['experiment_id']}").json()
+    assert manifest['provenance']['real_data']
+
+
+def test_drift_kinds_are_described(client):
+    body = client.get("/api/drift-kinds").json()
+    assert set(body["kinds"]) == {"abrupt", "gradual", "incremental", "recurring"}
+    assert all(kind["said"] and kind["example"] for kind in body["kinds"].values())
+    assert set(body["phases"]) == {"before", "settle", "after"}

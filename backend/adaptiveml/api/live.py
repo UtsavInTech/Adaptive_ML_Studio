@@ -158,6 +158,8 @@ class LiveRunManager:
     def command(self, command: dict) -> None:
         if not self.active:
             raise RuntimeError("no live run is in progress")
+        if command.get("type") == "inject_drift" and self.run.state.config["stream"]["scenario"] == "csv":
+            raise RuntimeError("drift injection is disabled for real dataset replay")
         self.run.commands.put(command)
 
     def snapshot(self) -> dict | None:

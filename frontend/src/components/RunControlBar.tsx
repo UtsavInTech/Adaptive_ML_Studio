@@ -92,7 +92,7 @@ export default function RunControlBar(props: Props) {
               </button>
             </>
           )}
-          <button type="button" className="btn" onClick={props.onDemo} aria-pressed={props.demo}>
+          <button type="button" className="btn" onClick={props.onDemo} aria-pressed={props.demo} disabled={busy}>
             {props.demo ? "Demo mode on" : "Guided demo"}
           </button>
         </div>

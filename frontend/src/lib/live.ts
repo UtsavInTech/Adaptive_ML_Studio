@@ -155,6 +155,8 @@ async function resync() {
   }
 }
 
+const RECONNECT_MS = 2000;
+
 function connect() {
   source = new EventSource("/api/live/stream");
   source.onopen = () => {
@@ -163,8 +165,19 @@ function connect() {
     bump();
   };
   source.onerror = () => {
-    store.connection = "offline"; // EventSource reconnects on its own
+    store.connection = "offline";
     bump();
+    // The browser retries a dropped connection by itself, but not one refused with an HTTP error
+    // (the dev proxy answers 502 while the backend is still starting, or restarting). In that case
+    // the source is closed for good, so open a new one; otherwise the page would say "reconnecting"
+    // for ever and never hear about a run again.
+    const failed = source;
+    if (failed && failed.readyState === EventSource.CLOSED) {
+      failed.close();
+      window.setTimeout(() => {
+        if (source === failed) connect();
+      }, RECONNECT_MS);
+    }
   };
   for (const type of ["run_started", "status", "blocks", "events", "extras", "resources", "final", "error", "experiment_progress"]) {
     source.addEventListener(type, (e) => {

@@ -1,0 +1,85 @@
+[
+  {
+    "id": "elec2",
+    "name": "Electricity · ELEC2",
+    "file": "kaggle/elec2/electricity-normalized.csv",
+    "source": "https://www.kaggle.com/datasets/yashsharan/the-elec2-dataset",
+    "version": 1,
+    "downloaded": "2026-10-09",
+    "license": "Open Database License / Database Contents License",
+    "license_url": "https://opendatacommons.org/licenses/dbcl/1.0/",
+    "sha256": "2edcdbafd4e402b8d5c59294f6c37c14bac534ac55a18810fb9aa2ca737d8e9f",
+    "rows": 45312,
+    "features": [
+      "date",
+      "day",
+      "period",
+      "nswprice",
+      "nswdemand",
+      "vicprice",
+      "vicdemand",
+      "transfer"
+    ],
+    "target": "class",
+    "labels": {
+      "DOWN": 0,
+      "UP": 1
+    },
+    "order": "Original chronological file order; no shuffle",
+    "description": "Classify electricity price movement in the Australian NSW market.",
+    "notes": "Publisher-normalized features are used as supplied. This is contemporaneous classification, not future-price forecasting. No ground-truth drift locations are provided.",
+    "archive_sha256": "72a9e1bfe0b87d2c8363a0b82e2c9a648f6001d9c6e3ad84a142c4d508a860e5",
+    "download_url": "https://www.kaggle.com/api/v1/datasets/download/yashsharan/the-elec2-dataset?datasetVersionNumber=1",
+    "row_seconds": 1800,
+    "span": "7 May 1996 – 5 December 1998 (944 days, one row every 30 minutes)",
+    "drift_injection": {
+      "swap": [
+        "nswprice",
+        "nswdemand"
+      ],
+      "rule": "the two input columns most correlated with the label over the whole file (|r| = 0.379 and 0.334)"
+    },
+    "recommended_warmup": 1000,
+    "warmup_reason": "1,000 rows is about 21 days of half-hourly readings, which covers the daily and weekly cycles."
+  },
+  {
+    "id": "occupancy",
+    "name": "Room occupancy · UCI",
+    "file": "kaggle/occupancy/occupancy-chronological.csv",
+    "source": "https://www.kaggle.com/datasets/robmarkcole/occupancy-detection-data-set-uci",
+    "download_url": "https://www.kaggle.com/api/v1/datasets/download/robmarkcole/occupancy-detection-data-set-uci?datasetVersionNumber=1",
+    "version": 1,
+    "downloaded": "2026-10-09",
+    "license": "Kaggle mirror: unknown; original UCI: CC BY 4.0",
+    "license_url": "https://archive.ics.uci.edu/dataset/357/occupancy+detection",
+    "archive_sha256": "83c4b1eb5319e6ab5c502f3439c2ca81bdd8da3f36a3e03a78bd1c26ad016ccf",
+    "sha256": "e277c5d7f5c0484695e3fd32cdd113ab46c22a6789901ae3601d8322eb7c8c99",
+    "rows": 20560,
+    "features": [
+      "Temperature",
+      "Humidity",
+      "Light",
+      "CO2",
+      "HumidityRatio"
+    ],
+    "target": "Occupancy",
+    "labels": {
+      "0": 0,
+      "1": 1
+    },
+    "order": "Three source files merged by timestamp; no shuffle",
+    "description": "Detect room occupancy from five environmental sensor measurements.",
+    "notes": "Candanedo & Feldheim (2016), UCI Occupancy Detection. Source train/test files are merged into one chronological replay, with timestamps and row IDs excluded from features. This is a new prequential protocol, not the original holdout benchmark. No ground-truth drift annotations.",
+    "row_seconds": 60,
+    "span": "2–18 February 2015 (about 16 days, one row every minute)",
+    "drift_injection": {
+      "swap": [
+        "Light",
+        "Temperature"
+      ],
+      "rule": "the two input columns most correlated with the label over the whole file (|r| = 0.915 and 0.556)"
+    },
+    "recommended_warmup": 3000,
+    "warmup_reason": "1,000 rows is only 17 hours (one afternoon and one night), so a model trained once on it has never seen a morning. 3,000 rows covers two full days. Measured on 13 October 2026: the train-once baseline scores 23.8 % with a 1,000-row warm-up and 97.9 % with 3,000."
+  }
+]

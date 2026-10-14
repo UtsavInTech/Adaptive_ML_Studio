@@ -25,6 +25,7 @@ from pathlib import Path
 import numpy as np
 import yaml
 
+from adaptiveml.config import CONTROL_SUFFIX
 from adaptiveml.experiments.environment import capture_environment
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -133,7 +134,11 @@ def _trial_entry(trial_id: str, payload: dict) -> dict:
         "rate": cfg["stream"]["rate"],
         "profile": {k: cfg["profile"][k] for k in ("name", "label", "simulated", "placeholder")},
         "config_hash": config_hash(cfg),
-        "scenario": {k: payload["scenario"].get(k) for k in ("name", "real", "length", "noise", "drifts")},
+        "scenario": {
+            k: payload["scenario"].get(k)
+            for k in ("name", "real", "length", "noise", "drifts", "dataset", "injection", "drift_ground_truth")
+        },
+        "control": trial_id.endswith(CONTROL_SUFFIX),
         "timing": {
             k: timing.get(k)
             for k in ("samples", "engine_throughput_per_s", "cpu_us_per_sample", "peak_rss_mb",
@@ -142,6 +147,8 @@ def _trial_entry(trial_id: str, payload: dict) -> dict:
         "methods": {
             m: {
                 "accuracy": s["scores_after_warmup"]["accuracy"],
+                "precision": s["scores_after_warmup"]["precision"],
+                "recall": s["scores_after_warmup"]["recall"],
                 "f1": s["scores_after_warmup"]["f1"],
                 "latency_us": s["latency_us"],
                 "adaptations": s["adaptations"]["count"],
@@ -193,6 +200,8 @@ class ExperimentBundle:
                 "simulated_profiles": sorted(n for n, p in profiles.items() if p["simulated"]),
                 "placeholder_budgets": any(p["placeholder"] for p in profiles.values()),
                 "real_data": any(t["scenario"]["real"] for t in self.trials),
+                # Real rows with one controlled change added at a known position — never plain "real data".
+                "injected_drift": any(t["scenario"].get("injection") for t in self.trials),
             },
             "timing_valid": True,  # trials run one at a time, each in a fresh process
             "trials": self.trials,

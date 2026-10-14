@@ -53,6 +53,15 @@ class GroundTruthDrift:
     def kind(self) -> str:
         return "abrupt" if self.width == 1 else "gradual"
 
+    # A sigmoid transition has tails: 2·width either side of its centre covers all but 0.03 % of it.
+    @property
+    def start(self) -> int:
+        return self.index if self.width == 1 else max(0, self.index - 2 * self.width)
+
+    @property
+    def end(self) -> int:
+        return self.index + 1 if self.width == 1 else self.index + 2 * self.width
+
 
 class SeaScenario:
     is_synthetic = True

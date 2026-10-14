@@ -5,6 +5,38 @@ import uPlot from "uplot";
 
 export type Marker = { x: number; kind: "true" | "detected" | "adaptation" | "budget"; label: string; sub?: string };
 
+/** A shaded stretch of rows behind the lines — the windows a table's columns were scored over. */
+export type Band = { from: number; to: number; color: string; label?: string };
+
+/** Draws bands under the series. `globalAlpha` keeps them faint enough to read the lines through. */
+export function bandsPlugin(bands: () => Band[]): uPlot.Plugin {
+  return {
+    hooks: {
+      drawClear: (u: uPlot) => {
+        const { ctx } = u;
+        const { left, top, width, height } = u.bbox;
+        ctx.save();
+        ctx.textAlign = "left"; // uPlot leaves its own alignment on the canvas
+        ctx.textBaseline = "bottom";
+        ctx.font = `600 ${11 * devicePixelRatio}px ${css("--font", "sans-serif")}`;
+        for (const band of bands()) {
+          const a = Math.max(left, Math.round(u.valToPos(band.from, "x", true)));
+          const b = Math.min(left + width, Math.round(u.valToPos(band.to, "x", true)));
+          if (b <= a) continue;
+          ctx.globalAlpha = 0.13;
+          ctx.fillStyle = band.color;
+          ctx.fillRect(a, top, b - a, height);
+          if (band.label) {
+            ctx.globalAlpha = 0.9;
+            ctx.fillText(band.label, a + 4 * devicePixelRatio, top + height - 4 * devicePixelRatio);
+          }
+        }
+        ctx.restore();
+      },
+    },
+  };
+}
+
 export const STAGE_ORDER = ["preprocess", "select", "predict", "detect", "adapt", "update"] as const;
 
 export function css(name: string, fallback = "#888"): string {
@@ -181,6 +213,7 @@ export function lineChart(opts: {
   yRange?: [number | null, number | null];
   yFormat?: (v: number) => string;
   markers?: () => Marker[];
+  bands?: () => Band[];
   legend?: boolean;
   tooltip?: (u: uPlot, idx: number) => TooltipContent;
 }): uPlot.Options {
@@ -208,6 +241,7 @@ export function lineChart(opts: {
       })),
     ],
     plugins: [
+      ...(opts.bands ? [bandsPlugin(opts.bands)] : []),
       ...(opts.markers ? [markersPlugin(opts.markers)] : []),
       ...(opts.tooltip ? [tooltipPlugin(opts.tooltip)] : []),
     ],
@@ -279,14 +313,14 @@ export function pointsChart(opts: {
   };
 }
 
-export function scatterChart(axes: [string, string]): uPlot.Options {
+export function scatterChart(axes: [string, string], realData = false): uPlot.Options {
   return {
     width: 300,
     height: 190,
     legend: { show: false },
     cursor: { show: false },
     padding: [8, 10, 0, 0],
-    scales: { x: { time: false, range: [0, 10] }, y: { time: false, range: [0, 10] } },
+    scales: realData ? { x: { time: false }, y: { time: false } } : { x: { time: false, range: [0, 10] }, y: { time: false, range: [0, 10] } },
     axes: baseAxes(axes[0], axes[1]),
     series: [
       { label: axes[0] },

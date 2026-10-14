@@ -13,7 +13,7 @@
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-7-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)](https://vite.dev/)
-[![Tests](https://img.shields.io/badge/tests-73%20backend%20%C2%B7%2029%20frontend-1f4ed8)](#tests)
+[![Tests](https://img.shields.io/badge/tests-82%20backend%20%C2%B7%2029%20frontend-1f4ed8)](#tests)
 
 </div>
 
@@ -26,6 +26,37 @@ A model trained once on historical data can quietly become less accurate when th
 It is the experimental instrument for the B.Tech project **“Cross Scale Adaptive ML for Accuracy Stability Under Varying Data Conditions”**, built from the team's review paper *Adaptive Machine Learning Pipelines for Evolving Data Streams: A Comprehensive Review*.
 
 > **What this is not.** It is not a new ML algorithm, and it does not measure edge hardware. The constrained profile enforces budgets in software on the local machine and is labelled *simulated* everywhere it appears. Every number in the interface and in `results/` comes from an actual run; interpreting those numbers belongs to the research workstream, so the platform reports and never concludes.
+
+## Real dataset workflows
+
+The default **Dataset test** and **Experiments** screens use static Kaggle snapshots:
+ELEC2 electricity (45,312 rows, eight features) and UCI room occupancy (20,560 rows,
+five sensor features). Synthetic SEA scenarios remain available in an explicit
+**Synthetic demo / benchmarks** disclosure.
+
+- **Dataset test:** replay rows in order, compare static and adaptive learning, pause or stop, inspect events.
+- **Experiments:** select the dataset, how it changes, the methods, replay length, warm-up, model
+  seeds and resource profiles; run each trial in a fresh process and export the measured results.
+  While a comparison runs, the page shows which method is running, where it is in the data, what
+  it does with each row, its accuracy so far and the events it raises.
+- Every CSV is checked against a recorded SHA-256 before running. The source, labels,
+  feature columns, order and checksum are saved with the result. No synthetic noise or
+  resampling is applied, and no label is ever altered.
+- Predict first, then learn from that row's label. Warm-up rows are excluded from headline
+  accuracy/F1.
+- **Natural replay** (rows as recorded) is the default. Real datasets have no annotated drift
+  points, so in that mode detection delay and before/after scores are unavailable.
+- **Controlled drift** is opt-in: at a chosen row the values of two input columns are exchanged,
+  arriving as a *sudden*, *gradual*, *incremental* or *recurring* change. Its position is known,
+  so accuracy, precision, recall and F1 are reported **before, during and after** it for every
+  method, next to a **control** run of the same method on the untouched rows. Such a run is
+  labelled "Real data + controlled drift" everywhere and is never presented as plain real-data
+  drift.
+
+Restore the local files with `python3 scripts/prepare_kaggle.py`; see
+[data/README.md](data/README.md) for provenance and methodology. Dataset files remain
+local and ignored by Git; the catalog and preparation script are versioned. `seeding.py`
+still controls model reproducibility; it does not generate these real observations.
 
 ## Why this project?
 
@@ -117,6 +148,10 @@ cd frontend && npm install
 
 ## Running locally
 
+For per-instance adversarial validation on the local Kaggle snapshots, see the
+[MVP stress-test run guide](docs/stress_test_mvp.md). Run
+`backend/.venv/bin/python stress_test_mvp.py --dataset elec2` from the repository root.
+
 ```bash
 # Terminal 1 — API
 cd backend && PYTHONHASHSEED=0 .venv/bin/uvicorn adaptiveml.api.app:app --port 8000
@@ -141,7 +176,7 @@ Then open <http://localhost:5173>.
 - **SEA concepts** (river `synth.SEA`): `x0, x1, x2 ~ U(0,10)`, label `x0 + x1 > θ`. `x2` is irrelevant by construction, which gives feature selection a known right answer; θ changes at a drift.
 - Drift is placed by **sample index**, never wall-clock, through a numerically stable sigmoid transition — river's own `ConceptDriftStream` overflows for abrupt drifts ([docs/stage4_feasibility.md](docs/stage4_feasibility.md) §3).
 - **Drift intensity is analytic:** the fraction of the input space whose label changes is `|θb² − θa²| / 200` — 8.5 % (0→1), 13.1 % (0→3), 20.6 % (2→3).
-- **Not yet implemented:** a real benchmark stream (Elec2 is the candidate). The paper targets real-world evolving streams, so this is the next data step and it needs the research member's choice.
+- **Real benchmark streams** (ELEC2 and UCI room occupancy, as Kaggle snapshots) are available alongside SEA; see *Real dataset workflows* above and [data/README.md](data/README.md). Which datasets and which drift settings go into the paper remains the research member's choice.
 
 ## Experiment configuration
 

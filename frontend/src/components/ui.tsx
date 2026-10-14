@@ -58,19 +58,21 @@ export function Badge({
 /** Where a number came from. The simulated case is always spelled out, never implied. */
 export function ProvenanceBadge({
   kind, detail,
-}: { kind: "measured" | "simulated" | "synthetic" | "real" | "placeholder"; detail?: string }) {
+}: { kind: "measured" | "simulated" | "synthetic" | "real" | "injected" | "placeholder"; detail?: string }) {
   const text = {
     measured: "Measured on this machine",
     simulated: "Simulated edge — not edge hardware",
     synthetic: "Synthetic data",
     real: "Real data",
+    // Real rows with one change added at a known position: never to be read as plain real data.
+    injected: "Real data + controlled drift",
     placeholder: "Placeholder budgets",
   }[kind];
   const explain: ExplainId | undefined =
-    kind === "simulated" || kind === "placeholder" ? "edge" : kind === "measured" ? "provenance" : undefined;
+    kind === "simulated" || kind === "placeholder" ? "edge" : kind === "measured" ? "provenance" : kind === "injected" ? "injectedDrift" : undefined;
   return (
     <span className="provenance">
-      <span className={kind === "simulated" || kind === "placeholder" ? "tag sim" : kind === "real" ? "tag real" : "tag"} title={detail}>
+      <span className={kind === "simulated" || kind === "placeholder" || kind === "injected" ? "tag sim" : kind === "real" ? "tag real" : "tag"} title={detail}>
         {text}
       </span>
       {explain && <ExplainButton id={explain} />}

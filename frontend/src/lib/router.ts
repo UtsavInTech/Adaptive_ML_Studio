@@ -49,6 +49,14 @@ const subscribe = (listener: () => void) => {
   return () => window.removeEventListener("hashchange", listener);
 };
 
+/** The current page on <html>, so a page can carry its own palette. Registered at import, ahead of
+ *  React's own hashchange listener, so the attribute is already set when charts read CSS variables. */
+function markPage() {
+  document.documentElement.dataset.page = parseHash(window.location.hash).page;
+}
+window.addEventListener("hashchange", markPage);
+markPage();
+
 export function useRoute(): Route {
   const hash = useSyncExternalStore(subscribe, () => window.location.hash, () => "#/live");
   return parseHash(hash);

@@ -23,7 +23,7 @@ from pydantic import ValidationError
 
 from adaptiveml.api.jobs import ExperimentJobs
 from adaptiveml.api.live import Hub, LiveRunManager
-from adaptiveml.config import ExperimentConfig, TrialConfig
+from adaptiveml.config import ExperimentConfig, PhaseConfig, TrialConfig
 from adaptiveml.config.profiles import BUILTIN_PROFILES
 from adaptiveml.experiments.run import resolve_profiles
 from adaptiveml.results import (
@@ -37,6 +37,7 @@ from adaptiveml.results import (
     windowed_scores,
 )
 from adaptiveml.stream.sea import SEA_THRESHOLDS, label_flip_fraction
+from adaptiveml.stream.static import DRIFT_KINDS, StaticScenario, catalog
 
 PRESETS_DIR = Path(__file__).resolve().parents[2] / "presets"
 FRONTEND_DIST = REPO_ROOT / "frontend" / "dist"
@@ -83,7 +84,7 @@ def _trial_config(body: dict) -> tuple[TrialConfig, str]:
     if isinstance(data.get("profile"), str):
         data = dict(data, profile=BUILTIN_PROFILES[data["profile"]].model_dump())
     try:
-        return TrialConfig.model_validate(data), name
+        return _pin_dataset(TrialConfig.model_validate(data)), name
     except ValidationError as exc:
         raise _validation_error(exc) from exc
 
@@ -97,9 +98,20 @@ def _experiment_config(body: dict) -> ExperimentConfig:
     else:
         data = body.get("config", {})
     try:
-        return ExperimentConfig.model_validate(resolve_profiles(data))
+        exp = ExperimentConfig.model_validate(resolve_profiles(data))
+        return exp.model_copy(update={"base": _pin_dataset(exp.base)})
     except ValidationError as exc:
         raise _validation_error(exc) from exc
+
+
+def _pin_dataset(cfg: TrialConfig) -> TrialConfig:
+    if cfg.stream.scenario != "csv":
+        return cfg
+    try:
+        source = StaticScenario(cfg.stream)
+    except (ValueError, OSError) as exc:
+        raise HTTPException(422, str(exc)) from exc
+    return cfg.model_copy(update={"stream": cfg.stream.model_copy(update={"dataset_sha256": source.sha256})})
 
 
 def _guard_idle(for_live: bool) -> None:
@@ -124,6 +136,17 @@ def health() -> dict:
 @app.get("/api/presets")
 def presets() -> dict:
     return {"live": _load_presets("live"), "experiments": _load_presets("experiments")}
+
+
+@app.get("/api/datasets")
+def datasets() -> list[dict]:
+    return catalog()
+
+
+@app.get("/api/drift-kinds")
+def drift_kinds() -> dict:
+    """The ways a controlled change can arrive, in plain words, and the default scoring windows."""
+    return {"kinds": DRIFT_KINDS, "phases": PhaseConfig().model_dump()}
 
 
 @app.get("/api/profiles")
@@ -228,7 +251,7 @@ def stop_experiment() -> dict:
 def experiments() -> list[dict]:
     return [
         {k: m.get(k) for k in ("id", "kind", "name", "status", "created_utc", "finished_utc", "provenance", "config_hash", "reproducibility")}
-        | {"trials": [{k: t[k] for k in ("trial_id", "profile", "rate", "seed", "methods", "scenario")} for t in m["trials"]]}
+        | {"trials": [{k: t.get(k) for k in ("trial_id", "profile", "rate", "seed", "methods", "scenario", "control")} for t in m["trials"]]}
         for m in list_experiments()
     ]
 

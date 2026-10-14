@@ -223,7 +223,8 @@ def run_trial(
             if block_start <= gt.index < end and gt.index not in reported_drifts:
                 reported_drifts.add(gt.index)
                 emit(gt.index, "drift_true", from_variant=gt.from_variant, to_variant=gt.to_variant,
-                     width=gt.width, label_flip_fraction=gt.label_flip_fraction)
+                     width=gt.width, label_flip_fraction=gt.label_flip_fraction, drift_kind=gt.kind,
+                     injected=not scenario.is_synthetic)
         records = {}
         for p, rec in pairs:
             record = rec.close_block(block_index, block_start, p.block_extra())
@@ -324,11 +325,26 @@ def run_trial(
     for p, _ in pairs:  # final size probe, outside the timed loop
         p.model_size_bytes = p.active.model._raw_memory_usage
 
-    resolved = cfg.model_copy(update={"stream": cfg.stream.model_copy(update={"drifts": scenario.drifts})})
+    stream_updates = {"drifts": scenario.drifts}
+    if not scenario.is_synthetic:
+        stream_updates["dataset_sha256"] = scenario.sha256
+    resolved = cfg.model_copy(update={"stream": cfg.stream.model_copy(update=stream_updates)})
     drifts = scenario.ground_truth_drifts
     drift_index = drifts[0].index if drifts and drifts[0].index < n else None
+    # Before / during / after windows: around the first known change, or — for a control trial that
+    # has no change of its own — around the rows of the trial it is the control for.
+    phase_window = None
+    if ev.phase_anchor is not None:
+        phase_window = (ev.phase_anchor[0], ev.phase_anchor[1], None, "control: no change in these rows")
+    elif drift_index is not None:
+        first = drifts[0]
+        following = drifts[1].index if len(drifts) > 1 else None
+        phase_window = (first.start, first.end, following, "first known change")
     summaries = {
-        rec.method: summarize_method(rec, p, warmup=min(warmup, n), drift_index=drift_index, stability=ev.stability)
+        rec.method: summarize_method(
+            rec, p, warmup=min(warmup, n), drift_index=drift_index, stability=ev.stability,
+            phases=ev.phases, phase_window=phase_window,
+        )
         for p, rec in pairs
         if len(rec.outcomes) > 0
     }

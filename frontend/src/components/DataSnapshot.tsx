@@ -11,7 +11,7 @@ import type { Extras } from "../lib/api";
 
 export default function DataSnapshot({ extras, theme }: { extras: Extras | null; theme: string }) {
   const axes = extras?.axes ?? ["x0", "x1"];
-  const options = useMemo(() => scatterChart(axes as [string, string]), [axes[0], axes[1], theme]);
+  const options = useMemo(() => scatterChart(axes as [string, string], extras?.real_data), [axes[0], axes[1], theme, extras?.real_data]);
 
   const data = useMemo<uPlot.AlignedData>(() => {
     const points = [...(extras?.points ?? [])].sort((a, b) => a[0] - b[0]);
@@ -42,10 +42,10 @@ export default function DataSnapshot({ extras, theme }: { extras: Extras | null;
           <span className="swatch" style={{ background: "var(--muted)", height: 8, width: 8, borderRadius: "50%" }} />
           <span className="muted">label 0</span>
         </span>
-        <span className="key" style={{ color: "var(--drift)" }}>
+        {!extras.real_data && <span className="key" style={{ color: "var(--drift)" }}>
           <span className="swatch dashed" />
           <span className="muted">concept boundary (θ = {extras.concept.threshold ?? "—"})</span>
-        </span>
+        </span>}
       </div>
     </div>
   );

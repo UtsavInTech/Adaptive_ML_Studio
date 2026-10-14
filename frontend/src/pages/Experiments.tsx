@@ -4,8 +4,10 @@
  *  disclosed underneath, read-only, because the preset is what the backend runs — the platform does
  *  not pretend to offer knobs it would not honour. */
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
+import ExperimentBoard from "../components/ExperimentBoard";
+import ReplaySetup from "../components/ReplaySetup";
 import { ExplainButton } from "../components/Explain";
 import { Badge, EmptyState, ErrorState, Loading, Panel, ProvenanceBadge, SectionHead, TechnicalDetails } from "../components/ui";
 import { api, type Manifest, type Preset } from "../lib/api";
@@ -55,6 +57,7 @@ export default function Experiments() {
   const [manifests, setManifests] = useState<Manifest[] | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const boardRef = useRef<HTMLDivElement>(null);
 
   const refresh = useCallback(() => {
     api.experiments()
@@ -91,80 +94,19 @@ export default function Experiments() {
 
   return (
     <div className="page">
-      <header className="paper-head">
-        <span className="eyebrow">Experiments</span>
-        <h1 className="section-type">Compare how different learning strategies behave as the stream changes.</h1>
-        <p className="lead">
-          Each method runs on the same data, in its own process, one after another, and is measured the same way. What
-          comes back is evidence: the numbers each run produced, stored with the configuration and machine that produced
-          them.
-        </p>
+      <header className="lab-heading">
+        <span className="eyebrow">Research workspace / Experiments</span>
+        <h1>Compare learning strategies.</h1>
+        <p>Choose a real dataset, choose how it changes, and measure every method before, during and after that change, alongside what the adaptation costs.</p>
       </header>
-
-      <div className="measure-grid" style={{ marginTop: 0 }}>
-        <div className="measure-card">
-          <h3>Methods</h3>
-          <p>Four strategies, from never learning again to a full adaptive ensemble.</p>
-          <ul className="measure-items">
-            <li>
-              <span>Static</span>
-              <ExplainButton id="staticMethod" />
-            </li>
-            <li>
-              <span>Incremental</span>
-              <ExplainButton id="incremental" />
-            </li>
-            <li>
-              <span>Adaptive</span>
-              <ExplainButton id="adaptiveMethod" />
-            </li>
-            <li>
-              <span>ARF</span>
-              <ExplainButton id="arf" />
-            </li>
-          </ul>
-        </div>
-        <div className="measure-card">
-          <h3>Profiles</h3>
-          <p>The same scenario with and without a simulated resource budget.</p>
-          <ul className="measure-items">
-            <li>
-              <span>Standard</span>
-            </li>
-            <li>
-              <span>Simulated edge</span>
-              <ExplainButton id="edge" />
-            </li>
-          </ul>
-        </div>
-        <div className="measure-card">
-          <h3>Measured in every run</h3>
-          <p>Predictive performance and its computational cost, from the same samples.</p>
-          <ul className="measure-items">
-            <li>
-              <span>Accuracy</span>
-              <ExplainButton id="accuracy" />
-            </li>
-            <li>
-              <span>F1</span>
-              <ExplainButton id="f1" />
-            </li>
-            <li>
-              <span>Latency</span>
-              <ExplainButton id="latency" />
-            </li>
-            <li>
-              <span>CPU</span>
-              <ExplainButton id="cpuPerSample" />
-            </li>
-            <li>
-              <span>Memory</span>
-              <ExplainButton id="rss" />
-            </li>
-          </ul>
-        </div>
-      </div>
-
+      {/* What is running comes first: nobody should have to scroll past a form to find out. */}
+      <div ref={boardRef} className="board-slot">{job && <ExperimentBoard job={job} />}</div>
+      <ReplaySetup experiment disabled={busy || !!running || store.active} onStart={async (config) => {
+        await api.startExperiment({ config }); refresh();
+        boardRef.current?.scrollIntoView({ block: "start" });
+      }} />
+      {store.active && <p className="banner">A dataset replay is active. Stop it before running an isolated comparison.</p>}
+      <details className="synthetic-tools"><summary>Synthetic benchmarks · controlled drift experiments</summary>
       <section className="stack tight">
         <SectionHead title="Run an experiment" hint="Each method runs on its own, in a fresh process, one after another" />
         <Panel
@@ -236,6 +178,7 @@ export default function Experiments() {
         </Panel>
       </section>
 
+      </details>
       <section className="stack tight">
         <SectionHead
           title="Recorded runs"
@@ -261,6 +204,7 @@ export default function Experiments() {
                   <div className="title">
                     {manifest.name}
                     <span className="tag">{manifest.kind}</span>
+                    <ProvenanceBadge kind={manifest.provenance?.injected_drift ? "injected" : manifest.provenance?.real_data ? "real" : "synthetic"} />
                     {manifest.provenance?.simulated_profiles?.length > 0 && <ProvenanceBadge kind="simulated" />}
                     {manifest.reproducibility && (
                       <span className="tag">reproduced {manifest.reproducibility.identical}/{manifest.reproducibility.trials_compared}</span>
@@ -269,8 +213,11 @@ export default function Experiments() {
                   <Badge tone={manifest.status === "completed" ? "ok" : manifest.status === "error" ? "error" : "warn"}>{manifest.status}</Badge>
                   <div className="facts">
                     {manifest.trials.length} trial{manifest.trials.length === 1 ? "" : "s"}
-                    {manifest.trials[0] &&
-                      ` · ${Object.entries(manifest.trials[0].methods)
+                    {manifest.trials.some((t) => !t.control) &&
+                      ` · ${manifest.trials
+                        .filter((t) => !t.control)
+                        .flatMap((t) => Object.entries(t.methods))
+                        .slice(0, 4)
                         .map(([m, s]) => `${m} ${pct(s.accuracy, 1)}`)
                         .join(" · ")}`}
                   </div>

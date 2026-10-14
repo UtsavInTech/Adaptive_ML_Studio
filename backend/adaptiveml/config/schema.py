@@ -11,6 +11,7 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 MethodName = Literal["static", "incremental", "adaptive", "arf"]
+DriftKind = Literal["abrupt", "gradual", "incremental", "recurring"]
 
 
 class _Frozen(BaseModel):
@@ -25,8 +26,51 @@ class DriftSpec(_Frozen):
     to_variant: int = Field(ge=0, le=3, description="SEA concept after the change")
 
 
+class InjectedDrift(_Frozen):
+    """A controlled change applied to a real dataset replay at a known row.
+
+    No row is added, removed or reordered and no label is altered. From `start` onward the values of
+    two input columns are exchanged, so the relationship a model learned between those columns and
+    the label no longer holds. *How* the exchange arrives is the drift type:
+
+      abrupt       every row from `start` is exchanged
+      gradual      over `width` rows a rising share of rows is exchanged; old and new rows are mixed
+      incremental  over `width` rows every row is a blend that moves steadily from old to new
+      recurring    exchanged for `period` rows, original for `period` rows, and so on
+
+    Because the position is known, scores before, during and after the change can be measured. This
+    is an injected change on top of real data, and every result that uses it says so.
+    """
+
+    kind: DriftKind
+    start: int = Field(ge=1, description="0-based index of the first row the change can affect")
+    width: int = Field(default=1, ge=1, description="rows the change takes to complete (abrupt/recurring: 1)")
+    period: int | None = Field(default=None, ge=1, description="recurring only: rows each arrangement lasts")
+    swap: tuple[str, str] = Field(description="the two input columns whose values are exchanged")
+
+    @model_validator(mode="after")
+    def _coherent(self) -> InjectedDrift:
+        if self.swap[0] == self.swap[1]:
+            raise ValueError("the two exchanged columns must be different")
+        if self.kind in ("abrupt", "recurring") and self.width != 1:
+            raise ValueError(f"{self.kind} drift switches at once: width must be 1")
+        if self.kind in ("gradual", "incremental") and self.width < 2:
+            raise ValueError(f"{self.kind} drift needs a transition of at least 2 rows")
+        if (self.kind == "recurring") != (self.period is not None):
+            raise ValueError("period is required for recurring drift, and only valid for it")
+        return self
+
+    @property
+    def end(self) -> int:
+        """Index of the first row at which the first change is complete."""
+        return self.start + self.width
+
+
 class StreamConfig(_Frozen):
-    scenario: Literal["sea"] = "sea"
+    scenario: Literal["sea", "csv"] = "sea"
+    dataset: str | None = None
+    dataset_sha256: str | None = None
+    injection: InjectedDrift | None = None
     length: int = Field(default=12_000, gt=0)
     noise: float = Field(default=0.1, ge=0.0, le=0.5, description="probability of flipping a label")
     initial_variant: int = Field(default=0, ge=0, le=3)
@@ -35,6 +79,18 @@ class StreamConfig(_Frozen):
 
     @model_validator(mode="after")
     def _drifts_inside_stream(self) -> StreamConfig:
+        if self.scenario == "csv":
+            if not self.dataset:
+                raise ValueError("CSV replay requires a registered dataset")
+            if self.drifts or self.noise != 0 or self.initial_variant != 0:
+                raise ValueError("CSV replay requires noise=0 and cannot inject synthetic concepts")
+            if self.injection is not None and self.injection.end >= self.length:
+                raise ValueError(
+                    f"the injected change (rows {self.injection.start:,}–{self.injection.end:,}) "
+                    f"must finish before the replay ends ({self.length:,} rows)"
+                )
+        elif self.dataset is not None or self.dataset_sha256 is not None or self.injection is not None:
+            raise ValueError("dataset and injection fields are only valid for CSV replay")
         positions = [d.position for d in self.drifts]
         if any(b <= a for a, b in zip(positions, positions[1:])):
             raise ValueError("drift positions must be strictly increasing")
@@ -103,12 +159,32 @@ class StabilityConfig(_Frozen):
     post_gap: int = Field(default=0, ge=0)
 
 
+class PhaseConfig(_Frozen):
+    """Row windows for the before / during / after scores around a change at a known position.
+
+    before  the `before` rows immediately ahead of the change
+    during  from the first changed row until `settle` rows after the change is complete
+    after   the `after` rows that follow
+
+    Like the stability figures these are reference computations: the window sizes are configurable
+    and the choice of definition belongs to the research workstream.
+    """
+
+    before: int = Field(default=2_000, ge=1)
+    settle: int = Field(default=1_000, ge=0)
+    after: int = Field(default=2_000, ge=1)
+
+
 class EvaluationConfig(_Frozen):
     warmup: int = Field(default=1_000, ge=1)
     block_size: int = Field(default=100, ge=1)
     model_size_every: int = Field(default=2_000, ge=1)
     positive_class: bool | int | str = True
     stability: StabilityConfig = Field(default_factory=StabilityConfig)
+    phases: PhaseConfig = Field(default_factory=PhaseConfig)
+    # A control trial has no change of its own; this pins its before/during/after windows to the
+    # rows of the trial it is the control for: (first changed row, first fully changed row).
+    phase_anchor: tuple[int, int] | None = None
 
 
 class ResourceBudgets(_Frozen):
@@ -152,7 +228,15 @@ class TrialConfig(_Frozen):
             raise ValueError("warm-up must be shorter than the stream")
         if self.stream.drifts and self.stream.drifts[0].position <= self.evaluation.warmup:
             raise ValueError("the first drift must come after the warm-up period")
+        if self.stream.injection is not None and self.stream.injection.start <= self.evaluation.warmup:
+            raise ValueError("the injected change must come after the warm-up period")
+        anchor = self.evaluation.phase_anchor
+        if anchor is not None and not (self.evaluation.warmup < anchor[0] < anchor[1] <= self.stream.length):
+            raise ValueError("phase_anchor must lie after the warm-up and inside the stream")
         return self
+
+
+CONTROL_SUFFIX = "__control"
 
 
 class ExperimentConfig(_Frozen):
@@ -164,6 +248,9 @@ class ExperimentConfig(_Frozen):
     profiles: tuple[ProfileConfig, ...] = Field(default_factory=lambda: (ProfileConfig(),))
     rates: tuple[float | None, ...] = (None,)
     seeds: tuple[int, ...] = (42,)
+    # With an injected change on real data: also run every method on the untouched rows, scored over
+    # the same row windows, so a drop can be attributed to the change rather than to the data itself.
+    control: bool = False
 
     @field_validator("rates")
     @classmethod
@@ -190,5 +277,15 @@ class ExperimentConfig(_Frozen):
                             update={"seed": seed, "methods": (method,), "profile": profile, "stream": stream}
                         )
                         rate_label = "max" if rate is None else f"{rate:g}ps"
-                        out.append((f"{method}__{profile.name}__{rate_label}__s{seed}", cfg))
+                        trial_id = f"{method}__{profile.name}__{rate_label}__s{seed}"
+                        out.append((trial_id, cfg))
+                        injection = stream.injection
+                        if self.control and injection is not None:
+                            untouched = cfg.model_copy(update={
+                                "stream": stream.model_copy(update={"injection": None}),
+                                "evaluation": cfg.evaluation.model_copy(
+                                    update={"phase_anchor": (injection.start, injection.end)}
+                                ),
+                            })
+                            out.append((f"{trial_id}{CONTROL_SUFFIX}", untouched))
         return out
