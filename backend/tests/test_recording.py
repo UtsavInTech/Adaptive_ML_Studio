@@ -51,7 +51,7 @@ TIMING_FIELDS = {"service_mean_ns", "service_p95_ns", "service_max_ns", "duratio
 }
 # River's `_raw_memory_usage` is an estimate that varies by ~0.1 % between identical runs
 # (docs/performance.md), so it is a resource measurement, not a reproducible output.
-MEASUREMENT_FIELDS = TIMING_FIELDS | {"model_size_bytes"}
+MEASUREMENT_FIELDS = TIMING_FIELDS | {"model_size_bytes", "service_ms"}
 
 
 def _strip(records):
@@ -59,7 +59,7 @@ def _strip(records):
 
 
 def test_identical_runs_give_identical_non_measurement_records():
-    cfg = sea_config(("static", "adaptive"), 5, length=6_000, drift_at=3_000, block_size=25)
+    cfg = sea_config(("static", "incremental"), 5, length=6_000, drift_at=3_000, block_size=25)
     a, b = run_trial(cfg), run_trial(cfg)
     for method in cfg.methods:
         assert _strip(a.blocks[method]) == _strip(b.blocks[method])

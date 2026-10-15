@@ -19,6 +19,7 @@ const CLASSES: Record<string, string> = {
   budget_exceeded: "budget",
   budget_cleared: "budget",
   config_changed: "budget",
+  controller_action: "budget",
   command_rejected: "error",
   selection_applied: "info",
   frozen: "info",
@@ -67,6 +68,8 @@ export function describe(event: EventRecord): { text: string; why?: string } {
       return { text: `${method}above the simulated budget`, why: `${event.measured_us} µs/sample measured vs ${event.limit_us} µs allowed` };
     case "budget_cleared":
       return { text: `${method}back within the simulated budget`, why: `${event.measured_us} µs/sample vs ${event.limit_us} µs allowed` };
+    case "controller_action":
+      return { text: `${method}${String(event.action)}`, why: `Per-instance controller · service ${Number(event.service_ms).toFixed(3)} ms` };
     case "config_changed":
       return { text: `${method}${event.field} changed: ${event.old} → ${event.new}`, why: String(event.reason ?? "") };
     case "selection_applied":

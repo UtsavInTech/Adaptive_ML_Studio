@@ -6,12 +6,12 @@ explicit stress profile (all features initially, immediate replacement, cooldown
 --engine standalone needs only psutil + river and embeds a small online baseline;
 it validates the harness, not the application's production pipeline.
 
-Proposed rules (the supplied request does not define the paper's R1–R5 mapping):
-R1: increasing-error ADWIN drift -> model replacement/update (engine policy).
-R2: per-row service latency > budget -> halve active features, retaining >=1.
-R3: full rolling accuracy window below floor -> request model refresh.
-R4: cooldown rate-limits R3 refreshes; it never hides R2 deadline violations.
-R5: reject non-finite inputs/predictions and stop on errors or RAM-growth limit.
+Shared policy: adaptiveml.controller.Controller. Paper subset: R1 drift response,
+R3 per-instance latency reduction, R4 low-accuracy refresh. CPU/energy resource
+gating and memory-recovery rules R2/R5 are not implemented. COOLDOWN is bookkeeping.
+Historical results before this extraction used provisional rule numbers.
+The standalone engine now also imports this shared module; distribute the backend
+package with this script rather than copying the script alone.
 
 C_pre = preprocessing transform; C_inf = prediction; C_upd = adaptation + learning
 (including preprocessing/feature-selector learning). C_other = selection + detection.
@@ -39,6 +39,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
+sys.path.insert(0, str(ROOT / 'backend'))
+from adaptiveml.controller import Controller
 
 
 class DataBomb:
@@ -127,15 +129,15 @@ class StandaloneEngine:
 
 
 class ProjectEngine:
-    def __init__(self, features, warmup, cooldown, seed):
+    def __init__(self, features, warmup, cooldown, seed, policy="unified"):
         sys.path.insert(0, str(ROOT / 'backend'))
         from adaptiveml.config import PipelineConfig
-        from adaptiveml.pipeline import MethodPipeline, method_spec
+        from adaptiveml.pipeline import MethodPipeline, MethodSpec
         config = PipelineConfig.model_validate({
             'feature_selection': {'k': len(features)},
             'adaptation': {'allow_background': False, 'cooldown': cooldown},
         })
-        self.pipe = MethodPipeline(method_spec('adaptive', config), features, warmup=warmup, seed=seed)
+        self.pipe = MethodPipeline(MethodSpec(policy, policy != 'static', policy != 'static', config), features, warmup=warmup, seed=seed)
         self.profile = config.model_dump(mode='json')
         self.fault_ms = 0.0
         self.refresh_ns = 0
@@ -166,39 +168,6 @@ class ProjectEngine:
     def process(self, index, x, y):
         return self.pipe.process(index, x, y)
 
-
-class Controller:
-    def __init__(self, max_ms=15.0, floor=0.7, cooldown=500):
-        self.max_ms, self.floor, self.cooldown = max_ms, floor, cooldown
-        self.last_refresh = -cooldown
-        self.actions = Counter()
-
-    def step(self, index, service_ms, accuracy, engine, events):
-        actions = []
-        if any(e['type'] == 'drift_detected' and e.get('error_increased') for e in events):
-            actions.append('R1_DRIFT')
-            if not any(e['type'] == 'adaptation_completed' for e in events):
-                engine.refresh(index, len(engine.features), 'R1: increasing-error drift')
-            self.last_refresh = index
-        if any(e['type'] == 'adaptation_completed' for e in events):
-            self.last_refresh = index
-        if service_ms > self.max_ms:
-            old = len(engine.features)
-            if old > 1:
-                engine.refresh(index, max(1, old // 2), 'R2: per-row latency deadline exceeded')
-                self.last_refresh = index
-                actions.append(f'R2_HALVE_{old}_TO_{len(engine.features)}')
-            else:
-                actions.append('R2_AT_MINIMUM_UNRESOLVED')
-        elif accuracy is not None and accuracy < self.floor:
-            if index - self.last_refresh >= self.cooldown:
-                engine.refresh(index, len(engine.features), 'R3: rolling accuracy below floor')
-                self.last_refresh = index
-                actions.append('R3_LOW_ACCURACY_REFRESH')
-            else:
-                actions.append('R4_COOLDOWN')
-        self.actions.update(actions)
-        return actions
 
 
 def cpu_seconds(process):
@@ -249,7 +218,7 @@ def source(args):
 def run(args):
     import psutil
     path, features, target, labels, n, warmup, critical, metadata = source(args)
-    engine = (ProjectEngine if args.engine == 'project' else StandaloneEngine)(features, warmup, args.cooldown, args.seed)
+    engine = ProjectEngine(features, warmup, args.cooldown, args.seed, args.policy) if args.engine == 'project' else StandaloneEngine(features, warmup, args.cooldown, args.seed)
     controller = Controller(args.max_latency_ms, args.accuracy_floor, args.cooldown)
     bomb = DataBomb(n//2, critical, args.scale, args.noise_window, args.noise_fraction, args.seed, not args.clean)
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ') + '-' + uuid.uuid4().hex[:8]
@@ -306,7 +275,7 @@ def run(args):
                 accuracy = sum(window)/len(window) if len(window) == window.maxlen else None
                 refresh_before = engine.refresh_ns
                 policy0 = clock()
-                actions = controller.step(index, service_ns/1e6, accuracy, engine, new_events)
+                actions = controller.step(index, service_ns/1e6, accuracy, engine, new_events) if args.policy == "unified" else []
                 policy_ns = clock()-policy0
                 policy_update_ns = engine.refresh_ns - refresh_before
                 cpu1, rss1 = cpu_seconds(proc), proc.memory_info().rss
@@ -325,7 +294,7 @@ def run(args):
                     event(emitted)
                 event_offset = len(engine.events)
                 for action in actions:
-                    if action != 'R4_COOLDOWN':
+                    if action != 'COOLDOWN':
                         event({'index': index, 'type': action, 'service_ms': service_ns/1e6, 'accuracy': accuracy})
                 # Keep the engine's event storage bounded after writing to disk.
                 engine.events.clear(); event_offset = 0
@@ -334,7 +303,7 @@ def run(args):
                 for key in ('C_pre_ms', 'C_inf_ms', 'C_upd_ms', 'C_other_ms', 'C_policy_ms', 'C_total_ms'):
                     totals[key] += record[key]
                 lat_max = max(lat_max, total_ms)
-                if index % args.log_every == 0 or (actions and actions != ['R4_COOLDOWN']) or index == n-1:
+                if index % args.log_every == 0 or (actions and actions != ['COOLDOWN']) or index == n-1:
                     acc = '-' if accuracy is None else f'{accuracy:.1%}'
                     print(f'{index:6} {record["elapsed_ms"]:10.3f} {record["C_pre_ms"]:9.4f} {record["C_inf_ms"]:9.4f} '
                           f'{record["C_upd_ms"]:9.4f} {total_ms:10.4f} {record["cpu_percent"]:6.1f} '
@@ -365,6 +334,7 @@ def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument('--engine', choices=['project','standalone'], default='project')
     p.add_argument('--dataset', default='elec2')
+    p.add_argument('--policy', choices=['static', 'drift', 'unified'], default='unified')
     p.add_argument('--csv', type=Path)
     p.add_argument('--features', help='comma-separated numeric columns for a custom CSV')
     p.add_argument('--target')
@@ -382,6 +352,8 @@ def main():
     p.add_argument('--fault-rows', type=int, default=1)
     p.add_argument('--output', type=Path, default=ROOT/'results'/'stress')
     args = p.parse_args()
+    if args.engine == "standalone" and args.policy != "unified":
+        p.error("Baseline policies require --engine project")
     for key in ('scale','max_latency_ms','max_ram_growth_mb'):
         if not math.isfinite(getattr(args,key)) or getattr(args,key) <= 0:
             p.error(f'{key} must be finite and positive')

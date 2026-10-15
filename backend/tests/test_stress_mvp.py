@@ -45,15 +45,15 @@ def test_latency_halves_during_cooldown_and_reports_minimum():
     for index, expected in enumerate([4, 2, 1, 1], 101):
         actions = policy.step(index, 16., .5, engine, [])
         assert len(engine.features) == expected
-        assert actions[0].startswith('R2_')
-    assert actions == ['R2_AT_MINIMUM_UNRESOLVED']
+        assert actions[0].startswith('R3_')
+    assert actions == ['R3_AT_MINIMUM_UNRESOLVED']
     assert len(engine.refreshes) == 3
 
 
 def test_accuracy_cooldown_and_drift_override():
     engine, policy = Engine(), mvp.Controller()
-    assert policy.step(1000, 1., .69, engine, []) == ['R3_LOW_ACCURACY_REFRESH']
-    assert policy.step(1001, 1., .69, engine, []) == ['R4_COOLDOWN']
+    assert policy.step(1000, 1., .69, engine, []) == ['R4_LOW_ACCURACY_REFRESH']
+    assert policy.step(1001, 1., .69, engine, []) == ['COOLDOWN']
     assert policy.step(1002, 1., .9, engine, [{'type': 'drift_detected', 'error_increased': True}]) == ['R1_DRIFT']
     assert len(engine.refreshes) == 2
     policy.step(1003, 1., .9, engine, [{'type': 'drift_detected', 'error_increased': True}, {'type': 'adaptation_completed'}])
@@ -109,3 +109,29 @@ def test_portable_cli_writes_each_row_and_complete_costs(tmp_path):
     summary = json.loads((output / 'summary.json').read_text())
     assert summary['status'] == 'completed'
     assert summary['rows_processed'] == 1200
+
+
+def test_web_adapter_uses_shared_policy_and_preserves_stage_costs():
+    from adaptiveml.controller import Controller, PipelineController
+    assert mvp.Controller is Controller
+    engine = mvp.ProjectEngine(('a', 'b', 'c', 'd'), 10, 500, 42)
+    adapter = PipelineController(engine.pipe, max_ms=.000001)
+    prediction, elapsed, stages = adapter.process(0, dict(a=1., b=2., c=3., d=4.), True)
+    assert sum(stages) == elapsed
+    assert len(engine.pipe.active.features) == 2
+    assert any(e['type'] == 'controller_action' and e['action'] == 'R3_HALVE_4_TO_2' for e in engine.events)
+
+
+def test_baselines_freeze_or_learn_without_shared_controller():
+    features = ('a', 'b')
+    static = mvp.ProjectEngine(features, 10, 500, 42, policy='static')
+    drift = mvp.ProjectEngine(features, 10, 500, 42, policy='drift')
+    for i in range(30):
+        for engine in (static, drift):
+            engine.process(i, dict(a=float(i % 3), b=float(i % 2)), bool(i % 2))
+    assert static.pipe.detector is None
+    assert static.pipe.active.trained_on == 10
+    assert not static.pipe.learning
+    assert drift.pipe.detector is not None
+    assert drift.pipe.active.trained_on == 30
+    assert drift.pipe.learning

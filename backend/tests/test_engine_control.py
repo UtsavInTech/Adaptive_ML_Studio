@@ -88,7 +88,7 @@ def test_rejected_command_is_reported_not_raised():
     assert any(e["type"] == "command_rejected" for e in result.events)
 
 
-def test_governor_steps_down_under_a_tiny_budget_and_flags_timing_dependence():
+def test_shared_controller_halves_features_per_instance_under_tiny_budget():
     tiny = ProfileConfig(
         name="tiny", simulated=True, placeholder=True,
         budgets=ResourceBudgets(compute_share=0.001, nominal_rate=1_000, allow_background=False,
@@ -96,18 +96,19 @@ def test_governor_steps_down_under_a_tiny_budget_and_flags_timing_dependence():
     )
     result = run_trial(config(length=4_000).model_copy(update={"profile": tiny}))
     changes = [e for e in result.events if e["type"] == "config_changed" and e["method"] == "adaptive"]
-    assert [c["new"] for c in changes if c["field"] == "update_stride"][:2] == [2, 4]
+    assert not [c for c in changes if c["field"] == "update_stride"]
+    assert all(c["new"] == max(1, c["old"] // 2) for c in changes if c["field"] == "n_features")
     assert any(c["field"] == "n_features" for c in changes)
-    assert any(e["type"] == "budget_exceeded" for e in result.events)
+    assert any(e["type"] == "controller_action" and e["action"].startswith("R3_") for e in result.events)
     assert result.timing["timing_dependent_behaviour"] is True
     assert result.pipelines["adaptive"].detector is not None
 
 
-def test_standard_profile_changes_nothing():
+def test_standard_profile_uses_default_shared_controller():
     plain = run_trial(config(length=1_500))
     explicit = run_trial(config(length=1_500).model_copy(update={"profile": STANDARD}))
     assert plain.summaries["adaptive"]["predictions_sha256"] == explicit.summaries["adaptive"]["predictions_sha256"]
-    assert plain.timing["timing_dependent_behaviour"] is False
+    assert plain.timing["timing_dependent_behaviour"] is True
 
 
 def test_experiment_expands_into_trials_with_unique_ids():

@@ -27,7 +27,8 @@ The adversarial runs fell below the 70% target during corruption. Feature reduct
 
 ## Checks
 
-- Backend suite: 95 passed (before the final additional CLI integration test).
+- Full backend suite rechecked on 15 October 2026: 96 passed, including the CLI integration test.
+- Frontend rechecked on 15 October 2026: 29 tests passed; TypeScript checks and production build passed.
 - Final harness suite: 7 passed, including stage accounting, exact corruption count, cooldown behavior, both engines, invalid inputs and a portable CLI run.
 - All five final run artifacts checked for one record per input row, exact flip counts and additive timing accounting.
 - Python compilation and git whitespace checks passed.

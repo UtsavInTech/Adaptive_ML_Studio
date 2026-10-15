@@ -1,0 +1,228 @@
+{
+  "execution": "Three concurrent subprocesses per dataset; datasets run sequentially",
+  "seed": 42,
+  "fault_latency_ms": 0,
+  "caveat": "Shared-machine latency; one seed, no confidence intervals. No claim of superiority.",
+  "policies": {
+    "static": "A \u00b7 Static",
+    "drift": "B \u00b7 Drift-only",
+    "unified": "Unified controller"
+  },
+  "runs": {
+    "elec2/static": {
+      "summary_path": "/Users/utsavsingh/Documents/Adaptive_ML_Studio/results/controller-comparison/20261014T193730390999Z/elec2/static/20261014T193750Z-a621bca5/summary.json",
+      "rows": 45312,
+      "source_sha256": "2edcdbafd4e402b8d5c59294f6c37c14bac534ac55a18810fb9aa2ca737d8e9f",
+      "phase_scores": {
+        "before": {
+          "n": 21656,
+          "observed_correct": 12577,
+          "clean_correct": 12577,
+          "observed_accuracy": 0.5807628370890284,
+          "clean_accuracy": 0.5807628370890284
+        },
+        "noise_window": {
+          "n": 500,
+          "observed_correct": 249,
+          "clean_correct": 215,
+          "observed_accuracy": 0.498,
+          "clean_accuracy": 0.43
+        },
+        "after": {
+          "n": 22156,
+          "observed_correct": 9322,
+          "clean_correct": 9322,
+          "observed_accuracy": 0.4207438165733887,
+          "clean_accuracy": 0.4207438165733887
+        }
+      },
+      "policy_counts": {},
+      "mean_ms": 0.012046090020761867,
+      "p99_ms": 0.04336675999999995,
+      "max_ms": 0.663083,
+      "deadline_misses_after_warmup": 0,
+      "deadline_misses_full_run": 1
+    },
+    "elec2/drift": {
+      "summary_path": "/Users/utsavsingh/Documents/Adaptive_ML_Studio/results/controller-comparison/20261014T193730390999Z/elec2/drift/20261014T193750Z-3fd889c9/summary.json",
+      "rows": 45312,
+      "source_sha256": "2edcdbafd4e402b8d5c59294f6c37c14bac534ac55a18810fb9aa2ca737d8e9f",
+      "phase_scores": {
+        "before": {
+          "n": 21656,
+          "observed_correct": 18611,
+          "clean_correct": 18611,
+          "observed_accuracy": 0.8593923162172147,
+          "clean_accuracy": 0.8593923162172147
+        },
+        "noise_window": {
+          "n": 500,
+          "observed_correct": 271,
+          "clean_correct": 351,
+          "observed_accuracy": 0.542,
+          "clean_accuracy": 0.702
+        },
+        "after": {
+          "n": 22156,
+          "observed_correct": 17739,
+          "clean_correct": 17739,
+          "observed_accuracy": 0.8006409099115364,
+          "clean_accuracy": 0.8006409099115364
+        }
+      },
+      "policy_counts": {},
+      "mean_ms": 0.04333582151561653,
+      "p99_ms": 0.2068557399999999,
+      "max_ms": 2.693208,
+      "deadline_misses_after_warmup": 0,
+      "deadline_misses_full_run": 1
+    },
+    "elec2/unified": {
+      "summary_path": "/Users/utsavsingh/Documents/Adaptive_ML_Studio/results/controller-comparison/20261014T193730390999Z/elec2/unified/20261014T193750Z-8ad249e0/summary.json",
+      "rows": 45312,
+      "source_sha256": "2edcdbafd4e402b8d5c59294f6c37c14bac534ac55a18810fb9aa2ca737d8e9f",
+      "phase_scores": {
+        "before": {
+          "n": 21656,
+          "observed_correct": 18557,
+          "clean_correct": 18557,
+          "observed_accuracy": 0.8568987809383081,
+          "clean_accuracy": 0.8568987809383081
+        },
+        "noise_window": {
+          "n": 500,
+          "observed_correct": 255,
+          "clean_correct": 307,
+          "observed_accuracy": 0.51,
+          "clean_accuracy": 0.614
+        },
+        "after": {
+          "n": 22156,
+          "observed_correct": 17998,
+          "clean_correct": 17998,
+          "observed_accuracy": 0.8123307456219534,
+          "clean_accuracy": 0.8123307456219534
+        }
+      },
+      "policy_counts": {
+        "R3_HALVE_8_TO_4": 1,
+        "R1_DRIFT": 44,
+        "COOLDOWN": 1040,
+        "R4_LOW_ACCURACY_REFRESH": 3
+      },
+      "mean_ms": 0.03632923472197148,
+      "p99_ms": 0.15970348999999998,
+      "max_ms": 1.666583,
+      "deadline_misses_after_warmup": 0,
+      "deadline_misses_full_run": 1
+    },
+    "occupancy/static": {
+      "summary_path": "/Users/utsavsingh/Documents/Adaptive_ML_Studio/results/controller-comparison/20261014T193730390999Z/occupancy/static/20261014T193756Z-192038de/summary.json",
+      "rows": 20560,
+      "source_sha256": "e277c5d7f5c0484695e3fd32cdd113ab46c22a6789901ae3601d8322eb7c8c99",
+      "phase_scores": {
+        "before": {
+          "n": 7280,
+          "observed_correct": 6822,
+          "clean_correct": 6822,
+          "observed_accuracy": 0.9370879120879121,
+          "clean_accuracy": 0.9370879120879121
+        },
+        "noise_window": {
+          "n": 500,
+          "observed_correct": 299,
+          "clean_correct": 497,
+          "observed_accuracy": 0.598,
+          "clean_accuracy": 0.994
+        },
+        "after": {
+          "n": 9780,
+          "observed_correct": 8544,
+          "clean_correct": 8544,
+          "observed_accuracy": 0.8736196319018404,
+          "clean_accuracy": 0.8736196319018404
+        }
+      },
+      "policy_counts": {},
+      "mean_ms": 0.009863685364464692,
+      "p99_ms": 0.027201029999999987,
+      "max_ms": 0.355,
+      "deadline_misses_after_warmup": 0,
+      "deadline_misses_full_run": 1
+    },
+    "occupancy/drift": {
+      "summary_path": "/Users/utsavsingh/Documents/Adaptive_ML_Studio/results/controller-comparison/20261014T193730390999Z/occupancy/drift/20261014T193756Z-8914ff28/summary.json",
+      "rows": 20560,
+      "source_sha256": "e277c5d7f5c0484695e3fd32cdd113ab46c22a6789901ae3601d8322eb7c8c99",
+      "phase_scores": {
+        "before": {
+          "n": 7280,
+          "observed_correct": 7123,
+          "clean_correct": 7123,
+          "observed_accuracy": 0.9784340659340659,
+          "clean_accuracy": 0.9784340659340659
+        },
+        "noise_window": {
+          "n": 500,
+          "observed_correct": 296,
+          "clean_correct": 460,
+          "observed_accuracy": 0.592,
+          "clean_accuracy": 0.92
+        },
+        "after": {
+          "n": 9780,
+          "observed_correct": 9576,
+          "clean_correct": 9576,
+          "observed_accuracy": 0.9791411042944785,
+          "clean_accuracy": 0.9791411042944785
+        }
+      },
+      "policy_counts": {},
+      "mean_ms": 0.03067502482915718,
+      "p99_ms": 0.12098861999999991,
+      "max_ms": 1.572793,
+      "deadline_misses_after_warmup": 0,
+      "deadline_misses_full_run": 1
+    },
+    "occupancy/unified": {
+      "summary_path": "/Users/utsavsingh/Documents/Adaptive_ML_Studio/results/controller-comparison/20261014T193730390999Z/occupancy/unified/20261014T193756Z-caf1fe17/summary.json",
+      "rows": 20560,
+      "source_sha256": "e277c5d7f5c0484695e3fd32cdd113ab46c22a6789901ae3601d8322eb7c8c99",
+      "phase_scores": {
+        "before": {
+          "n": 7280,
+          "observed_correct": 7115,
+          "clean_correct": 7115,
+          "observed_accuracy": 0.9773351648351648,
+          "clean_accuracy": 0.9773351648351648
+        },
+        "noise_window": {
+          "n": 500,
+          "observed_correct": 289,
+          "clean_correct": 445,
+          "observed_accuracy": 0.578,
+          "clean_accuracy": 0.89
+        },
+        "after": {
+          "n": 9780,
+          "observed_correct": 9610,
+          "clean_correct": 9610,
+          "observed_accuracy": 0.9826175869120655,
+          "clean_accuracy": 0.9826175869120655
+        }
+      },
+      "policy_counts": {
+        "R3_HALVE_5_TO_2": 1,
+        "R3_HALVE_2_TO_1": 1,
+        "R1_DRIFT": 10,
+        "COOLDOWN": 323,
+        "R4_LOW_ACCURACY_REFRESH": 1
+      },
+      "mean_ms": 0.025045547722095673,
+      "p99_ms": 0.07916868999999997,
+      "max_ms": 1.780041,
+      "deadline_misses_after_warmup": 0,
+      "deadline_misses_full_run": 2
+    }
+  }
+}

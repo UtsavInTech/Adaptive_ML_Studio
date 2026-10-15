@@ -13,15 +13,16 @@ The project partially met the requested specification before this harness was ad
 | Accuracy floor | No matching unified local policy runner | Rolling 500-row accuracy floor of 70%, with refresh cooldown |
 | Local validation entry point | No stress_test_mvp.py | One script, control mode, intentional latency fault and durable reports |
 
-The new default **project** engine calls the actual `MethodPipeline`. It overrides only its stress-run configuration: all features initially, immediate model replacement rather than background promotion, and a 500-row cooldown. It does not alter UI behavior or the application's production governor. The **standalone** engine embeds an online River baseline and can run outside this repository with an explicitly supplied CSV. Results from that engine do not validate the application's pipeline.
+The new default **project** engine calls the actual `MethodPipeline`. It overrides only its stress-run configuration: all features initially, immediate model replacement rather than background promotion, and a 500-row cooldown. It does not alter UI behavior or the application's production governor. The **standalone** engine embeds an online River baseline, but now imports the shared controller from the backend package. Results from that engine do not validate the application's pipeline.
 
-The request does not supply formal definitions of the paper's R1–R5 labels. This implementation explicitly proposes the following mapping; it does not claim these are verbatim paper rules:
+The CLI and web backend now import the same `adaptiveml.controller.Controller`. The web engine uses its `PipelineController` adapter on every instance instead of the previous block governor. Standard runs use 15 ms; simulated profiles retain their explicitly configured budgets, which can be much smaller. The shared implementation covers a **subset** of the paper, not all resource gates:
 
-- **R1:** increasing-error ADWIN detection triggers model replacement. If the native policy already replaced it, do not replace it twice. An improvement-only drift signal is logged without forcing a reset.
-- **R2:** service time above 15 ms immediately halves active model inputs (`floor(n/2)`, retaining at least one), even during cooldown. One feature remaining yields an unresolved violation rather than a false recovery claim.
-- **R3:** a full rolling window below 70% accuracy requests a model refresh.
-- **R4:** 500 rows between accuracy-triggered refreshes prevent repeated resets; R1 and R2 can override this.
-- **R5:** malformed/nonfinite data, processing failures and RSS growth above 512 MB abort the run. Partial results remain available after runtime failures or Ctrl-C.
+- **R1:** increasing-error drift triggers a model refresh if native adaptation has not already completed.
+- **R3:** service latency above the threshold halves active dimensions, retaining at least one.
+- **R4:** a full 500-row accuracy window below 70% triggers a refresh, limited by a 500-row cooldown.
+- `COOLDOWN` is bookkeeping, not paper R4/R5.
+
+Paper R2/R5 CPU/memory recovery and resource-availability gates remain unimplemented. The CLI retains its separate fail-safe memory-growth abort. Historical outputs used provisional labels (latency R2, accuracy R3, cooldown R4); those files are unchanged.
 
 Feature reduction changes the dimensions presented to the model. Preprocessing still handles the input columns. It is a recovery attempt, not a guarantee that the next row meets the deadline.
 
@@ -59,16 +60,23 @@ backend/.venv/bin/python stress_test_mvp.py \
 
 This delay is explicitly recorded as `fault_ms`; it must not be presented as genuine model cost. The shortened warm-up is only for this smoke test. Full runs use catalog warm-ups (ELEC2 1000; occupancy 3000).
 
-For a portable standalone run, copy the script and your CSV to any directory, create a virtual environment there, and use explicit numeric feature and binary-label columns:
+For a custom CSV with the embedded baseline, run from this repository (the shared controller package is required):
 
 ```bash
-python3 -m venv .venv
-.venv/bin/python -m pip install 'river==0.26.1' 'psutil>=6'
-.venv/bin/python stress_test_mvp.py --engine standalone \
+backend/.venv/bin/python stress_test_mvp.py --engine standalone \
   --csv /absolute/path/to/data.csv \
   --features temperature,humidity,light --target occupied \
   --negative 0 --positive 1 --warmup 100
 ```
+
+For the parallel static / drift-only / unified comparison and presentation plots:
+
+```bash
+uv pip install --python backend/.venv/bin/python -e './backend[plots]'
+backend/.venv/bin/python scripts/compare_controllers.py
+```
+
+With a pip-equipped environment, `backend/.venv/bin/python -m pip install -e './backend[plots]'` is equivalent. The runner starts three subprocesses per dataset concurrently, saves raw per-row output under `results/controller-comparison/`, and saves PNG/SVG plots plus a comparison table under a unique `docs/assets/controller-comparison-*/` directory. Parallel timings include machine contention. Use `--policy static`, `--policy drift`, or `--policy unified` on the stress CLI to reproduce an individual run.
 
 The CSV must have at least 1000 valid rows for the default 500-row noise window. The script validates/counts the file once using constant memory, then reopens it and predicts, detects, adapts and learns one row at a time. It never trains on a full array, shuffles rows or rewrites source data. Binary label values are explicit; other targets are rejected.
 

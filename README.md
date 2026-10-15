@@ -146,6 +146,20 @@ backend/.venv/bin/pip install -e "backend[dev]"
 cd frontend && npm install
 ```
 
+## Shared controller comparison
+
+CLI stress runs and the web backend now use `backend/adaptiveml/controller.py` for
+per-instance drift response, latency feature reduction and accuracy refresh (paper
+R1/R3/R4 subset). The previous block governor has been removed from the runtime.
+CPU/energy gating and memory-recovery rules are not part of this subset.
+
+Run `backend/.venv/bin/python scripts/compare_controllers.py` to launch static,
+drift-only and unified policies concurrently on both local Kaggle snapshots.
+Install plotting dependencies with `uv pip install --python backend/.venv/bin/python -e './backend[plots]'`.
+
+[Measured comparison and PNG/SVG presentation plots](docs/assets/controller-comparison-20261014T193730390999Z/README.md).
+Concurrent timings include machine contention; the report also identifies warm-up spikes.
+
 ## Running locally
 
 For per-instance adversarial validation on the local Kaggle snapshots, see the

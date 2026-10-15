@@ -19,7 +19,7 @@ from typing import Protocol
 
 import numpy as np
 
-from adaptiveml.adaptation.resources import ResourceGovernor
+from adaptiveml.controller import PipelineController
 from adaptiveml.config import TrialConfig, derive_seed
 from adaptiveml.config.profiles import apply_profile, per_sample_budget_ns
 from adaptiveml.metrics import MethodRecorder, summarize_method
@@ -59,7 +59,7 @@ class TrialContext:
     pipelines: list[MethodPipeline]
     recorders: list[MethodRecorder]
     recent: deque | None
-    governors: dict[str, ResourceGovernor]
+    governors: dict[str, PipelineController]
     lifecycle: dict
 
 
@@ -158,11 +158,11 @@ def run_trial(
     pipelines = build_pipelines(cfg, scenario.feature_names)
     recorders = [MethodRecorder(p.name, ev.positive_class) for p in pipelines]
     pairs = list(zip(pipelines, recorders))
-    hot = [(p.process, *rec.sinks) for p, rec in pairs]
     positive = ev.positive_class
 
     budget_ns = per_sample_budget_ns(cfg.profile, cfg.stream.rate)
-    governors = {p.name: ResourceGovernor(cfg.profile.budgets, budget_ns) for p in pipelines if budget_ns and p.spec.detects}
+    governors = {p.name: PipelineController(p, max_ms=budget_ns/1e6 if budget_ns else 15.0) for p in pipelines if p.spec.detects}
+    hot = [(governors[p.name].process if p.name in governors else p.process, *rec.sinks) for p, rec in pairs]
     recent = deque(maxlen=keep_recent) if keep_recent else None
     engine_events: list[dict] = []
 
@@ -232,7 +232,6 @@ def run_trial(
                 continue
             governor = governors.get(p.name)
             if governor is not None and block_start >= warmup:
-                governor.check(p, record, end - 1)
                 record["over_budget"] = governor.constrained
             records[p.name] = record
         engine = {

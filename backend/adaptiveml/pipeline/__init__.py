@@ -306,7 +306,7 @@ class MethodPipeline:
         old, self.update_stride, self._stride_count = self.update_stride, stride, 0
         self.emit(i, "config_changed", field="update_stride", old=old, new=stride, reason=reason)
 
-    def reconfigure_features(self, i: int, k: int, reason: str) -> None:
+    def reconfigure_features(self, i: int, k: int, reason: str, *, immediate: bool = False) -> None:
         """Change the number of selected features. The current model cannot drop a feature it splits
         on, so this is a model change: a replacement on the new feature set (promoted when ready), or
         a fresh model when the profile disallows background models."""
@@ -315,7 +315,7 @@ class MethodPipeline:
         self.emit(i, "config_changed", field="n_features", old=old, new=k, reason=reason)
         if self.background is not None and self.background.features != self.selector.proposed():
             self.background = None
-        if self._adapt_cfg.allow_background:
+        if self._adapt_cfg.allow_background and not immediate:
             self._prepare(i, reason, "reconfigure")
         else:
             self._reset_model(i, reason, action="reconfigure")
