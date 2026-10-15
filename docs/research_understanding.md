@@ -7,8 +7,6 @@
 - `Adaptive ML-reviewed (3).docx`: the review paper as reviewed by the supervisor, with 9 comments. It has 20 references, 3 tables and 1 figure (the review methodology).
 - `Evaluation-1 Project PPT (2).pptx`: 21 slides, including the submission summary (Int'l Conf. on AI Based Cyber Resilience, Paper ID 202, 30 Aug 2026), a sequence diagram, an activity diagram and a progress slide.
 
----
-
 ## A. Problem statement
 
 Traditional ML pipelines are built around **static datasets and periodic retraining**. Streams from IoT devices, sensors, financial platforms and other real-time sources show **distribution drift and concept drift**, and these degrade models that were trained once (paper §I; refs [5], [7]).
@@ -19,8 +17,6 @@ PPT slide 4 gives the short form:
 > Static ML models may lose performance over time → adaptive ML framework → data-change detection + model adaptation → focus on accuracy, latency, resource utilization → edge-based processing → **Outcome: adaptive ML prototype + monitoring dashboard** (monitoring data drift, model performance, latency, resource usage).
 
 **One-line version for this project:** Build and evaluate an integrated adaptive pipeline for evolving streams where every accuracy number is measured together with its latency and resource cost.
-
----
 
 ## B + C. Existing approaches, by literature category
 
@@ -43,8 +39,6 @@ The strengths and limitations below come from paper Tables I and II. They are th
 - Cloud processing adds data-transfer latency. Edge–cloud [11], resource-aware [12] and TinyML [14] approaches address this. Modyn [6] avoids reprocessing the full history.
 - Latency is **reported inconsistently**: different studies use different methods and units, so direct comparison is hard.
 
----
-
 ## D. Research gaps
 
 These are the six gaps from paper Table III. PPT slide 9 lists five and adds *energy*.
@@ -57,8 +51,6 @@ These are the six gaps from paper Table III. PPT slide 9 lists five and adds *en
 | **G4** Edge deployment | Limited evaluation of complete adaptive pipelines under real-world edge constraints | Only partly addressable: a **simulated** constraint profile. Real results need real hardware (a Raspberry Pi is "optional" per slide 17) |
 | **G5** Resource-aware adaptation | Limited dynamic adaptation based **simultaneously** on data drift and available resources | An adaptation decision that reads **both** the drift signal and the resource state. This is the one decision-making element |
 | **G6** Unified evaluation | Different datasets, metrics and environments make comparison difficult | A **single reproducible harness**: same stream, seed, machine and metrics for every compared model. This demonstrates the protocol; it does not solve cross-study comparability |
-
----
 
 ## E. Proposed research direction (paper §VI)
 
@@ -75,8 +67,6 @@ These are the six gaps from paper Table III. PPT slide 9 lists five and adds *en
 - **Intended output:** empirical evidence on the performance vs. processing-efficiency trade-off, i.e. "foundational models and measurements".
 
 The paper presents this as a *direction to explore*. It does **not** claim a new algorithm or a validated system.
-
----
 
 ## F. Proposed system workflow (PPT slides 19–20)
 
@@ -102,8 +92,6 @@ The paper presents this as a *direction to explore*. It does **not** claim a new
 - Step 6B says "update/**retrain** model incrementally", and §VI allows "retraining if necessary". So **incremental update as the default, with model reset/replacement as an escalation** is faithful to the sources. Retraining from scratch on every drift is not required anywhere.
 - Step 8, "store/update logs & metrics", implies only lightweight persistence (experiment logs/results). A database is not implied.
 
----
-
 ## G. Evaluation metrics
 
 | Metric | Where stated | Notes |
@@ -125,8 +113,6 @@ The paper presents this as a *direction to explore*. It does **not** claim a new
 - false alarms
 - throughput
 
----
-
 ## H. Constraints
 
 - **Implementation** (PPT 15): continuous adaptation raises compute and memory; integrating many components raises complexity; high-rate or long streams raise processing and update time.
@@ -135,8 +121,6 @@ The paper presents this as a *direction to explore*. It does **not** claim a new
 - **Evaluation** (PPT 16): accuracy and latency depend on hardware and deployment configuration; cross-paper results aren't directly comparable.
 - **Hardware/stack** (PPT 17): 8 GB RAM, i5/Ryzen 5, optional Raspberry Pi; Python, scikit-learn/River/PyTorch, Pandas/NumPy, Flask/FastAPI, React/Streamlit; open-source only.
 - **Project:** three-member team (see §K). The implementation is one member's workstream, so the prototype should stay small, credible and measurable.
-
----
 
 ## I. What the PPT claims is completed (slide 18)
 
@@ -161,8 +145,6 @@ The acceptance criteria are the six objectives on slide 5:
 4. Monitor accuracy, F1, latency, memory and computational overhead.
 5. Evaluate edge-based processing.
 6. Study the performance vs. resource-efficiency trade-off.
-
----
 
 ## K. Team structure and research-chain interfaces
 
@@ -212,8 +194,6 @@ The next evaluation deck should show the current split so the panel sees a consi
 | Default detector / model / adaptation logic | Implementation, justified by cited references; Review verifies | — |
 | Edge constraint profile values | Research designs; Implementation enforces | Configurable profiles, labelled "simulated" |
 | Claims and conclusions | Research; Review checks | Nothing: the platform does not generate claims |
-
----
 
 ## Source-fidelity notes
 

@@ -58,8 +58,6 @@ honesty rules — the UI still reports measurements and never concludes that one
 Pending definitions stay pending and say so: **recovery/stability** and **computational overhead** render a
 warning line ("definition pending the team's decision") instead of a formula.
 
----
-
 ## 3. Before → after
 
 | Aspect | Before | After |
@@ -75,8 +73,6 @@ warning line ("definition pending the team's decision") instead of a formula.
 | Projector support | None | Presentation mode (larger type, larger charts, secondary detail hidden) |
 | Nested buttons | Present in pipeline tiles | None |
 | Page-level horizontal scroll | None | None (verified at 1280/1440/1920) |
-
----
 
 ## 4. Verification performed
 
