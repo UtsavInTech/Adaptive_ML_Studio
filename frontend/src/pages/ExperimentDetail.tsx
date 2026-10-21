@@ -45,6 +45,7 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
   const [series, setSeries] = useState<TrialSeries | null>(null);
   const [events, setEvents] = useState<EventRecord[]>([]);
   const [allSeries, setAllSeries] = useState<Record<string, TrialSeries>>({});
+  const [view, setView] = useState("overview");
   const [showControl, setShowControl] = useState(false);
   const [problem, setProblem] = useState<{ why: string; technical?: string } | null>(null);
   const [busy, setBusy] = useState(false);
@@ -321,7 +322,8 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
 
   const job = store.job;
   return (
-    <div className="page">
+    <div className={`page experiment-results results-${view}`}>
+      <a className="results-back" href="#/experiments">← Experiment workspace</a>
       <Panel
         title={manifest.name}
         sub={manifest.kind}
@@ -353,7 +355,15 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
         )}
       </Panel>
 
-      <section className="stack tight">
+      <nav className="workspace-nav results-nav" aria-label="Result views">
+        {[{ id: "overview", title: "Overview" }, ...(hasPhases ? [{ id: "change", title: "Response to change" }] : []), { id: "resources", title: "Processing & resources" }, { id: "trial", title: "Trial explorer" }].map((item) =>
+          <button key={item.id} type="button" aria-current={view === item.id ? "page" : undefined} onClick={() => setView(item.id)}>{item.title}</button>)}
+      </nav>
+      <div className="result-orientation" aria-live="polite">
+        <span className="eyebrow">{view === "overview" ? "The big picture" : view === "change" ? "Recovery & drift" : view === "resources" ? "The cost of learning" : "Inside one trial"}</span>
+        <p>{view === "overview" ? "Start with the measured outcomes, then compare methods below. Explore the other views for recovery, resource use, and individual events." : view === "change" ? "Did accuracy drop when the data changed, and did it recover? Compare the same before, during, and after windows for every method." : view === "resources" ? "How much computation does each strategy need? Compare accuracy against processing time, memory, and model size." : "Follow one trial over time. Select a method, inspect its accuracy, and read the events it reported."}</p>
+      </div>
+      <section className="stack tight run-facts" hidden={view !== "overview"}>
         <SectionHead title="What this run contains" hint="counts from the stored bundle — not conclusions" />
         <MetricGrid>
           <MetricCard label="Methods evaluated" value={num(facts.methodCount)} sub={`${facts.trials} trial${facts.trials === 1 ? "" : "s"}, each in a fresh process`} />
@@ -374,7 +384,7 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
         </MetricGrid>
       </section>
 
-      {manifest.provenance.real_data && selected && trials[selected] && <div className="banner">
+      {manifest.provenance.real_data && selected && trials[selected] && <div className="banner" hidden={view !== "overview" && view !== "change"}>
         <div><strong>{trials[selected].scenario.name}</strong> · {trials[selected].scenario.order}
           {injection ? (
             <p className="small">
@@ -392,7 +402,7 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
       </div>}
 
       {hasPhases && reference && (
-        <section className="stack tight">
+        <section className="stack tight" hidden={view !== "change"}>
           <SectionHead title="Before, during and after the change" explain="phases" hint="every method scored over exactly the same rows" />
           <Panel bodyClass="flush">
             <div className="phase-head">
@@ -498,7 +508,7 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
       )}
 
       {(headlines.mostAccurate || headlines.cheapest) && (
-        <section className="stack tight">
+        <section className="stack tight" hidden={view !== "overview"}>
           <SectionHead title="Headline measurements" hint="What this run measured — observations, not a ranking" />
           <div className="summary-grid">
             {headlines.mostAccurate && (
@@ -547,7 +557,7 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
         </section>
       )}
 
-      <section className="stack tight">
+      <section className="stack tight method-comparison" hidden={view !== "overview" && view !== "resources"}>
         <SectionHead title="Methods side by side" hint="the same stream, the same machine, one trial at a time" />
         <Panel bodyClass="flush">
           <div className="table-scroll">
@@ -616,7 +626,7 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
         </Panel>
       </section>
 
-      <div className="two-col">
+      <div hidden={view !== "resources"}>
         <Panel title="Accuracy against processing cost" explain="tradeoff">
           {tradeoff.labels.length ? (
             <>
@@ -646,6 +656,8 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
           )}
         </Panel>
 
+      </div>
+      <div hidden={view !== "trial"}>
         <Panel
           title="Accuracy over time"
           explain="sampleIndex"
@@ -679,9 +691,9 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
         </Panel>
       </div>
 
-      <Panel title="Events in this trial" sub={selected} bodyClass="flush">
+      <div hidden={view !== "trial"}><Panel title="Events in this trial" sub={selected} bodyClass="flush">
         <EventLog events={events} height={300} />
-      </Panel>
+      </Panel></div>
 
       <TechnicalDetails summary="View run metadata (configuration, environment, reproducibility)">
         <dl className="kv">
