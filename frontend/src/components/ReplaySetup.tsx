@@ -41,6 +41,7 @@ function duration(rows: number, rowSeconds: number | undefined): string | null {
 const whole = (value: number) => Number.isInteger(value);
 
 export default function ReplaySetup({ experiment = false, disabled, onStart }: Props) {
+  const [step, setStep] = useState(0);
   const [datasets, setDatasets] = useState<Dataset[] | null>(null);
   const [kinds, setKinds] = useState<DriftKinds | null>(null);
   const [selected, setSelected] = useState("");
@@ -121,6 +122,7 @@ export default function ReplaySetup({ experiment = false, disabled, onStart }: P
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (experiment && step < 2) { setStep(step + 1); return; }
     if (!valid || !dataset) return;
     setBusy(true); setProblem(null);
     const what = injected ? `${kindCopy?.label.toLowerCase() ?? change} drift` : "natural replay";
@@ -153,8 +155,18 @@ export default function ReplaySetup({ experiment = false, disabled, onStart }: P
   const afterTo = Math.min(length, duringTo + phases.after);
 
   return (
-    <form className="replay-setup" onSubmit={(event) => void submit(event)}>
+    <form className={`replay-setup${experiment ? " comparison-setup" : ""}`} onSubmit={(event) => void submit(event)}>
       <div className="replay-main">
+        {experiment && <>
+          <div className="setup-intro"><span className="eyebrow">New comparison</span><h2>Can your model keep up with change?</h2><p>Use the same data to see how each learning strategy responds, and what it costs.</p></div>
+          <nav className="setup-steps" aria-label="Comparison setup">
+            {[{ title: "Dataset", detail: dataset?.name ?? "Choose your data" }, { title: "Data change", detail: injected ? kindCopy?.label ?? change : "Natural replay" }, { title: "Methods & run", detail: `${methods.length} methods · ${trialCount} trials` }].map((item, index) =>
+              <button type="button" key={item.title} aria-current={step === index ? "step" : undefined} onClick={() => setStep(index)}>
+                <span className="setup-step-index">{String(index + 1).padStart(2, "0")}</span><span><strong>{item.title}</strong><small>{item.detail}</small></span>
+              </button>)}
+          </nav>
+        </>}
+        <section hidden={experiment && step !== 0} aria-label="Dataset selection">
         <div className="setup-heading"><span className="step-number">01</span><h2>Choose your dataset</h2><span className="tag">Kaggle · local snapshots</span></div>
         {datasets === null && !problem && <p role="status">Loading datasets…</p>}
         {datasets?.length === 0 && <p>No dataset snapshots installed yet. Add a verified file to the dataset catalog.</p>}
@@ -171,6 +183,9 @@ export default function ReplaySetup({ experiment = false, disabled, onStart }: P
           ))}
         </div>
 
+        </section>
+        <section hidden={experiment && step !== 1} aria-label="Data change">
+        {experiment && <p className="step-context">Introduce a known change to measure recovery, or keep the original data to observe natural drift.</p>}
         <div className="setup-heading">
           <span className="step-number">02</span><h2>Choose how the data changes</h2>
           <ExplainButton id="injectedDrift" variant="text" label="Why add a change?" />
@@ -237,6 +252,9 @@ export default function ReplaySetup({ experiment = false, disabled, onStart }: P
           )}
         </div>
 
+        </section>
+        <section hidden={experiment && step !== 2} aria-label="Methods and evaluation">
+        {experiment && <p className="step-context">Choose the learning strategies to compare. Each runs separately so its processing cost can be measured fairly.</p>}
         <div className="setup-heading"><span className="step-number">03</span><h2>Set the evaluation</h2></div>
         <fieldset disabled={off} className="setup-fields">
           <label className="field">Rows to replay
@@ -318,7 +336,13 @@ export default function ReplaySetup({ experiment = false, disabled, onStart }: P
           </div>
         </div>
 
-        <div className="setup-footer">
+        </section>
+        {experiment && step < 2 && <div className="setup-navigation">
+          <span className="small muted">Step {step + 1} of 3 · {step === 0 ? "Start with a verified dataset" : "Choose the change to investigate"}</span>
+          <div className="row" style={{ gap: 10 }}>{step > 0 && <button type="button" className="btn" onClick={() => setStep(step - 1)}>Back</button>}
+          <button type="button" className="btn primary" disabled={!dataset?.available} onClick={() => setStep(step + 1)}>{step === 0 ? "Continue to data change" : "Continue to methods"} →</button></div>
+        </div>}
+        <div className="setup-footer" hidden={experiment && step !== 2}>
           <div>
             <strong>{experiment ? `${trialCount} trials, one at a time` : "One replay · two methods"}</strong>
             <p className="small muted">
@@ -329,6 +353,7 @@ export default function ReplaySetup({ experiment = false, disabled, onStart }: P
                 : "Watch what each method does as the rows arrive. Use Experiments for timing comparisons."}
             </p>
           </div>
+          {experiment && <button type="button" className="btn" onClick={() => setStep(1)}>Back</button>}
           <button type="submit" className="btn primary" disabled={off || !valid}>{busy ? "Starting…" : experiment ? "Run comparison →" : "Start dataset replay →"}</button>
         </div>
         {issues.length > 0 && dataset && <p className="small" role="status">{issues[0]}</p>}
@@ -336,6 +361,16 @@ export default function ReplaySetup({ experiment = false, disabled, onStart }: P
       </div>
 
       <aside className="dataset-brief">
+        {experiment && <div className="comparison-receipt" aria-live="polite">
+          <span className="eyebrow">Your experiment</span>
+          <h3>{trialCount} isolated trials</h3>
+          <p>Same rows. Same order. A fair comparison.</p>
+          <dl><dt>Learning strategies</dt><dd>{methods.length ? methods.map(methodLabel).join(" · ") : "Choose at least one method"}</dd>
+          <dt>Data change</dt><dd>{injected ? `${kindCopy?.label ?? change} at row ${start.toLocaleString()}` : "No added change"}</dd>
+          <dt>Comparison baseline</dt><dd>{withControl ? "Changed + untouched data" : "No separate control"}</dd>
+          <dt>Trial calculation</dt><dd>{methods.length} methods × {repeats} seed{repeats === 1 ? "" : "s"} × {profile === "both" ? 2 : 1} profile{profile === "both" ? "s" : ""}{withControl ? " × 2 data conditions" : ""}</dd></dl>
+          <div className="receipt-outcome"><strong>What you’ll learn</strong><p>Compare prediction accuracy, recovery after change, and the computation each strategy needs.</p></div>
+        </div>}
         <span className="eyebrow">Dataset notes</span><h3>{dataset?.name ?? "Real data, repeatable runs"}</h3>
         <p>{dataset?.description ?? "Choose a local Kaggle snapshot to replay."}</p>
         {dataset && (

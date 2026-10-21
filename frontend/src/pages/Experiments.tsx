@@ -56,6 +56,8 @@ export default function Experiments() {
   const [preset, setPreset] = useState("compare_methods");
   const [manifests, setManifests] = useState<Manifest[] | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
+  const [workspace, setWorkspace] = useState<"setup" | "runs">("setup");
+  const [search, setSearch] = useState("");
   const [busy, setBusy] = useState(false);
   const boardRef = useRef<HTMLDivElement>(null);
 
@@ -93,14 +95,19 @@ export default function Experiments() {
   const settings = describe(chosen?.config);
 
   return (
-    <div className="page">
+    <div className="page experiments-workspace">
       <header className="lab-heading">
         <span className="eyebrow">Research workspace / Experiments</span>
-        <h1>Compare learning strategies.</h1>
-        <p>Choose a real dataset, choose how it changes, and measure every method before, during and after that change, alongside what the adaptation costs.</p>
+        <h1>Experiments</h1>
+        <p>Understand what happens when data changes. Set up a fair comparison, then explore accuracy, recovery, and cost.</p>
       </header>
       {/* What is running comes first: nobody should have to scroll past a form to find out. */}
       <div ref={boardRef} className="board-slot">{job && <ExperimentBoard job={job} />}</div>
+      <nav className="workspace-nav" aria-label="Experiment workspace">
+        <button type="button" aria-current={workspace === "setup" ? "page" : undefined} onClick={() => setWorkspace("setup")}>New comparison <span>01 → 03</span></button>
+        <button type="button" aria-current={workspace === "runs" ? "page" : undefined} onClick={() => setWorkspace("runs")}>Recorded runs <span>{manifests?.length ?? "…"}</span></button>
+      </nav>
+      <div hidden={workspace !== "setup"}>
       <ReplaySetup experiment disabled={busy || !!running || store.active} onStart={async (config) => {
         await api.startExperiment({ config }); refresh();
         boardRef.current?.scrollIntoView({ block: "start" });
@@ -179,7 +186,8 @@ export default function Experiments() {
       </section>
 
       </details>
-      <section className="stack tight">
+      </div>
+      <section hidden={workspace !== "runs"} className="stack tight">
         <SectionHead
           title="Recorded runs"
           hint={manifests ? `${manifests.length} saved — every run is kept with its configuration and environment` : undefined}
@@ -190,6 +198,8 @@ export default function Experiments() {
           actions={<button type="button" className="btn small" onClick={refresh}>Refresh</button>}
           bodyClass="flush"
         >
+          <div className="run-search"><label className="field">Find a run<input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search by name, status, or run ID" /></label></div>
+          {problem && <ErrorState title="Runs could not be loaded" why={problem} action={<button type="button" className="btn small" onClick={refresh}>Retry</button>} />}
           {manifests === null ? (
             <Loading label="Loading runs" />
           ) : manifests.length === 0 ? (
@@ -199,7 +209,8 @@ export default function Experiments() {
             />
           ) : (
             <div className="list">
-              {manifests.map((manifest) => (
+              {!manifests.some((manifest) => `${manifest.name} ${manifest.id} ${manifest.status}`.toLowerCase().includes(search.toLowerCase())) && <EmptyState title="No matching runs" hint="Try a different name, status, or run ID." />}
+              {manifests.filter((manifest) => `${manifest.name} ${manifest.id} ${manifest.status}`.toLowerCase().includes(search.toLowerCase())).map((manifest) => (
                 <a key={manifest.id} className="list-item" href={href({ page: "experiment", id: manifest.id })}>
                   <div className="title">
                     {manifest.name}
