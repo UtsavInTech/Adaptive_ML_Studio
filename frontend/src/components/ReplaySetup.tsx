@@ -155,7 +155,7 @@ export default function ReplaySetup({ experiment = false, disabled, onStart }: P
   const afterTo = Math.min(length, duringTo + phases.after);
 
   return (
-    <form className={`replay-setup${experiment ? " comparison-setup" : ""}`} onSubmit={(event) => void submit(event)}>
+    <form className={`replay-setup${experiment ? " comparison-setup" : ""}`} noValidate={experiment} onSubmit={(event) => void submit(event)}>
       <div className="replay-main">
         {experiment && <>
           <div className="setup-intro"><span className="eyebrow">New comparison</span><h2>Can your model keep up with change?</h2><p>Use the same data to see how each learning strategy responds, and what it costs.</p></div>
@@ -371,6 +371,7 @@ export default function ReplaySetup({ experiment = false, disabled, onStart }: P
           <dt>Trial calculation</dt><dd>{methods.length} methods × {repeats} seed{repeats === 1 ? "" : "s"} × {profile === "both" ? 2 : 1} profile{profile === "both" ? "s" : ""}{withControl ? " × 2 data conditions" : ""}</dd></dl>
           <div className="receipt-outcome"><strong>What you’ll learn</strong><p>Compare prediction accuracy, recovery after change, and the computation each strategy needs.</p></div>
         </div>}
+        <details className="dataset-context" open={!experiment}><summary>About this dataset</summary>
         <span className="eyebrow">Dataset notes</span><h3>{dataset?.name ?? "Real data, repeatable runs"}</h3>
         <p>{dataset?.description ?? "Choose a local Kaggle snapshot to replay."}</p>
         {dataset && (
@@ -386,6 +387,7 @@ export default function ReplaySetup({ experiment = false, disabled, onStart }: P
             <details><summary>Snapshot & input columns</summary><p>{dataset.features.join(", ")}</p><p>{dataset.license} · downloaded {dataset.downloaded}</p><code className="dataset-hash">SHA-256 {dataset.sha256}</code></details>
           </>
         )}
+        </details>
       </aside>
     </form>
   );

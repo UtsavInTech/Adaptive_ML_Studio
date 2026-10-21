@@ -1565,7 +1565,7 @@ label.field { display: flex; flex-direction: column; gap: var(--s1); font-size: 
 .result-orientation { padding: 0 0 24px; max-width: 800px; }
 .result-orientation p { color: var(--text-2); font-size: 15px; line-height: 1.65; margin: 8px 0 0; }
 .experiment-results .metric-grid { gap: 0; border-block: 1px solid var(--border); }
-.experiment-results .metric-card { background: none; border: 0; border-radius: 0; box-shadow: none; }
+.experiment-results .metric { background: none; border: 0; border-radius: 0; box-shadow: none; }
 .experiment-results .summary-grid { gap: 0; border-block: 1px solid var(--border); }
 .experiment-results .summary-card { background: none; border: 0; border-left: 1px solid var(--border); border-radius: 0; box-shadow: none; }
 .experiment-results .summary-card:first-child { border-left: 0; }
@@ -1595,4 +1595,21 @@ label.field { display: flex; flex-direction: column; gap: var(--s1); font-size: 
   .setup-navigation .primary { flex: 1; }
   .comparison-setup .setup-heading .tag { display: none; }
   .experiment-results .summary-card { border-left: 0; border-bottom: 1px solid var(--border); }
+}
+
+.experiment-results .metric:hover, .experiment-results .summary-card:hover { box-shadow: none; }
+.experiments-workspace { gap: 20px; }
+.experiments-workspace .lab-heading { padding-bottom: 0; }
+.experiments-workspace .workspace-nav { margin-bottom: 8px; }
+.dataset-context > summary { font-size: 13px; color: var(--text-2); cursor: pointer; padding: 6px 0; }
+.dataset-context[open] > summary { margin-bottom: 18px; }
+.replay-setup:not(.comparison-setup) .dataset-context > summary { display: none; }
+.results-overview .method-comparison .table { width: 100%; }
+.experiment-results > div, .experiment-results > section { min-width: 0; }
+@media (max-width: 800px) {
+  .experiment-results .panel-head { flex-wrap: wrap; gap: 10px; }
+  .experiment-results .panel-head h2 { flex-basis: 100%; }
+  .experiment-results .panel-head .spacer { display: none; }
+  .experiment-results .panel-head select { max-width: 100%; width: 100%; }
+  .experiment-results .panel-head > .row { flex-wrap: wrap; }
 }

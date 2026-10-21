@@ -102,7 +102,7 @@ export default function Experiments() {
         <p>Understand what happens when data changes. Set up a fair comparison, then explore accuracy, recovery, and cost.</p>
       </header>
       {/* What is running comes first: nobody should have to scroll past a form to find out. */}
-      <div ref={boardRef} className="board-slot">{job && <ExperimentBoard job={job} />}</div>
+      <div ref={boardRef} className="board-slot" hidden={!job}>{job && <ExperimentBoard job={job} />}</div>
       <nav className="workspace-nav" aria-label="Experiment workspace">
         <button type="button" aria-current={workspace === "setup" ? "page" : undefined} onClick={() => setWorkspace("setup")}>New comparison <span>01 → 03</span></button>
         <button type="button" aria-current={workspace === "runs" ? "page" : undefined} onClick={() => setWorkspace("runs")}>Recorded runs <span>{manifests?.length ?? "…"}</span></button>
