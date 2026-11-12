@@ -31,6 +31,7 @@ import { liveActions, store, useLive } from "../lib/live";
 import { usePresentation } from "../lib/present";
 import { scenarioCopy } from "../lib/scenarios";
 import { useTheme } from "../lib/theme";
+import { verdict } from "../lib/verdict";
 
 const WINDOWS = [200, 500, 1000];
 
@@ -233,6 +234,10 @@ export default function Live() {
       headline: store.status.lifecycle === "completed" ? "Dataset replay complete." : "Replaying real observations.",
       sentence: "Track prediction quality and detector alerts on the recorded data. Drift locations are not annotated, so detection delay and recovery from a known drift are unavailable.",
     };
+    if (store.status.lifecycle === "completed") return {
+      headline: "The run is finished.",
+      sentence: "Both models have read every row. The result is below: how often each one was right over the whole run.",
+    };
     switch (phase) {
       case "drift":
         return {
@@ -339,13 +344,17 @@ export default function Live() {
           : episode?.adaptedAt ?? store.status.sample;
 
   const { headline, sentence } = story();
+  const finished = store.status.lifecycle === "completed";
+  const result = started && methods.includes("adaptive") && methods.includes("static")
+    ? verdict(scores["adaptive"]?.accuracy, scores["static"]?.accuracy, Math.max(0, store.status.sample - warmup), finished)
+    : null;
 
   return (
     <div className="page">
       <header className="lab-heading">
-        <span className="eyebrow">Research workspace / Dataset test</span>
+        <span className="eyebrow">Step 2 · Live demo</span>
         <h1>Watch learning happen.</h1>
-        <p>Replay a static Kaggle dataset row by row. Inspect accuracy, detector alerts, and the work behind every prediction.</p>
+        <p>Two models read the same real data, row by row. One learned once and stopped; the other keeps learning. Add a change to the data and watch what each one does.</p>
       </header>
       <ReplaySetup disabled={busy || store.active || store.job?.status === "running"} onStart={async (config, name) => {
         setDemo(false); await liveActions.start({config, name});
@@ -376,6 +385,34 @@ export default function Live() {
           </>
         }
       />}
+
+      {result && (
+        <section className="verdict" aria-label="Result of this run">
+          <div className="verdict-head">
+            <span className="eyebrow">{finished ? "Result of this run" : "Result so far"}</span>
+            <p>{result.sentence}</p>
+          </div>
+          <div className="verdict-bars">
+            {[
+              { name: "Keeps learning", who: "the adaptive pipeline", side: result.learner, ours: true },
+              { name: "Trained once", who: "the static baseline", side: result.frozen, ours: false },
+            ].map((row) => (
+              <div className={`verdict-row${row.ours ? " ours" : ""}`} key={row.name}>
+                <span className="verdict-name"><strong>{row.name}</strong><small>{row.who}</small></span>
+                <span className="verdict-track" role="img" aria-label={`${row.name}: right on ${pct(row.side.right)} of rows`}>
+                  <span style={{ width: `${Math.max(0, Math.min(1, row.side.right)) * 100}%` }} />
+                </span>
+                <span className="verdict-value"><strong>{pct(row.side.right)}</strong> right<small>{row.side.wrong.toLocaleString()} wrong</small></span>
+              </div>
+            ))}
+          </div>
+          <p className="small muted">
+            Counted over all {result.scored.toLocaleString()} rows after the warm-up. This is the fair comparison. The
+            figures for the last {windowSize} rows, further down, only describe the end of the run
+            {injection?.kind === "recurring" ? "; with a recurring change the data returns to its old behaviour, so both models can look equally good there" : ""}.
+          </p>
+        </section>
+      )}
 
       {started && config && (
         <RunContext
@@ -530,33 +567,33 @@ export default function Live() {
       </section>
 
       <section className="stack tight">
-        <SectionHead title="How well it is predicting" hint={`Over the last ${windowSize} samples, and across the whole run`} />
+        <SectionHead title="How well each model is predicting" hint={`Large figure: the whole run. Small figure: only the last ${windowSize} rows`} />
         <MetricGrid>
           <MetricCard
-            label="Accuracy — adaptive pipeline"
+            label="Right answers — keeps learning"
             explain="accuracy"
             tone="accent"
-            value={pct(latest("adaptive", "accuracy"))}
-            sub={`${pct(scores["adaptive"]?.accuracy)} across the whole run`}
+            value={pct(scores["adaptive"]?.accuracy)}
+            sub={`${pct(latest("adaptive", "accuracy"))} over the last ${windowSize} rows`}
           />
           <MetricCard
-            label="Accuracy — static baseline"
+            label="Right answers — trained once"
             explain="staticMethod"
-            value={pct(latest("static", "accuracy"))}
-            sub={`${pct(scores["static"]?.accuracy)} across the whole run`}
+            value={pct(scores["static"]?.accuracy)}
+            sub={`${pct(latest("static", "accuracy"))} over the last ${windowSize} rows`}
           />
           <MetricCard
-            label="F1 — adaptive pipeline"
+            label="Balanced score (F1) — keeps learning"
             explain="f1"
-            value={pct(latest("adaptive", "f1"))}
-            sub={`${pct(scores["adaptive"]?.f1)} across the whole run`}
+            value={pct(scores["adaptive"]?.f1)}
+            sub={`${pct(latest("adaptive", "f1"))} over the last ${windowSize} rows`}
           />
         </MetricGrid>
 
         <div className="stat-strip" style={{ marginTop: 4 }}>
           <div>
             <span className="k">
-              Processing time <ExplainButton id="latency" />
+              Time per row, average <ExplainButton id="latency" />
             </span>
             <span className="v">
               {meanService != null ? (meanService / 1000).toFixed(1) : DASH}
@@ -565,7 +602,7 @@ export default function Live() {
           </div>
           <div>
             <span className="k">
-              p95 <ExplainButton id="p95" />
+              Time per row, slow cases <ExplainButton id="p95" />
             </span>
             <span className="v">
               {p95Service != null ? (p95Service / 1000).toFixed(1) : DASH}

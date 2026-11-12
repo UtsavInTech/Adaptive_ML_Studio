@@ -18,7 +18,7 @@ const fixed = (value: number | null | undefined, digits = 2) => (value == null |
 function TierCell({ row }: { row: TestbedRow }) {
   return (
     <div className="cell-sub">
-      {row.tier}
+      {row.tierLabel}
       {row.simulated && <span className="tag sim tiny-tag">simulated · placeholder budgets</span>}
     </div>
   );
@@ -53,6 +53,9 @@ export default function TestbedResults({ manifest, trials }: { manifest: Manifes
   });
   const periodRows = inGroup.find((r) => r.periods?.length)?.periods ?? [];
   const joints = rows.filter((r) => r.controller);
+  // The time budget of a device tier, known from any controller that ran under it.
+  const budgetOf = (row: TestbedRow) =>
+    rows.find((r) => r.tier === row.tier && r.controller?.budgets?.cpu_us_per_row != null)?.controller?.budgets?.cpu_us_per_row ?? null;
 
   const groupPicker = groups.length > 1 && (
     <select value={chosen} onChange={(e) => setGroup(e.target.value)} aria-label="Tier and seed shown">
@@ -73,20 +76,56 @@ export default function TestbedResults({ manifest, trials }: { manifest: Manifes
       )}
 
       <section className="stack tight">
-        <SectionHead title="Scores and cost per method and tier" hint="after the warm-up · measurements, not a ranking" />
+        <SectionHead title="In plain words" hint="what each method did on these connections" />
+        <div className="plain-grid">
+          {rows.map((row) => {
+            const budget = budgetOf(row);
+            const over = budget != null && row.meanUs != null ? row.meanUs / budget - 1 : null;
+            return (
+              <article className={`plain-card${row.method === "effort" ? " ours" : ""}`} key={`plain-${rowKey(row)}`}>
+                <h3>{methodLabel(row.method)}</h3>
+                <p className="plain-tier">{row.tierLabel}{severalSeeds ? ` · seed ${row.seed}` : ""}</p>
+                <dl>
+                  <div><dt>Attacks caught</dt><dd>{pct(row.recall, 1)}</dd></div>
+                  <div><dt>False alarms</dt><dd>{pct(row.falseAlarm, 2)}</dd></div>
+                  <div>
+                    <dt>Time per connection</dt>
+                    <dd>
+                      {row.meanUs == null ? DASH : `${row.meanUs.toFixed(0)} µs`}
+                      {over != null && (
+                        <span className={`badge ${over > 0.05 ? "warn" : "ok"}`}>
+                          {over > 0.05 ? `${Math.round(over * 100)} % over budget` : over > 0 ? "at budget" : "within budget"}
+                        </span>
+                      )}
+                    </dd>
+                  </div>
+                </dl>
+              </article>
+            );
+          })}
+        </div>
+        <p className="small muted">
+          Attacks caught: the share of attack connections the method flagged. False alarms: the share of normal connections it
+          flagged by mistake. Time per connection: the computing time it used, compared with the device's budget where one applies.
+          {rows[0]?.noChangeAccuracy != null && ` Simply repeating the previous answer is right ${pct(rows[0].noChangeAccuracy, 1)} of the time on these connections, which is why accuracy alone is not used here.`}
+        </p>
+      </section>
+
+      <section className="stack tight">
+        <SectionHead title="All scores, per method and device" hint="after the warm-up · measurements, not a ranking" />
         <Panel bodyClass="flush">
           <div className="table-scroll">
             <table className="table">
               <thead>
                 <tr>
-                  <th><span className="th-inner">Method · tier</span></th>
+                  <th><span className="th-inner">Method · device</span></th>
                   <th><span className="th-inner">Accuracy <ExplainButton id="accuracy" /></span></th>
-                  <th><span className="th-inner">κ-temporal <ExplainButton id="kappaTemporal" /></span></th>
-                  <th><span className="th-inner">Macro-F1 <ExplainButton id="macroF1" /></span></th>
-                  <th><span className="th-inner">Attack recall <ExplainButton id="attackRecall" /></span></th>
+                  <th><span className="th-inner">Score above copying (κ-temporal) <ExplainButton id="kappaTemporal" /></span></th>
+                  <th><span className="th-inner">Balanced score (macro-F1) <ExplainButton id="macroF1" /></span></th>
+                  <th><span className="th-inner">Attacks caught <ExplainButton id="attackRecall" /></span></th>
                   <th><span className="th-inner">False alarms <ExplainButton id="falseAlarm" /></span></th>
-                  <th><span className="th-inner">Mean µs / row <ExplainButton id="latency" /></span></th>
-                  <th><span className="th-inner">p99 µs / row <ExplainButton id="p99" /></span></th>
+                  <th><span className="th-inner">Time per connection, µs <ExplainButton id="latency" /></span></th>
+                  <th><span className="th-inner">Slowest 1 %, µs <ExplainButton id="p99" /></span></th>
                 </tr>
               </thead>
               <tbody>
@@ -110,8 +149,8 @@ export default function TestbedResults({ manifest, trials }: { manifest: Manifes
             </table>
           </div>
           <p className="tiny muted" style={{ padding: "10px 16px", margin: 0 }}>
-            κ-temporal is the gain over repeating the previous row's label: 0 means no better than copying it, below 0 means
-            worse.{rows[0]?.noChangeAccuracy != null && ` Copying the previous label scores ${pct(rows[0].noChangeAccuracy, 2)} on these rows.`}{" "}
+            Score above copying: 0 means no better than repeating the previous answer, 1 means perfect, below 0 means
+            worse than copying.{rows[0]?.noChangeAccuracy != null && ` Copying the previous label scores ${pct(rows[0].noChangeAccuracy, 2)} on these rows.`}{" "}
             One run, one machine: differences between rows can include run-to-run variation, especially for methods whose
             behaviour depends on measured time.
           </p>
@@ -120,7 +159,7 @@ export default function TestbedResults({ manifest, trials }: { manifest: Manifes
 
       {rows.some((r) => r.costTerms) && (
         <section className="stack tight">
-          <SectionHead title="Where the time per row goes" explain="costTerms" hint="mean µs per row, split into the review's cost terms" />
+          <SectionHead title="Where the time per connection goes" explain="costTerms" hint="mean µs per connection, split by pipeline stage (the review's cost terms)" />
           <Panel>
             <div className="cost-bars">
               {rows.filter((r) => r.costTerms).map((row) => {
@@ -129,7 +168,7 @@ export default function TestbedResults({ manifest, trials }: { manifest: Manifes
                   <div className="cost-bar-row" key={`cost-${rowKey(row)}`}>
                     <span className="cost-who">
                       {methodLabel(row.method)}
-                      <small>{row.tier}{row.simulated ? " · simulated" : ""}{severalSeeds ? ` · seed ${row.seed}` : ""}</small>
+                      <small>{row.tierLabel}{severalSeeds ? ` · seed ${row.seed}` : ""}</small>
                     </span>
                     <span className="cost-track" role="img" aria-label={`${methodLabel(row.method)}: ${COST_TERMS.map((k) => `${k} ${num(row.costTerms?.[k] ?? null, 1)} µs`).join(", ")}`}>
                       {COST_TERMS.map((k, i) => {
@@ -150,8 +189,9 @@ export default function TestbedResults({ manifest, trials }: { manifest: Manifes
               ))}
             </div>
             <p className="chart-note">
-              C_comm (sending data elsewhere) does not apply: everything runs on one machine. “Unattributed” is measured time
-              that no term accounts for. Hover a segment for its value.
+              Blue: getting the data ready. Green: making the prediction. Orange: learning from the answer. Grey: drift checks,
+              controller and time not attributed to a stage. Hover a block for its value. (C_comm, sending data elsewhere, does
+              not apply: everything runs on one machine.)
             </p>
           </Panel>
         </section>
@@ -249,7 +289,7 @@ export default function TestbedResults({ manifest, trials }: { manifest: Manifes
 
       {joints.length > 0 && (
         <section className="stack tight">
-          <SectionHead title="What the joint controller decided" hint="rule actions and resource checks, as logged" />
+          <SectionHead title="What each controller did" hint="its actions and resource checks, as logged" />
           <div className="controller-grid">
             {joints.map((row) => <ControllerCard key={`ctl-${rowKey(row)}`} row={row} severalSeeds={severalSeeds} />)}
           </div>
@@ -267,11 +307,11 @@ function ControllerCard({ row, severalSeeds }: { row: TestbedRow; severalSeeds: 
   const peakKb = c.peak_model_bytes != null ? c.peak_model_bytes / 1024 : null;
   const share = (a: number | null | undefined, b: number | null | undefined) => (a != null && b ? a / b : null);
   return (
-    <Panel title={<>{methodLabel(row.method)} <span className="muted small">· {row.tier}{severalSeeds ? ` · seed ${row.seed}` : ""}</span></>}>
+    <Panel title={<>{methodLabel(row.method)} <span className="muted small">· {row.tierLabel}{severalSeeds ? ` · seed ${row.seed}` : ""}</span></>}>
       <div className="row wrap" style={{ gap: 6, marginBottom: 10 }}>
         {row.simulated && <span className="tag sim">simulated · placeholder budgets</span>}
-        <span className="tag">rules on: {(c.rules ?? []).join(", ") || "none"}</span>
-        <span className="tag">resource checks {c.resource_gating === false ? "off" : "on"}</span>
+        {row.method === "joint" && <span className="tag">rules on: {(c.rules ?? []).join(", ") || "none"}</span>}
+        {row.method === "joint" && <span className="tag">resource checks {c.resource_gating === false ? "off" : "on"}</span>}
       </div>
       <dl className="kv">
         <dt>Decisions logged</dt><dd>{num(c.decisions ?? null)}</dd>
@@ -282,9 +322,9 @@ function ControllerCard({ row, severalSeeds }: { row: TestbedRow; severalSeeds: 
         <dt>Peak model size</dt><dd>{kb(peakKb)}{budgetKb != null ? ` · budget ${kb(budgetKb)}${peakKb != null ? ` (${(peakKb / budgetKb).toFixed(2)}×)` : ""}` : " · no memory budget"}</dd>
         <dt>Memory checks over budget</dt>
         <dd>{c.memory_probes_over_budget == null || !budgetKb ? DASH : `${samples(c.memory_probes_over_budget)} of ${samples(c.memory_probes ?? null)} (${pct(share(c.memory_probes_over_budget, c.memory_probes), 1)})`}</dd>
-        <dt>CPU budget per row</dt>
+        <dt>Time budget per connection</dt>
         <dd>{c.budgets?.cpu_us_per_row == null ? "none" : `${us(c.budgets.cpu_us_per_row, 0)}${c.budgets.cpu_follows_arrival_rate ? `, follows the arrival rate (lowest ${us(c.budgets.cpu_us_per_row_lowest ?? null, 0)})` : ""}`}</dd>
-        <dt>Per-row deadline</dt><dd>{c.budgets?.deadline_ms == null ? "none" : `${c.budgets.deadline_ms} ms`}</dd>
+        <dt>Longest allowed for one connection</dt><dd>{c.budgets?.deadline_ms == null ? "none" : `${c.budgets.deadline_ms} ms`}</dd>
       </dl>
       {actions.length ? (
         <table className="table compact-table" style={{ marginTop: 12, width: "100%" }}>
@@ -296,7 +336,7 @@ function ControllerCard({ row, severalSeeds }: { row: TestbedRow; severalSeeds: 
             })}
           </tbody>
         </table>
-      ) : <p className="small muted">No rule fired in this trial.</p>}
+      ) : <p className="small muted">The controller took no action in this trial.</p>}
     </Panel>
   );
 }

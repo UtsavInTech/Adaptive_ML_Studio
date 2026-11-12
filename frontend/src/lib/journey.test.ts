@@ -14,3 +14,12 @@ describe("walkthrough", () => {
     expect(journeyIndex({ page: "findings" })).toBe(4);
   });
 });
+
+describe("a saved run belongs to the step it was opened from", () => {
+  it("is part of the Testbed when opened from there, otherwise Experiments", () => {
+    const run = { page: "experiment", id: "x" } as const;
+    expect(JOURNEY[journeyIndex(run, "testbed")].page).toBe("testbed");
+    expect(JOURNEY[journeyIndex(run, "experiments")].page).toBe("experiments");
+    expect(JOURNEY[journeyIndex(run)].page).toBe("experiments");
+  });
+});

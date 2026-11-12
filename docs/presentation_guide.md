@@ -1,7 +1,7 @@
 # Presentation guide
 
 How to walk a panel through the project in the app, what to say on each screen, and the questions
-to expect. The app's navigation is numbered 1–6 in the same order as this guide, and every page ends
+to expect. On screen the methods are named "Review's rules (R1–R5)" and "New controller (ours)". The app's navigation is numbered 1–6 in the same order as this guide, and every page ends
 with a "Next" button, so you never have to think about where to go.
 
 Total time: about 10 minutes, plus questions. Numbers quoted here are from the saved reports as of
@@ -36,22 +36,28 @@ screen, not from memory.
 
 ---
 
-## Step 1 · Home — the problem (about 1.5 minutes)
+## Step 1 · Home — the real case (about 1.5 minutes)
 
-**Show:** the Home page. Scroll slowly: the curve at the top, "The problem", then "From a review
-paper to a tested system", then "The project in six steps".
+**Show:** the Home page. Scroll slowly: the headline, "The real-world case", "The problem", "From a
+review paper to a tested system", "The main result", then "The project in six steps".
 
 **Say:**
 
-- "This is AdaptiveML Studio. It is the tool we built to study one problem: a machine-learning model
-  is trained on past data, but the world keeps changing. When the data changes, the model keeps
-  applying an old rule, and its accuracy drops without any warning. This is called concept drift."
-- (At the curve) "The dashed line is a model trained once. The solid line is a model that adapts.
-  This picture is only an illustration; the real measurements come next."
-- (At "From a review paper to a tested system") "Our review paper surveyed twenty studies. We found
-  that the pieces exist separately, and that most are judged only on accuracy. The review proposed
-  five decision rules for adapting to changing data and to limited device resources together, and
-  it said clearly that they were not tested. This project tests them."
+- "Think of the small box that connects a home or an office to the internet. It sees every
+  connection, so it is the natural place to stop a cyber-attack. But it has a slow processor, and the
+  attacks change from day to day."
+- (At the four cards) "A model trained once goes out of date. To stay useful it must keep learning on
+  the device itself, and learning costs computing time the device barely has. Our question is how to
+  divide that limited time between checking connections and keeping the model up to date."
+- (At the curve or "The problem") "This is what happens without updating: the data changes, and the
+  model keeps applying an old rule. This is called concept drift."
+- (At "From a review paper to a tested system") "Our review paper proposed five decision rules for
+  this and said clearly that they were not tested. This project builds and tests them, and then
+  proposes a better controller."
+- (At "The main result") "This is the result in one picture. The dashed line is the device's budget.
+  The rules from our review go over it. Our controller stays inside it and catches the same share of
+  attacks. These numbers are from two days we did not use to design it." Read the sentence under the
+  chart from the screen.
 - (At the six steps) "The app follows the order of our work. I will go through it step by step."
 
 **Click:** *Next: Live demo* at the bottom.
@@ -111,12 +117,15 @@ runs (about 40 seconds), talk. When it finishes, click **View results**.
 
 **Say on the results:**
 
-- "Look at accuracy first: even copying the previous answer scores above 90 percent, because attacks
-  come in long runs. So accuracy alone is misleading here."
-- "This column, κ-temporal, is the gain over copying. Zero means no better than copying; one is
-  perfect. That is the score we use."
-- "Below, the time per connection is split by pipeline stage, and for the controllers you can see
-  which rule fired and how often."
+- (At "In plain words") "Three cards, one per method. Each shows the share of attacks it caught, its
+  false alarms, and the computing time it used against the device's budget."
+- "Copying the previous answer catches far fewer attacks. The rules and our controller both catch
+  about 95 percent here; look at the time each one needs."
+- "Below is the full table. The score above copying is zero when a method is no better than copying
+  and one when it is perfect. That is the score we rank by, because plain accuracy is misleading on
+  this data."
+- "Further down, the time per connection is split by pipeline stage, and you can see what each
+  controller did and how often."
 
 **Do not** promise specific numbers for the live run: it is one short run, and timings change with
 the laptop's load. The recorded results are on the next page.
@@ -125,9 +134,13 @@ the laptop's load. The recorded results are on the next page.
 
 ## Step 5 · Findings — what we found (about 2.5 minutes)
 
-**Show:** the Findings page. One finding per scroll.
+**Show:** the Findings page. Start at "The main result", then one finding per scroll.
 
 **Say:**
+
+- **The main result.** "Two device sizes, side by side. On both, the rules from our review overshoot
+  the budget and our controller does not. On the small device the two make about the same number of
+  wrong decisions; on the very small one ours makes fewer." Read the numbers from the screen.
 
 - **Finding 1.** "On the whole week, copying the previous answer is right 98.7 percent of the time.
   All learning methods look the same on accuracy. On gain over copying they separate clearly, and
@@ -135,12 +148,10 @@ the laptop's load. The recorded results are on the next page.
 - **Finding 2.** "Our review said it was an open question which stage of the pipeline costs the
   most. We measured it: preparing the data and updating the model take about three quarters of the
   time. Checking for drift is cheap."
-- **Finding 3.** "The five rules from the review keep quality, but on the small device they overshoot
-  the time budget by about 60 percent. Our new controller does less work on easy connections and more
-  during attacks, and stays at or near the budget. On Wednesday, the day we designed it on, it made
-  27 percent fewer errors on the small device. On Thursday and Friday, which we did not use in the
-  design, it made equal or fewer errors on both devices, in about half the time. So the claim that
-  holds is: equal or fewer errors, at the budget."
+- **Finding 3.** "This is the evidence behind the main result, day by day. We designed the controller
+  on Wednesday, so Wednesday is not a clean test. Thursday and Friday were not used in the design;
+  the main result is built from those two days. Open the tables if you want every day and device
+  separately."
 - **Finding 4.** "We also report what does not work. In real life the true answer arrives late. When
   it arrives 1,000 connections late, both controllers do badly and simple continuous learning does
   much better. This is our main open problem."

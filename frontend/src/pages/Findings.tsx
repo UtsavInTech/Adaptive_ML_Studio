@@ -6,6 +6,7 @@
 
 import { useEffect, useState } from "react";
 
+import Headline from "../components/Headline";
 import { EmptyState, Loading, Panel } from "../components/ui";
 import { api, type Report } from "../lib/api";
 import { methodLabel } from "../lib/format";
@@ -13,14 +14,13 @@ import { href } from "../lib/router";
 
 type Row = Record<string, string>;
 
-const COST_TERMS: { key: string; label: string; color: string }[] = [
-  { key: "C_pre", label: "Preparing the data", color: "#2f7fd1" },
-  { key: "C_fs", label: "Choosing features", color: "#7b61c9" },
-  { key: "C_inf", label: "Predicting", color: "#1d9e75" },
-  { key: "C_drift", label: "Checking for drift", color: "#d6a11a" },
-  { key: "C_upd", label: "Updating the model", color: "#d8623a" },
-  { key: "C_ret", label: "Replacing the model", color: "#b0457a" },
-  { key: "C_ctrl", label: "Controller decisions", color: "#7d8794" },
+/** Pipeline stages grouped by what they are for, so the chart needs four colours instead of seven.
+ *  Blue = getting the data ready, orange = learning, green = the prediction itself, grey = overhead. */
+const COST_GROUPS: { label: string; keys: string[]; color: string }[] = [
+  { label: "Getting the data ready", keys: ["C_pre", "C_fs"], color: "#2f6fb5" },
+  { label: "Making the prediction", keys: ["C_inf"], color: "#1d9e75" },
+  { label: "Learning from the answer", keys: ["C_upd", "C_ret"], color: "#d9772b" },
+  { label: "Drift checks and control", keys: ["C_drift", "C_ctrl"], color: "#8a94a1" },
 ];
 
 function settings(report: Report | null): Row[] {
@@ -34,6 +34,8 @@ const n = (value: string | undefined): number | null => {
   const parsed = Number(value);
   return Number.isFinite(parsed) ? parsed : null;
 };
+
+const groupUs = (row: Row, keys: string[]): number => keys.reduce((sum, key) => sum + (n(row[key]) ?? 0), 0);
 
 const fixed = (value: number | null, digits: number): string => (value == null ? "—" : value.toFixed(digits));
 const whole = (value: number | null): string => (value == null ? "—" : Math.round(value).toLocaleString());
@@ -79,11 +81,13 @@ function Budget({ row }: { row: Row }) {
 }
 
 function Finding({
-  number, title, reading, source, children,
+  number, title, reading, matters, source, children,
 }: {
   number: number;
   title: string;
   reading: string;
+  /** What the finding means for someone running this on a real device. */
+  matters: string;
   source: { report: string; label: string };
   children: React.ReactNode;
 }) {
@@ -95,6 +99,7 @@ function Finding({
         <p className="finding-reading">{reading}</p>
       </header>
       {children}
+      <p className="finding-matters"><strong>Why it matters.</strong> {matters}</p>
       <p className="tiny muted finding-source">
         Numbers read from the saved report <a href={href({ page: "testbed", report: source.report })}>{source.label}</a>.
       </p>
@@ -138,12 +143,15 @@ export default function Findings() {
 
   const costRows = ["incremental", "joint", "effort"]
     .map((method) => pick("core", method, "small_sim"))
-    .filter((r): r is Row => !!r && COST_TERMS.some((t) => (n(r[t.key]) ?? 0) > 0));
-  const costMax = Math.max(1, ...costRows.map((r) => COST_TERMS.reduce((sum, t) => sum + (n(r[t.key]) ?? 0), 0)));
+    .filter((r): r is Row => !!r && COST_GROUPS.some((g) => groupUs(r, g.keys) > 0));
+  const totalUs = (r: Row) => COST_GROUPS.reduce((sum, g) => sum + groupUs(r, g.keys), 0);
+  const costMax = Math.max(1, ...costRows.map(totalUs));
+  // Share of the time that goes to the two big groups, for the method with no controller.
+  const bigShare = costRows[0] ? (groupUs(costRows[0], COST_GROUPS[0].keys) + groupUs(costRows[0], COST_GROUPS[2].keys)) / totalUs(costRows[0]) : null;
 
   const tiers: { tier: string; label: string }[] = [
     { tier: "small_sim", label: "Small device (simulated): 100 µs per connection" },
-    { tier: "micro_sim", label: "Micro device (simulated): 50 µs per connection" },
+    { tier: "micro_sim", label: "Very small device (simulated): 50 µs per connection" },
   ];
   const delayed = ["incremental", "joint", "effort"].map((m) => pick("labels_delay1000", m, "small_sim")).filter((r): r is Row => !!r);
 
@@ -151,15 +159,15 @@ export default function Findings() {
     <main className="page findings">
       <header className="findings-head">
         <span className="eyebrow">Step 5 · What we found</span>
-        <h1>Four findings, and what is still open.</h1>
+        <h1>What we found.</h1>
         <p className="lead">
-          Our review paper proposed, but did not test, a system that adapts to changing data and to a device's limited
-          resources at the same time. We built it, ran it on a week of real network traffic with dated cyber-attacks,
-          and measured what happened.
+          We built the system our review paper proposed, ran it on a week of real network traffic with dated
+          cyber-attacks, and measured it. The main result comes first; the four findings behind it follow, including
+          the one that does not work yet.
         </p>
         <p className="small muted">
-          This page is the team's reading of the measurements. Every number below is read from a saved report when the
-          page loads. Device tiers are simulated with placeholder budgets; most figures come from one run.
+          Every number on this page is read from a saved report when the page loads. Device limits are simulated in
+          software with placeholder budgets.
         </p>
       </header>
 
@@ -171,15 +179,31 @@ export default function Findings() {
         />
       )}
 
+      {later.length > 0 && (
+        <section className="finding main-result">
+          <header className="finding-head">
+            <span className="finding-number">The main result</span>
+            <h2>Equal or better protection, for much less computing time.</h2>
+            <p className="finding-reading">
+              Two ways of running the same detector on a small device. The rules from our review keep learning at full
+              effort and overshoot the time the device has. Our new controller works less on ordinary traffic and more
+              when something changes. The dashed line is the device's budget.
+            </p>
+          </header>
+          <Headline rows={later} />
+        </section>
+      )}
+
       {week.length > 0 && (
         <Finding
           number={1}
           title="Accuracy cannot rank methods on this data."
           reading={
             copyAccuracy != null
-              ? `Repeating the previous answer, without looking at the connection at all, is right ${fixed(copyAccuracy * 100, 1)} % of the time, because attacks arrive in long runs. So we score each method by its gain over that copycat (κ-temporal): 0 means no better than copying, 1 means perfect.`
+              ? `Repeating the previous answer, without looking at the connection at all, is right ${fixed(copyAccuracy * 100, 1)} % of the time, because attacks arrive in long runs. So we score each method by how far it gets above copying: 0 means no better than copying, 1 means perfect. (The technical name is κ-temporal.)`
               : "Attacks arrive in long runs, so copying the previous answer already scores very high. We score each method by its gain over that copycat (κ-temporal)."
           }
+          matters="A product that advertises 99 % accuracy on this kind of traffic may have learned nothing. Any fair comparison needs a score that copying cannot win."
           source={{ report: "phase2", label: "phase2 — whole week, 2.1 million connections" }}
         >
           <Panel bodyClass="flush">
@@ -188,7 +212,7 @@ export default function Findings() {
                 <tr>
                   <th>Method</th>
                   <th className="num">Accuracy</th>
-                  <th>Gain over copying (κ-temporal)</th>
+                  <th>Score above copying, 0 to 1</th>
                   <th className="num">Time per connection</th>
                 </tr>
               </thead>
@@ -222,25 +246,28 @@ export default function Findings() {
           number={2}
           title="Two stages take most of the time: preparing the data and updating the model."
           reading="Our review paper said that which stage dominates the cost was an open question. Measured stage by stage in the same run, checking for drift is cheap; preparing the inputs and updating the model are where the time goes."
+          matters="To save computing time on a small device, these two stages are where to look. Making drift detection faster would save almost nothing."
           source={{ report: "effort", label: "effort — Wednesday's attacks, 300,000 connections" }}
         >
           <Panel>
             <div className="cost-bars">
               {costRows.map((r) => {
-                const total = COST_TERMS.reduce((sum, t) => sum + (n(r[t.key]) ?? 0), 0);
+                const total = totalUs(r);
                 return (
                   <div className="cost-row" key={r.method}>
                     <span className="cost-name">{methodLabel(r.method)}</span>
                     <span className="cost-track">
                       <span className="cost-fill" style={{ width: `${(total / costMax) * 100}%` }}>
-                        {COST_TERMS.map((t) => {
-                          const value = n(r[t.key]) ?? 0;
+                        {COST_GROUPS.map((g) => {
+                          const value = groupUs(r, g.keys);
                           return value > 0 ? (
                             <span
-                              key={t.key}
-                              style={{ width: `${(value / total) * 100}%`, background: t.color }}
-                              title={`${t.label}: ${value.toFixed(1)} µs (${Math.round((value / total) * 100)} %)`}
-                            />
+                              key={g.label}
+                              style={{ width: `${(value / total) * 100}%`, background: g.color }}
+                              title={`${g.label}: ${value.toFixed(0)} µs (${Math.round((value / total) * 100)} %)`}
+                            >
+                              {value / costMax > 0.07 ? Math.round(value) : ""}
+                            </span>
                           ) : null;
                         })}
                       </span>
@@ -251,17 +278,18 @@ export default function Findings() {
               })}
             </div>
             <div className="cost-legend">
-              {COST_TERMS.map((t) => (
-                <span key={t.key}>
-                  <i style={{ background: t.color }} />
-                  {t.label}
+              {COST_GROUPS.map((g) => (
+                <span key={g.label}>
+                  <i style={{ background: g.color }} />
+                  {g.label}
                 </span>
               ))}
             </div>
           </Panel>
           <p className="small muted">
-            Time per connection on the simulated small device, split by stage. Hover a segment for its value. The new
-            controller (bottom bar) spends less on exactly those two stages.
+            Microseconds per connection on the simulated small device; the number in each block is that part's time.
+            {bigShare != null && ` Without a controller, getting the data ready and learning take ${Math.round(bigShare * 100)} % of the time.`}{" "}
+            The new controller (bottom bar) is shorter because it spends less on exactly those two parts.
           </p>
         </Finding>
       )}
@@ -269,10 +297,14 @@ export default function Findings() {
       {wednesday.length > 0 && (
         <Finding
           number={3}
-          title="The review's rules hold quality but overshoot the budget. The new controller stays near it."
-          reading="The five rules from the review (R1–R5) are the baseline. Our new controller does less work on easy connections and more during attacks, and holds the device's time budget on average. It was designed using Wednesday's traffic, shown first. The second set of tables is the check: Thursday and Friday, which were not used in the design."
+          title="The evidence: every day and device, one by one."
+          reading="This is the evidence behind the main result. The controller was designed using Wednesday's traffic, so Wednesday is not a clean test. Thursday and Friday were not used in the design; those are the days the main result is built from. The tables give every day and device separately, with the uncertainty of each score."
+          matters="A device that overshoots its time budget falls behind the traffic and starts missing connections. Staying inside the budget without losing protection is what makes the method usable."
           source={{ report: "effort", label: "effort — Wednesday's attacks, 300,000 connections" }}
         >
+          <details className="finding-details">
+            <summary>Show the table for each day and device</summary>
+            <h3 className="finding-sub">Wednesday, the day the controller was designed on</h3>
           {tiers.map(({ tier, label }) => {
             const rows = ["incremental", "joint", "effort"].map((m) => pick("core", m, tier)).filter((r): r is Row => !!r);
             if (!rows.length) return null;
@@ -282,8 +314,8 @@ export default function Findings() {
                   <thead>
                     <tr>
                       <th>Method</th>
-                      <th className="num">Errors</th>
-                      <th>Gain over copying (κ-temporal) [95 % interval]</th>
+                      <th className="num">Wrong decisions</th>
+                      <th>Score above copying, 0 to 1 [95 % interval]</th>
                       <th>Time per connection</th>
                     </tr>
                   </thead>
@@ -310,7 +342,7 @@ export default function Findings() {
           })}
           {later.length > 0 && (
             <>
-              <h3 className="finding-sub">Checked on two days not used in the design</h3>
+              <h3 className="finding-sub">Thursday and Friday, not used in the design</h3>
               {days.map(({ setting, label }) =>
                 tiers.map(({ tier, label: tierLabel }) => {
                   const rows = ["joint", "effort"]
@@ -323,8 +355,8 @@ export default function Findings() {
                         <thead>
                           <tr>
                             <th>Method</th>
-                            <th className="num">Errors</th>
-                            <th>Gain over copying (κ-temporal) [95 % interval]</th>
+                            <th className="num">Wrong decisions</th>
+                            <th>Score above copying, 0 to 1 [95 % interval]</th>
                             <th>Time per connection</th>
                           </tr>
                         </thead>
@@ -358,6 +390,7 @@ export default function Findings() {
               </p>
             </>
           )}
+          </details>
           <p className="small muted">
             Incremental learning has no controller and no budget; its time is shown for comparison. The most accurate
             method from the literature (Adaptive Random Forest) makes{" "}
@@ -372,6 +405,7 @@ export default function Findings() {
           number={4}
           title="Not solved: when the true answer arrives late, both controllers do badly."
           reading="In practice nobody tells the system at once whether a connection was an attack. When that answer arrives 1,000 connections late, both controllers reset their model at the wrong moments. Plain continuous learning, which never resets, does far better. This is the main open problem."
+          matters="A real device learns whether a connection was an attack only later, if at all. Until this is solved, the controller is not ready for real deployment."
           source={{ report: "effort", label: "effort — Wednesday's attacks, answers 1,000 connections late" }}
         >
           <Panel bodyClass="flush">
@@ -379,8 +413,8 @@ export default function Findings() {
               <thead>
                 <tr>
                   <th>Method</th>
-                  <th className="num">Errors, answers on time</th>
-                  <th className="num">Errors, answers 1,000 late</th>
+                  <th className="num">Wrong decisions, answers on time</th>
+                  <th className="num">Wrong decisions, answers 1,000 late</th>
                 </tr>
               </thead>
               <tbody>

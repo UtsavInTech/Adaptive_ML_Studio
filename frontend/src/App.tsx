@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ExplainLayer } from "./components/Explain";
 import Logo from "./components/Logo";
 import { Badge } from "./components/ui";
-import { JOURNEY, journeyIndex } from "./lib/journey";
+import { JOURNEY, journeyIndex, type JourneyPage } from "./lib/journey";
 import { store, useLive } from "./lib/live";
 import { setPresentation, usePresentation } from "./lib/present";
 import { href, useRoute } from "./lib/router";
@@ -95,7 +95,10 @@ export default function App() {
   const floating = useScrolledPastTop();
   /** Home is the explanation; the other three are the instrument. The top bar is quieter on Home. */
   const lab = route.page !== "home";
-  const step = journeyIndex(route);
+  // Remember the last section visited, so a saved run opened from the Testbed stays in step 4.
+  const cameFrom = useRef<JourneyPage>("experiments");
+  if (route.page !== "experiment") cameFrom.current = route.page;
+  const step = journeyIndex(route, cameFrom.current);
 
   // A hash change keeps the scroll position, which would drop a visitor into the middle of the next
   // page. Every page starts at its own beginning.

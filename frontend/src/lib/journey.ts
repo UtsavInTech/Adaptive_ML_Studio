@@ -22,7 +22,7 @@ export const JOURNEY: JourneyStep[] = [
     page: "home",
     label: "Home",
     title: "The problem",
-    shows: "Why a model trained once goes wrong when its data changes, and what this project set out to test.",
+    shows: "The real case: a small device that must catch cyber-attacks as they change, with very little computing time.",
   },
   {
     page: "live",
@@ -46,7 +46,7 @@ export const JOURNEY: JourneyStep[] = [
     page: "findings",
     label: "Findings",
     title: "What we found",
-    shows: "The measured answers: how to judge methods on this data, where the time goes, how the review's rules did, and what the new controller changes.",
+    shows: "The main result first: equal or better protection for much less computing time. Then the four findings behind it, including the one that does not work yet.",
   },
   {
     page: "method",
@@ -56,12 +56,14 @@ export const JOURNEY: JourneyStep[] = [
   },
 ];
 
-/** The journey page a route belongs to; a single saved run is part of Experiments. */
-export function journeyPage(route: Route): JourneyPage {
-  return route.page === "experiment" ? "experiments" : route.page;
+/** The journey page a route belongs to. A single saved run belongs to the step it was opened from:
+ *  the Testbed when the visitor came from there, otherwise Experiments. */
+export function journeyPage(route: Route, cameFrom?: JourneyPage): JourneyPage {
+  if (route.page !== "experiment") return route.page;
+  return cameFrom === "testbed" ? "testbed" : "experiments";
 }
 
-export function journeyIndex(route: Route): number {
-  const page = journeyPage(route);
+export function journeyIndex(route: Route, cameFrom?: JourneyPage): number {
+  const page = journeyPage(route, cameFrom);
   return JOURNEY.findIndex((step) => step.page === page);
 }

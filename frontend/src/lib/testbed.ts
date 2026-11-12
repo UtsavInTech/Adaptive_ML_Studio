@@ -174,14 +174,14 @@ export function testbedRows(manifest: Manifest, trials: Record<string, TrialData
 export const COST_TERMS = ["C_pre", "C_fs", "C_inf", "C_drift", "C_upd", "C_ret", "C_ctrl", "unattributed"] as const;
 
 export const COST_LABELS: Record<(typeof COST_TERMS)[number], string> = {
-  C_pre: "C_pre · preprocessing",
-  C_fs: "C_fs · feature selection",
-  C_inf: "C_inf · prediction",
-  C_drift: "C_drift · drift detection",
-  C_upd: "C_upd · learning",
-  C_ret: "C_ret · retraining",
-  C_ctrl: "C_ctrl · controller",
-  unattributed: "unattributed",
+  C_pre: "Preparing the data (C_pre)",
+  C_fs: "Choosing features (C_fs)",
+  C_inf: "Predicting (C_inf)",
+  C_drift: "Checking for drift (C_drift)",
+  C_upd: "Updating the model (C_upd)",
+  C_ret: "Replacing the model (C_ret)",
+  C_ctrl: "Controller decisions (C_ctrl)",
+  unattributed: "Not attributed to a stage",
 };
 
 /** Names of the controller's actions in words: "R5_SHRINK_MODEL_56_TO_28" → R5, "shrink model 56 to 28". */

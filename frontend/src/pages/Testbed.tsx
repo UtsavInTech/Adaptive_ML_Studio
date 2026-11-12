@@ -53,11 +53,12 @@ export default function Testbed({ report }: { report?: string }) {
   return (
     <div className="page testbed-page">
       <header className="lab-heading">
-        <span className="eyebrow">Research workspace / Testbed</span>
-        <h1>Research testbed</h1>
+        <span className="eyebrow">Step 4 · Testbed</span>
+        <h1>A real case: attacks on a small device</h1>
         <p>
-          Replay a large, real network-traffic stream through each method on simulated device tiers, with late or partial
-          labels, and read the measurements the paper's tables are built from.
+          The real case: one week of recorded network traffic, 2.1 million connections, with real cyber-attacks on known
+          days. Each method decides, connection by connection, attack or normal, under the time and memory limits of a small
+          device. The limits are simulated in software.
         </p>
       </header>
       <div ref={boardRef} className="board-slot" hidden={!job}>{job && <ExperimentBoard job={job} />}</div>
@@ -81,7 +82,7 @@ export default function Testbed({ report }: { report?: string }) {
             onStarted={() => { refresh(); boardRef.current?.scrollIntoView({ block: "start" }); }}
           />
         )}
-        {store.active && <p className="banner">A dataset replay is active on the Dataset test page. Stop it first: runs never share the processor.</p>}
+        {store.active && <p className="banner">A replay is active on the Live demo page. Stop it first: runs never share the processor.</p>}
       </div>
 
       <section hidden={tab !== "runs"} className="stack tight">

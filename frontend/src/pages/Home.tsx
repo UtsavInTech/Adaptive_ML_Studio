@@ -1,14 +1,11 @@
-/** Home — the explanation that has to land before the instrument makes any sense.
- *
- *  A visitor arriving here should understand, in about a minute of scrolling: what evolving data is,
- *  why a model trained once stops fitting it, what this pipeline does about that, what gets measured,
- *  and what the project does *not* claim. No measured value appears on this page: the numbers belong
- *  to a run, and a run belongs to the Live and Experiments screens.
+/** Home — step 1 of the walkthrough. A visitor should understand, in about a minute: the real case
+ *  (catching attacks on a small network device), why a model trained once stops working there, what
+ *  the project built and tested, and the main result. The result's numbers are read from the saved
+ *  held-out report; nothing on this page is typed in. Detail belongs to the Method page.
  */
 
-import { useRef } from "react";
-
 import { ExplainButton } from "../components/Explain";
+import Headline, { useHeldout } from "../components/Headline";
 import Reveal from "../components/Reveal";
 import RunPreview from "../components/RunPreview";
 import { JOURNEY } from "../lib/journey";
@@ -22,59 +19,27 @@ const PROBLEM_STEPS = [
   { k: "The model has to adapt", v: "Either someone notices and retrains it, or the pipeline handles it while it runs." },
 ];
 
-const PIPELINE = [
-  { k: "Data stream", v: "New observations arrive continuously, one at a time." },
-  { k: "Preprocessing", v: "Scaling and imputation statistics update as the stream evolves." },
-  { k: "Feature selection", v: "Feature relevance is re-estimated online and the most useful ones are kept." },
-  { k: "Prediction", v: "The current model predicts each sample before it is allowed to learn from it." },
-  { k: "Drift detection", v: "ADWIN watches for a sustained change in the model's own prediction error." },
-  { k: "Adaptation", v: "When drift is confirmed, a replacement model can be prepared and promoted." },
-  { k: "Monitoring", v: "Accuracy and the cost of every step are recorded throughout the run." },
-] as const;
-
-const MEASURES = [
+const CASE = [
   {
-    group: "Predictive performance",
-    why: "Whether the model still fits the data it is being asked about.",
-    items: [
-      { label: "Accuracy", explain: "accuracy" },
-      { label: "F1", explain: "f1" },
-    ],
+    k: "Where it runs",
+    title: "A small network device",
+    v: "A home router or an office gateway. It has a slow processor and little memory, and it must decide about every connection as it passes.",
   },
   {
-    group: "System performance",
-    why: "Whether it can keep up with the rate the stream actually arrives at.",
-    items: [
-      { label: "Processing time", explain: "latency" },
-      { label: "Throughput", explain: "throughput" },
-    ],
+    k: "What it decides",
+    title: "Normal, or an attack?",
+    v: "For each connection, one answer. Missing an attack is costly; so is raising alarms about normal traffic.",
   },
   {
-    group: "Resource use",
-    why: "What the pipeline costs to run — the limit on any constrained device.",
-    items: [
-      { label: "CPU", explain: "cpuPerSample" },
-      { label: "Memory", explain: "rss" },
-      { label: "Model size", explain: "modelSize" },
-    ],
+    k: "Why it is hard",
+    title: "The attacks keep changing",
+    v: "Monday's traffic does not look like Wednesday's. A model trained once goes out of date, so it has to keep learning on the device itself.",
   },
   {
-    group: "Adaptation",
-    why: "Whether the change was noticed, how late, and what the response was.",
-    items: [
-      { label: "Drift detection", explain: "adwin" },
-      { label: "Detection delay", explain: "detectionDelay" },
-      { label: "Model adaptation", explain: "adaptation" },
-    ],
+    k: "The catch",
+    title: "Learning costs computing time",
+    v: "Every update uses processor time the device barely has. Spend too much and it cannot keep up with the traffic.",
   },
-] as const;
-
-const EXISTING_WORK = [
-  "Adaptive preprocessing",
-  "Online feature selection",
-  "Drift detection",
-  "Incremental learning",
-  "Resource-aware and edge-oriented methods",
 ];
 
 const IMPLEMENTED = [
@@ -168,50 +133,76 @@ function StoryCurve() {
 }
 
 export default function Home() {
-  const how = useRef<HTMLDivElement>(null);
+  const heldout = useHeldout();
 
   return (
     <div className="home">
       <section className="home-hero">
         <div className="home-hero-text">
           <Reveal>
-            <span className="eyebrow">Adaptive ML for evolving data streams</span>
+            <span className="eyebrow">B.Tech research project · adaptive machine learning</span>
           </Reveal>
           <Reveal delay={40}>
             <h1 className="hero-type">
-              See a machine-learning model adapt as the data changes.
+              Catching cyber-attacks on a small device, when the attacks keep changing.
             </h1>
           </Reveal>
           <Reveal delay={80}>
             <p className="lead">
-              An experimental platform for studying adaptive machine learning under evolving data streams — from
-              concept drift and model adaptation to latency and resource constraints.
+              A model trained once goes out of date as the traffic changes. Keeping it up to date costs computing
+              time a small device does not have. We built a system that does both within the device's limits, and
+              tested it on a week of real network traffic.
             </p>
           </Reveal>
           <Reveal delay={120}>
             <div className="home-cta">
               <a className="btn primary lg" href={href({ page: "live" })}>
-                Explore the live system
+                Start the walkthrough
               </a>
-              <button
-                type="button"
-                className="btn lg quiet"
-                onClick={() => how.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
-              >
-                How it works
-              </button>
+              <a className="btn lg quiet" href={href({ page: "findings" })}>
+                See the main result
+              </a>
             </div>
           </Reveal>
           <Reveal delay={160}>
             <p className="home-hero-note">
-              A research prototype. Every figure it reports is measured on the machine that ran it, from a
-              reproducible, seeded configuration.
+              A research prototype, built to test a proposal from the team's published review paper. Device limits
+              are simulated in software.
             </p>
           </Reveal>
         </div>
         <Reveal delay={100} className="home-hero-visual">
           <RunPreview fallback={<StoryCurve />} />
         </Reveal>
+      </section>
+
+      <section className="band">
+        <div className="band-inner">
+          <Reveal className="section-intro">
+            <span className="eyebrow">The real-world case</span>
+            <h2 className="section-type">A small device that guards a network.</h2>
+            <p className="lead">
+              Think of the small box that connects a home or an office to the internet. It sees every connection, and
+              it is the natural place to stop an attack.
+            </p>
+          </Reveal>
+          <div className="case-grid">
+            {CASE.map((item, index) => (
+              <Reveal as="article" key={item.k} delay={index * 60} className="case-card">
+                <span className="eyebrow">{item.k}</span>
+                <h3>{item.title}</h3>
+                <p>{item.v}</p>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal className="case-question">
+            <span className="eyebrow">The research question</span>
+            <p>
+              How should a small device divide its limited computing time between <strong>checking connections</strong>{" "}
+              and <strong>keeping its model up to date</strong>, so that it still catches attacks as they change?
+            </p>
+          </Reveal>
+        </div>
       </section>
 
       <section className="band">
@@ -240,124 +231,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="band dark" ref={how}>
-        <div className="band-inner">
-          <Reveal className="section-intro">
-            <span className="eyebrow">What the studio does</span>
-            <h2 className="section-type">
-              Instead of training once and hoping the world stays the same, watch a model respond as the stream
-              evolves.
-            </h2>
-            <p className="lead">
-              Every sample travels the same seven steps. Each step's decision, and the time it took, is recorded
-              while the run happens.
-            </p>
-          </Reveal>
-
-          <ol className="pipeline-flow">
-            {PIPELINE.map((stage, index) => (
-              <Reveal as="li" key={stage.k} delay={index * 60}>
-                <span className="pipeline-flow-rail" aria-hidden="true">
-                  <span className="pipeline-flow-dot" />
-                </span>
-                <span className="pipeline-flow-body">
-                  <span className="pipeline-flow-step">Step {index + 1}</span>
-                  <strong>{stage.k}</strong>
-                  <span className="pipeline-flow-said">{stage.v}</span>
-                </span>
-              </Reveal>
-            ))}
-          </ol>
-
-          <Reveal className="band-foot">
-            <p>
-              The same stream is also given to a model that trains once and then stops, so the difference between
-              adapting and not adapting is visible in one run.{" "}
-              <a href={href({ page: "live" })}>Watch it happen →</a>
-            </p>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="band">
-        <div className="band-inner">
-          <Reveal className="section-intro">
-            <span className="eyebrow">What we measure</span>
-            <h2 className="section-type">Accuracy alone does not describe a system that has to keep up.</h2>
-            <p className="lead">
-              Adaptation is not free: detecting drift, re-selecting features and training a replacement all cost
-              processing time and memory. Both sides are recorded in the same run, on the same machine.
-            </p>
-          </Reveal>
-
-          <div className="measure-grid">
-            {MEASURES.map((group, index) => (
-              <Reveal key={group.group} delay={index * 70} className="measure-card">
-                <h3>{group.group}</h3>
-                <p>{group.why}</p>
-                <ul className="measure-items">
-                  {group.items.map((item) => (
-                    <li key={item.label}>
-                      <span>{item.label}</span>
-                      <ExplainButton id={item.explain} />
-                    </li>
-                  ))}
-                </ul>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="band">
-        <div className="band-inner">
-          <Reveal className="section-intro">
-            <span className="eyebrow">Research motivation</span>
-            <h2 className="section-type">The parts exist. Evaluating them together is what is missing.</h2>
-          </Reveal>
-
-          <div className="gap-flow">
-            <Reveal className="gap-col">
-              <span className="gap-cap">Existing work</span>
-              <ul className="ticks plain">
-                {EXISTING_WORK.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-              <p className="gap-note">Each is well studied — most often on its own, and most often on accuracy alone.</p>
-            </Reveal>
-
-            <span className="gap-arrow" aria-hidden="true">
-              →
-            </span>
-
-            <Reveal delay={80} className="gap-col gap-question">
-              <span className="gap-cap">The gap</span>
-              <p className="gap-statement">
-                How do adaptive behaviour, predictive performance and computational cost interact when they are
-                measured together, under one controlled experimental protocol?
-              </p>
-            </Reveal>
-
-            <span className="gap-arrow" aria-hidden="true">
-              →
-            </span>
-
-            <Reveal delay={160} className="gap-col">
-              <span className="gap-cap">This platform</span>
-              <p className="gap-statement">
-                A unified environment for <strong>exploring</strong> that interaction: one pipeline, one stream, and
-                accuracy, latency and resource cost recorded side by side in every run.
-              </p>
-              <p className="gap-note">
-                It provides a framework for evaluating the question. It does not claim to settle it — the analysis
-                belongs to the research workstream.
-              </p>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
       <section className="band">
         <div className="band-inner">
           <Reveal className="section-intro">
@@ -381,6 +254,24 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {heldout && heldout.length > 0 && (
+        <section className="band">
+          <div className="band-inner">
+            <Reveal className="section-intro">
+              <span className="eyebrow">The main result</span>
+              <h2 className="section-type">Equal or better protection, for much less computing time.</h2>
+              <p className="lead">
+                The rules proposed in our review catch the attacks but spend more time than the device has. Our new
+                controller works less on ordinary traffic and more when something changes.
+              </p>
+            </Reveal>
+            <Reveal>
+              <Headline rows={heldout} compact />
+            </Reveal>
+          </div>
+        </section>
+      )}
 
       <section className="band">
         <div className="band-inner">
