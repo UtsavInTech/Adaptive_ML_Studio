@@ -20,6 +20,8 @@ from typing import Protocol
 import numpy as np
 
 from adaptiveml.controller import PipelineController
+from adaptiveml.effort_controller import EffortController
+from adaptiveml.joint_controller import JointController
 from adaptiveml.config import TrialConfig, derive_seed
 from adaptiveml.config.profiles import apply_profile, per_sample_budget_ns
 from adaptiveml.metrics import MethodRecorder, summarize_method
@@ -79,13 +81,19 @@ class TrialResult:
 
 
 def build_pipelines(cfg: TrialConfig, features) -> list[MethodPipeline]:
-    pipeline_cfg = apply_profile(cfg.pipeline, cfg.profile)
+    capped = apply_profile(cfg.pipeline, cfg.profile)
+    # The joint and effort controllers enforce the memory budget themselves (R5); River's own cap
+    # would pre-empt them.
+    uncapped = apply_profile(cfg.pipeline, cfg.profile, cap_model_memory=False)
     return [
         MethodPipeline(
-            method_spec(name, pipeline_cfg),
+            method_spec(name, uncapped if name in ("joint", "effort") else capped),
             features,
             warmup=cfg.evaluation.warmup,
             seed=derive_seed(cfg.seed, f"method.{name}"),
+            label_delay=cfg.stream.label_delay,
+            label_coverage=cfg.stream.label_coverage,
+            label_seed=derive_seed(cfg.seed, "labels"),  # the same labelled rows for every method
         )
         for name in cfg.methods
     ]
@@ -161,7 +169,20 @@ def run_trial(
     positive = ev.positive_class
 
     budget_ns = per_sample_budget_ns(cfg.profile, cfg.stream.rate)
-    governors = {p.name: PipelineController(p, max_ms=budget_ns/1e6 if budget_ns else 15.0) for p in pipelines if p.spec.detects}
+    # "adaptive" keeps the earlier R1/R3/R4 subset controller; "joint" runs the full R1-R5 controller.
+    budget_now = None
+    share = cfg.profile.budgets.compute_share
+    if share is not None and getattr(scenario, "arrival_rate", None) is not None and cfg.stream.arrival == "recorded":
+        def budget_now(rate_of=scenario.arrival_rate, share=share):
+            rate = rate_of()
+            return share / rate * 1e9 if rate else None
+    # "effort" runs the budgeted effort controller (research_testbed/research/METHOD.md).
+    controllers = {"joint": JointController, "effort": EffortController}
+    governors = {
+        p.name: controllers[p.name](p, cfg.controller, cfg.profile.budgets, budget_ns, budget_now) if p.name in controllers
+        else PipelineController(p, max_ms=budget_ns/1e6 if budget_ns else 15.0)
+        for p in pipelines if p.spec.detects
+    }
     hot = [(governors[p.name].process if p.name in governors else p.process, *rec.sinks) for p, rec in pairs]
     recent = deque(maxlen=keep_recent) if keep_recent else None
     engine_events: list[dict] = []
@@ -339,14 +360,22 @@ def run_trial(
         first = drifts[0]
         following = drifts[1].index if len(drifts) > 1 else None
         phase_window = (first.start, first.end, following, "first known change")
+    # Datasets with an original label per row (e.g. attack types) are also scored per label and per
+    # dated period. The scenario records the labels as it reads rows, which counts as stream time,
+    # not as any method's service time.
+    row_types = scenario.row_types() if hasattr(scenario, "row_types") else None
+    periods = scenario.periods() if row_types is not None else None
     summaries = {
         rec.method: summarize_method(
             rec, p, warmup=min(warmup, n), drift_index=drift_index, stability=ev.stability,
-            phases=ev.phases, phase_window=phase_window,
+            phases=ev.phases, phase_window=phase_window, row_types=row_types, periods=periods,
         )
         for p, rec in pairs
         if len(rec.outcomes) > 0
     }
+    for name, governor in governors.items():
+        if name in summaries and hasattr(governor, "report"):
+            summaries[name]["controller"] = governor.report()
     total_ns = t_end - t_begin - paused_ns
     service_total = sum(sum(rec.service_ns) for rec in recorders)
     monitor_ns = loop_ns - service_total
@@ -379,7 +408,8 @@ def run_trial(
         "budget_us_per_sample": budget_ns / 1e3 if budget_ns else None,
         "governor_decisions": {name: g.decisions for name, g in governors.items()},
         # A measured-time budget makes behaviour depend on timing, so such trials are not bit-reproducible.
-        "timing_dependent_behaviour": bool(governors),
+        # The effort controller with a modelled cost decides from counts, not timers.
+        "timing_dependent_behaviour": any(getattr(g, "timing_dependent", True) for g in governors.values()),
     }
     notify(status, n - 1)
     return TrialResult(

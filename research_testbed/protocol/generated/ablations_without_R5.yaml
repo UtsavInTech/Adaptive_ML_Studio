@@ -1,0 +1,27 @@
+# Generated from protocol.yaml v1 (full), grid 'ablations'. Do not edit; edit the protocol and re-expand.
+name: Protocol v1 — ablations_without_R5
+base:
+  seed: 11
+  methods:
+  - joint
+  stream:
+    scenario: csv
+    dataset: cicids2017
+    noise: 0
+    length: 2099976
+    start: 0
+  evaluation:
+    warmup: 1000
+  controller:
+    rules:
+    - R1
+    - R2
+    - R3
+    - R4
+profiles:
+- small_sim
+- micro_sim
+seeds:
+- 11
+- 23
+- 37

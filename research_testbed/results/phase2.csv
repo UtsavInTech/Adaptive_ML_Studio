@@ -1,0 +1,1296 @@
+run,trial,method,scope,name,metric,value
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,overall,,n,2098976
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,overall,,accuracy,0.9870365359108442
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,overall,,precision,0.9730823791971605
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,overall,,recall,0.9730823791971605
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,overall,,f1,0.9730823791971605
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,overall,,tp,491826
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,overall,,fp,13605
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,overall,,tn,1579940
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,overall,,fn,13605
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,overall,,kappa,0.9645448104432188
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,overall,,kappa_temporal,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,overall,,no_change_accuracy,0.9870365359108442
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,overall,,macro_f1,0.9822724052216094
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,overall,,positive_rate_true,0.24079884667571236
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,overall,,positive_rate_predicted,0.24079884667571236
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,overall,,latency_us_mean,85.75571273373302
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,overall,,latency_us_p50,81.334
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,overall,,latency_us_p95,94.291
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,overall,,latency_us_p99,194.333
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,overall,,latency_us_max,42516.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,overall,,peak_rss_mb,162.840576
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,BENIGN,flagged_share,0.008385992111615956
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,BENIGN,rows,1581566
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,FTP-Patator - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,FTP-Patator - Attempted,rows,12
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,FTP-Patator,flagged_share,0.412134944612286
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,FTP-Patator,rows,3972
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,SSH-Patator,flagged_share,0.38264099966227627
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,SSH-Patator,rows,2961
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,SSH-Patator - Attempted,flagged_share,0.18518518518518517
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,SSH-Patator - Attempted,rows,27
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,DoS Slowloris - Attempted,flagged_share,0.13481321061180293
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,DoS Slowloris - Attempted,rows,1847
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,DoS Slowloris,flagged_share,0.7118424462295931
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,DoS Slowloris,rows,3859
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,DoS Slowhttptest - Attempted,flagged_share,0.0011876484560570072
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,DoS Slowhttptest - Attempted,rows,3368
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,DoS Slowhttptest,flagged_share,0.8241379310344827
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,DoS Slowhttptest,rows,1740
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,DoS Hulk,flagged_share,0.987417017946841
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,DoS Hulk,rows,158468
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,DoS Hulk - Attempted,flagged_share,0.008605851979345954
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,DoS Hulk - Attempted,rows,581
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,DoS GoldenEye,flagged_share,0.9507070173120127
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,DoS GoldenEye,rows,7567
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,DoS GoldenEye - Attempted,flagged_share,0.05
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,DoS GoldenEye - Attempted,rows,80
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Heartbleed,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Heartbleed,rows,11
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Web Attack - Brute Force - Attempted,flagged_share,0.02244582043343653
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Web Attack - Brute Force - Attempted,rows,1292
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Web Attack - Brute Force,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Web Attack - Brute Force,rows,73
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Web Attack - XSS - Attempted,flagged_share,0.00916030534351145
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Web Attack - XSS - Attempted,rows,655
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Web Attack - XSS,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Web Attack - XSS,rows,18
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Web Attack - SQL Injection - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Web Attack - SQL Injection - Attempted,rows,5
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Web Attack - SQL Injection,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Web Attack - SQL Injection,rows,13
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Infiltration - Portscan,flagged_share,0.9588111527582315
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Infiltration - Portscan,rows,71767
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Infiltration - Attempted,flagged_share,0.044444444444444446
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Infiltration - Attempted,rows,45
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Infiltration,flagged_share,0.05555555555555555
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Infiltration,rows,36
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Botnet,flagged_share,0.2105978260869565
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Botnet,rows,736
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Botnet - Attempted,flagged_share,0.009343496434718466
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Botnet - Attempted,rows,4067
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Portscan,flagged_share,0.9928080167980586
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,Portscan,rows,159066
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,DDoS,flagged_share,0.9913079122172707
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,label,DDoS,rows,95144
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,1:FTP-Patator,recall,0.412134944612286
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,1:FTP-Patator,flows_until_first_flagged,1
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,1:FTP-Patator,false_alarm_rate,0.03831379887717916
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,1:FTP-Patator,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,1:FTP-Patator,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,2:SSH-Patator,recall,0.3827702702702703
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,2:SSH-Patator,flows_until_first_flagged,1
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,2:SSH-Patator,false_alarm_rate,0.03849397082384687
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,2:SSH-Patator,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,2:SSH-Patator,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,3:SSH-Patator,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,3:SSH-Patator,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,3:SSH-Patator,false_alarm_rate,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,3:SSH-Patator,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,3:SSH-Patator,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,4:DoS Slowloris,recall,0.7118424462295931
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,4:DoS Slowloris,flows_until_first_flagged,7
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,4:DoS Slowloris,false_alarm_rate,0.05742195575770105
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,4:DoS Slowloris,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,4:DoS Slowloris,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,5:DoS Slowhttptest,recall,0.8241379310344827
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,5:DoS Slowhttptest,flows_until_first_flagged,5
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,5:DoS Slowhttptest,false_alarm_rate,0.014959780262899744
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,5:DoS Slowhttptest,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,5:DoS Slowhttptest,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,6:DoS Hulk,recall,0.987417017946841
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,6:DoS Hulk,flows_until_first_flagged,1
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,6:DoS Hulk,false_alarm_rate,0.1543644953915266
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,6:DoS Hulk,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,6:DoS Hulk,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,7:DoS GoldenEye,recall,0.9507070173120127
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,7:DoS GoldenEye,flows_until_first_flagged,1
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,7:DoS GoldenEye,false_alarm_rate,0.06110381077529566
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,7:DoS GoldenEye,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,7:DoS GoldenEye,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,8:Heartbleed,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,8:Heartbleed,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,8:Heartbleed,false_alarm_rate,0.0005001000200040008
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,8:Heartbleed,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,8:Heartbleed,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,9:Web Attack - Brute Force,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,9:Web Attack - Brute Force,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,9:Web Attack - Brute Force,false_alarm_rate,0.0020767832934321727
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,9:Web Attack - Brute Force,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,9:Web Attack - Brute Force,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,10:Web Attack - XSS,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,10:Web Attack - XSS,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,10:Web Attack - XSS,false_alarm_rate,0.0017791732077446364
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,10:Web Attack - XSS,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,10:Web Attack - XSS,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,11:Web Attack - SQL Injection,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,11:Web Attack - SQL Injection,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,11:Web Attack - SQL Injection,false_alarm_rate,0.002282670724747955
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,11:Web Attack - SQL Injection,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,11:Web Attack - SQL Injection,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,12:Infiltration - Portscan,recall,0.8890052356020942
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,12:Infiltration - Portscan,flows_until_first_flagged,1
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,12:Infiltration - Portscan,false_alarm_rate,0.49295774647887325
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,12:Infiltration - Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,12:Infiltration - Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,13:Infiltration,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,13:Infiltration,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,13:Infiltration,false_alarm_rate,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,13:Infiltration,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,13:Infiltration,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,14:Infiltration,recall,0.07142857142857142
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,14:Infiltration,flows_until_first_flagged,11
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,14:Infiltration,false_alarm_rate,0.007068256145162992
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,14:Infiltration,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,14:Infiltration,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,15:Infiltration - Portscan,recall,0.9727587914809311
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,15:Infiltration - Portscan,flows_until_first_flagged,1
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,15:Infiltration - Portscan,false_alarm_rate,0.05789473684210526
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,15:Infiltration - Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,15:Infiltration - Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,16:Infiltration,recall,0.047619047619047616
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,16:Infiltration,flows_until_first_flagged,7
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,16:Infiltration,false_alarm_rate,0.06209316180851299
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,16:Infiltration,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,16:Infiltration,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,17:Infiltration - Portscan,recall,0.959370866221854
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,17:Infiltration - Portscan,flows_until_first_flagged,1
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,17:Infiltration - Portscan,false_alarm_rate,0.08014265335235378
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,17:Infiltration - Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,17:Infiltration - Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,18:Botnet,recall,0.2105978260869565
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,18:Botnet,flows_until_first_flagged,3
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,18:Botnet,false_alarm_rate,0.01141530043889862
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,18:Botnet,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,18:Botnet,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,19:Portscan,recall,0.4690265486725664
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,19:Portscan,flows_until_first_flagged,1
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,19:Portscan,false_alarm_rate,0.033961187214611874
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,19:Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,19:Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,20:Portscan,recall,0.5169491525423728
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,20:Portscan,flows_until_first_flagged,2
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,20:Portscan,false_alarm_rate,0.038173142467621
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,20:Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,20:Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,21:Portscan,recall,0.993907586849964
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,21:Portscan,flows_until_first_flagged,1
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,21:Portscan,false_alarm_rate,0.03972039473684211
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,21:Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,21:Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,22:DDoS,recall,0.9913079122172707
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,22:DDoS,flows_until_first_flagged,1
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,22:DDoS,false_alarm_rate,0.05085893725755803
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,22:DDoS,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,no_change__standard__max__s42,no_change,period,22:DDoS,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,overall,,n,2098976
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,overall,,accuracy,0.7592011533242876
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,overall,,precision,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,overall,,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,overall,,f1,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,overall,,tp,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,overall,,fp,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,overall,,tn,1593545
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,overall,,fn,505431
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,overall,,kappa,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,overall,,kappa_temporal,-17.575192943770713
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,overall,,no_change_accuracy,0.9870365359108442
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,overall,,macro_f1,0.4315601725758635
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,overall,,positive_rate_true,0.24079884667571236
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,overall,,positive_rate_predicted,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,overall,,latency_us_mean,28.506676628031954
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,overall,,latency_us_p50,27.667
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,overall,,latency_us_p95,30.375
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,overall,,latency_us_p99,32.834
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,overall,,latency_us_max,27141.125
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,overall,,peak_rss_mb,164.98688
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,BENIGN,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,BENIGN,rows,1581566
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,FTP-Patator - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,FTP-Patator - Attempted,rows,12
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,FTP-Patator,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,FTP-Patator,rows,3972
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,SSH-Patator,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,SSH-Patator,rows,2961
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,SSH-Patator - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,SSH-Patator - Attempted,rows,27
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,DoS Slowloris - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,DoS Slowloris - Attempted,rows,1847
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,DoS Slowloris,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,DoS Slowloris,rows,3859
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,DoS Slowhttptest - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,DoS Slowhttptest - Attempted,rows,3368
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,DoS Slowhttptest,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,DoS Slowhttptest,rows,1740
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,DoS Hulk,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,DoS Hulk,rows,158468
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,DoS Hulk - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,DoS Hulk - Attempted,rows,581
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,DoS GoldenEye,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,DoS GoldenEye,rows,7567
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,DoS GoldenEye - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,DoS GoldenEye - Attempted,rows,80
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Heartbleed,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Heartbleed,rows,11
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Web Attack - Brute Force - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Web Attack - Brute Force - Attempted,rows,1292
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Web Attack - Brute Force,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Web Attack - Brute Force,rows,73
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Web Attack - XSS - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Web Attack - XSS - Attempted,rows,655
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Web Attack - XSS,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Web Attack - XSS,rows,18
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Web Attack - SQL Injection - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Web Attack - SQL Injection - Attempted,rows,5
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Web Attack - SQL Injection,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Web Attack - SQL Injection,rows,13
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Infiltration - Portscan,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Infiltration - Portscan,rows,71767
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Infiltration - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Infiltration - Attempted,rows,45
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Infiltration,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Infiltration,rows,36
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Botnet,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Botnet,rows,736
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Botnet - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Botnet - Attempted,rows,4067
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Portscan,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,Portscan,rows,159066
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,DDoS,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,label,DDoS,rows,95144
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,1:FTP-Patator,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,1:FTP-Patator,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,1:FTP-Patator,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,1:FTP-Patator,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,1:FTP-Patator,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,2:SSH-Patator,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,2:SSH-Patator,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,2:SSH-Patator,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,2:SSH-Patator,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,2:SSH-Patator,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,3:SSH-Patator,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,3:SSH-Patator,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,3:SSH-Patator,false_alarm_rate,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,3:SSH-Patator,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,3:SSH-Patator,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,4:DoS Slowloris,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,4:DoS Slowloris,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,4:DoS Slowloris,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,4:DoS Slowloris,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,4:DoS Slowloris,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,5:DoS Slowhttptest,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,5:DoS Slowhttptest,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,5:DoS Slowhttptest,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,5:DoS Slowhttptest,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,5:DoS Slowhttptest,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,6:DoS Hulk,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,6:DoS Hulk,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,6:DoS Hulk,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,6:DoS Hulk,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,6:DoS Hulk,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,7:DoS GoldenEye,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,7:DoS GoldenEye,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,7:DoS GoldenEye,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,7:DoS GoldenEye,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,7:DoS GoldenEye,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,8:Heartbleed,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,8:Heartbleed,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,8:Heartbleed,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,8:Heartbleed,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,8:Heartbleed,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,9:Web Attack - Brute Force,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,9:Web Attack - Brute Force,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,9:Web Attack - Brute Force,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,9:Web Attack - Brute Force,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,9:Web Attack - Brute Force,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,10:Web Attack - XSS,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,10:Web Attack - XSS,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,10:Web Attack - XSS,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,10:Web Attack - XSS,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,10:Web Attack - XSS,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,11:Web Attack - SQL Injection,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,11:Web Attack - SQL Injection,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,11:Web Attack - SQL Injection,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,11:Web Attack - SQL Injection,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,11:Web Attack - SQL Injection,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,12:Infiltration - Portscan,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,12:Infiltration - Portscan,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,12:Infiltration - Portscan,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,12:Infiltration - Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,12:Infiltration - Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,13:Infiltration,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,13:Infiltration,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,13:Infiltration,false_alarm_rate,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,13:Infiltration,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,13:Infiltration,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,14:Infiltration,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,14:Infiltration,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,14:Infiltration,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,14:Infiltration,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,14:Infiltration,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,15:Infiltration - Portscan,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,15:Infiltration - Portscan,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,15:Infiltration - Portscan,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,15:Infiltration - Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,15:Infiltration - Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,16:Infiltration,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,16:Infiltration,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,16:Infiltration,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,16:Infiltration,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,16:Infiltration,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,17:Infiltration - Portscan,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,17:Infiltration - Portscan,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,17:Infiltration - Portscan,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,17:Infiltration - Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,17:Infiltration - Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,18:Botnet,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,18:Botnet,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,18:Botnet,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,18:Botnet,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,18:Botnet,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,19:Portscan,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,19:Portscan,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,19:Portscan,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,19:Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,19:Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,20:Portscan,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,20:Portscan,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,20:Portscan,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,20:Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,20:Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,21:Portscan,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,21:Portscan,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,21:Portscan,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,21:Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,21:Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,22:DDoS,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,22:DDoS,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,22:DDoS,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,22:DDoS,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,static__standard__max__s42,static,period,22:DDoS,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,overall,,n,2098976
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,overall,,accuracy,0.9913653133718537
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,overall,,precision,0.9905969431004314
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,overall,,recall,0.9733811341211758
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,overall,,f1,0.9819135835733346
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,overall,,tp,491977
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,overall,,fp,4670
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,overall,,tn,1588875
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,overall,,fn,13454
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,overall,,kappa,0.9762430938261701
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,overall,,kappa_temporal,0.33392135244395593
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,overall,,no_change_accuracy,0.9870365359108442
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,overall,,macro_f1,0.9881212607238031
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,overall,,positive_rate_true,0.24079884667571236
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,overall,,positive_rate_predicted,0.23661394889698595
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,overall,,latency_us_mean,197.12933767846795
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,overall,,latency_us_p50,185.5
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,overall,,latency_us_p95,262.292
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,overall,,latency_us_p99,332.59425
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,overall,,latency_us_max,89033.791
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,overall,,peak_rss_mb,167.591936
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,BENIGN,flagged_share,0.0028680434455470084
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,BENIGN,rows,1581566
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,FTP-Patator - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,FTP-Patator - Attempted,rows,12
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,FTP-Patator,flagged_share,0.003524672708962739
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,FTP-Patator,rows,3972
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,SSH-Patator,flagged_share,0.2718676122931442
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,SSH-Patator,rows,2961
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,SSH-Patator - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,SSH-Patator - Attempted,rows,27
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,DoS Slowloris - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,DoS Slowloris - Attempted,rows,1847
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,DoS Slowloris,flagged_share,0.6408395957501943
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,DoS Slowloris,rows,3859
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,DoS Slowhttptest - Attempted,flagged_share,0.0014845605700712589
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,DoS Slowhttptest - Attempted,rows,3368
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,DoS Slowhttptest,flagged_share,0.8931034482758621
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,DoS Slowhttptest,rows,1740
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,DoS Hulk,flagged_share,0.9975452457278441
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,DoS Hulk,rows,158468
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,DoS Hulk - Attempted,flagged_share,0.08261617900172118
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,DoS Hulk - Attempted,rows,581
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,DoS GoldenEye,flagged_share,0.96577243293247
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,DoS GoldenEye,rows,7567
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,DoS GoldenEye - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,DoS GoldenEye - Attempted,rows,80
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Heartbleed,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Heartbleed,rows,11
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Web Attack - Brute Force - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Web Attack - Brute Force - Attempted,rows,1292
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Web Attack - Brute Force,flagged_share,0.1643835616438356
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Web Attack - Brute Force,rows,73
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Web Attack - XSS - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Web Attack - XSS - Attempted,rows,655
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Web Attack - XSS,flagged_share,0.9444444444444444
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Web Attack - XSS,rows,18
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Web Attack - SQL Injection - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Web Attack - SQL Injection - Attempted,rows,5
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Web Attack - SQL Injection,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Web Attack - SQL Injection,rows,13
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Infiltration - Portscan,flagged_share,0.9395125893516518
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Infiltration - Portscan,rows,71767
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Infiltration - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Infiltration - Attempted,rows,45
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Infiltration,flagged_share,0.2777777777777778
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Infiltration,rows,36
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Botnet,flagged_share,0.9741847826086957
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Botnet,rows,736
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Botnet - Attempted,flagged_share,0.01991640029505778
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Botnet - Attempted,rows,4067
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Portscan,flagged_share,0.9972401393132411
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,Portscan,rows,159066
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,DDoS,flagged_share,0.9978033296897335
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,label,DDoS,rows,95144
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,1:FTP-Patator,recall,0.003524672708962739
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,1:FTP-Patator,flows_until_first_flagged,4
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,1:FTP-Patator,false_alarm_rate,0.0002462326405988378
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,1:FTP-Patator,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,1:FTP-Patator,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,2:SSH-Patator,recall,0.2719594594594595
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,2:SSH-Patator,flows_until_first_flagged,2126
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,2:SSH-Patator,false_alarm_rate,0.00027405346150602915
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,2:SSH-Patator,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,2:SSH-Patator,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,3:SSH-Patator,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,3:SSH-Patator,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,3:SSH-Patator,false_alarm_rate,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,3:SSH-Patator,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,3:SSH-Patator,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,4:DoS Slowloris,recall,0.6408395957501943
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,4:DoS Slowloris,flows_until_first_flagged,1331
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,4:DoS Slowloris,false_alarm_rate,0.0024808765763903247
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,4:DoS Slowloris,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,4:DoS Slowloris,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,5:DoS Slowhttptest,recall,0.8931034482758621
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,5:DoS Slowhttptest,flows_until_first_flagged,11
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,5:DoS Slowhttptest,false_alarm_rate,0.0017166960957425937
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,5:DoS Slowhttptest,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,5:DoS Slowhttptest,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,6:DoS Hulk,recall,0.9975452457278441
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,6:DoS Hulk,flows_until_first_flagged,238
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,6:DoS Hulk,false_alarm_rate,0.02068004027573387
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,6:DoS Hulk,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,6:DoS Hulk,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,7:DoS GoldenEye,recall,0.96577243293247
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,7:DoS GoldenEye,flows_until_first_flagged,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,7:DoS GoldenEye,false_alarm_rate,0.01823258869908016
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,7:DoS GoldenEye,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,7:DoS GoldenEye,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,8:Heartbleed,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,8:Heartbleed,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,8:Heartbleed,false_alarm_rate,0.003100620124024805
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,8:Heartbleed,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,8:Heartbleed,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,9:Web Attack - Brute Force,recall,0.1643835616438356
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,9:Web Attack - Brute Force,flows_until_first_flagged,61
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,9:Web Attack - Brute Force,false_alarm_rate,0.0015864316824829097
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,9:Web Attack - Brute Force,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,9:Web Attack - Brute Force,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,10:Web Attack - XSS,recall,0.9444444444444444
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,10:Web Attack - XSS,flows_until_first_flagged,1
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,10:Web Attack - XSS,false_alarm_rate,0.0031397174254317113
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,10:Web Attack - XSS,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,10:Web Attack - XSS,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,11:Web Attack - SQL Injection,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,11:Web Attack - SQL Injection,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,11:Web Attack - SQL Injection,false_alarm_rate,0.00323378352672627
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,11:Web Attack - SQL Injection,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,11:Web Attack - SQL Injection,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,12:Infiltration - Portscan,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,12:Infiltration - Portscan,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,12:Infiltration - Portscan,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,12:Infiltration - Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,12:Infiltration - Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,13:Infiltration,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,13:Infiltration,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,13:Infiltration,false_alarm_rate,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,13:Infiltration,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,13:Infiltration,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,14:Infiltration,recall,0.2857142857142857
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,14:Infiltration,flows_until_first_flagged,5
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,14:Infiltration,false_alarm_rate,0.00284840173014031
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,14:Infiltration,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,14:Infiltration,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,15:Infiltration - Portscan,recall,0.0004952947003467063
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,15:Infiltration - Portscan,flows_until_first_flagged,2002
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,15:Infiltration - Portscan,false_alarm_rate,0.0010526315789473684
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,15:Infiltration - Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,15:Infiltration - Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,16:Infiltration,recall,0.2857142857142857
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,16:Infiltration,flows_until_first_flagged,4
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,16:Infiltration,false_alarm_rate,0.008340872481740551
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,16:Infiltration,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,16:Infiltration,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,17:Infiltration - Portscan,recall,0.9801142558109109
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,17:Infiltration - Portscan,flows_until_first_flagged,665
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,17:Infiltration - Portscan,false_alarm_rate,0.010328102710413695
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,17:Infiltration - Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,17:Infiltration - Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,18:Botnet,recall,0.9741847826086957
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,18:Botnet,flows_until_first_flagged,1
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,18:Botnet,false_alarm_rate,0.001594205750949635
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,18:Botnet,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,18:Botnet,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,19:Portscan,recall,0.5132743362831859
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,19:Portscan,flows_until_first_flagged,105
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,19:Portscan,false_alarm_rate,0.0017123287671232876
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,19:Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,19:Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,20:Portscan,recall,0.6864406779661016
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,20:Portscan,flows_until_first_flagged,1
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,20:Portscan,false_alarm_rate,0.0013633265167007499
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,20:Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,20:Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,21:Portscan,recall,0.9981603054396996
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,21:Portscan,flows_until_first_flagged,7
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,21:Portscan,false_alarm_rate,0.01143092105263158
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,21:Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,21:Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,22:DDoS,recall,0.9978033296897335
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,22:DDoS,flows_until_first_flagged,3
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,22:DDoS,false_alarm_rate,0.00991318268579521
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,22:DDoS,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,incremental__standard__max__s42,incremental,period,22:DDoS,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,overall,,n,2098976
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,overall,,accuracy,0.9934005915265348
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,overall,,precision,0.9857912826584078
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,overall,,recall,0.9868171916641441
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,overall,,f1,0.9863039703852527
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,overall,,tp,498768
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,overall,,fp,7189
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,overall,,tn,1586356
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,overall,,fn,6663
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,overall,,kappa,0.9819569699596732
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,overall,,kappa_temporal,0.49092245497978365
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,overall,,no_change_accuracy,0.9870365359108442
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,overall,,macro_f1,0.9909784842053561
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,overall,,positive_rate_true,0.24079884667571236
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,overall,,positive_rate_predicted,0.24104944506273535
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,overall,,latency_us_mean,124.97981858725396
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,overall,,latency_us_p50,120.666
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,overall,,latency_us_p95,156.792
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,overall,,latency_us_p99,170.709
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,overall,,latency_us_max,77997.458
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,overall,,peak_rss_mb,164.33152
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,BENIGN,flagged_share,0.004443064658699036
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,BENIGN,rows,1581566
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,FTP-Patator - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,FTP-Patator - Attempted,rows,12
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,FTP-Patator,flagged_share,0.9851460221550856
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,FTP-Patator,rows,3972
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,SSH-Patator,flagged_share,0.9371833839918946
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,SSH-Patator,rows,2961
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,SSH-Patator - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,SSH-Patator - Attempted,rows,27
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,DoS Slowloris - Attempted,flagged_share,0.002165674066053059
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,DoS Slowloris - Attempted,rows,1847
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,DoS Slowloris,flagged_share,0.9448043534594455
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,DoS Slowloris,rows,3859
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,DoS Slowhttptest - Attempted,flagged_share,0.0002969121140142518
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,DoS Slowhttptest - Attempted,rows,3368
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,DoS Slowhttptest,flagged_share,0.8551724137931035
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,DoS Slowhttptest,rows,1740
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,DoS Hulk,flagged_share,0.9919352803089583
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,DoS Hulk,rows,158468
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,DoS Hulk - Attempted,flagged_share,0.0034423407917383822
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,DoS Hulk - Attempted,rows,581
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,DoS GoldenEye,flagged_share,0.973437293511299
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,DoS GoldenEye,rows,7567
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,DoS GoldenEye - Attempted,flagged_share,0.0125
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,DoS GoldenEye - Attempted,rows,80
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Heartbleed,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Heartbleed,rows,11
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Web Attack - Brute Force - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Web Attack - Brute Force - Attempted,rows,1292
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Web Attack - Brute Force,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Web Attack - Brute Force,rows,73
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Web Attack - XSS - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Web Attack - XSS - Attempted,rows,655
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Web Attack - XSS,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Web Attack - XSS,rows,18
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Web Attack - SQL Injection - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Web Attack - SQL Injection - Attempted,rows,5
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Web Attack - SQL Injection,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Web Attack - SQL Injection,rows,13
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Infiltration - Portscan,flagged_share,0.9685928072791116
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Infiltration - Portscan,rows,71767
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Infiltration - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Infiltration - Attempted,rows,45
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Infiltration,flagged_share,0.1111111111111111
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Infiltration,rows,36
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Botnet,flagged_share,0.3423913043478261
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Botnet,rows,736
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Botnet - Attempted,flagged_share,0.0378657487091222
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Botnet - Attempted,rows,4067
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Portscan,flagged_share,0.9933235260835125
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,Portscan,rows,159066
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,DDoS,flagged_share,0.9944610274951652
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,label,DDoS,rows,95144
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,1:FTP-Patator,recall,0.9851460221550856
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,1:FTP-Patator,flows_until_first_flagged,3
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,1:FTP-Patator,false_alarm_rate,0.0002790636593453495
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,1:FTP-Patator,detector_alerts,3
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,1:FTP-Patator,adaptations,3
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,2:SSH-Patator,recall,0.9375
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,2:SSH-Patator,flows_until_first_flagged,12
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,2:SSH-Patator,false_alarm_rate,0.0005691879585125221
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,2:SSH-Patator,detector_alerts,4
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,2:SSH-Patator,adaptations,4
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,3:SSH-Patator,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,3:SSH-Patator,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,3:SSH-Patator,false_alarm_rate,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,3:SSH-Patator,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,3:SSH-Patator,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,4:DoS Slowloris,recall,0.9448043534594455
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,4:DoS Slowloris,flows_until_first_flagged,21
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,4:DoS Slowloris,false_alarm_rate,0.005840396940252223
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,4:DoS Slowloris,detector_alerts,7
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,4:DoS Slowloris,adaptations,7
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,5:DoS Slowhttptest,recall,0.8551724137931035
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,5:DoS Slowhttptest,flows_until_first_flagged,42
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,5:DoS Slowhttptest,false_alarm_rate,0.006180105944673337
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,5:DoS Slowhttptest,detector_alerts,7
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,5:DoS Slowhttptest,adaptations,7
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,6:DoS Hulk,recall,0.9919352803089583
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,6:DoS Hulk,flows_until_first_flagged,2
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,6:DoS Hulk,false_alarm_rate,0.055301680737355745
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,6:DoS Hulk,detector_alerts,49
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,6:DoS Hulk,adaptations,49
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,7:DoS GoldenEye,recall,0.973437293511299
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,7:DoS GoldenEye,flows_until_first_flagged,14
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,7:DoS GoldenEye,false_alarm_rate,0.007227332457293035
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,7:DoS GoldenEye,detector_alerts,6
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,7:DoS GoldenEye,adaptations,6
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,8:Heartbleed,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,8:Heartbleed,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,8:Heartbleed,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,8:Heartbleed,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,8:Heartbleed,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,9:Web Attack - Brute Force,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,9:Web Attack - Brute Force,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,9:Web Attack - Brute Force,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,9:Web Attack - Brute Force,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,9:Web Attack - Brute Force,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,10:Web Attack - XSS,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,10:Web Attack - XSS,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,10:Web Attack - XSS,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,10:Web Attack - XSS,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,10:Web Attack - XSS,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,11:Web Attack - SQL Injection,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,11:Web Attack - SQL Injection,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,11:Web Attack - SQL Injection,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,11:Web Attack - SQL Injection,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,11:Web Attack - SQL Injection,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,12:Infiltration - Portscan,recall,0.875392670157068
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,12:Infiltration - Portscan,flows_until_first_flagged,32
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,12:Infiltration - Portscan,false_alarm_rate,0.27699530516431925
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,12:Infiltration - Portscan,detector_alerts,1
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,12:Infiltration - Portscan,adaptations,1
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,13:Infiltration,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,13:Infiltration,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,13:Infiltration,false_alarm_rate,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,13:Infiltration,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,13:Infiltration,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,14:Infiltration,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,14:Infiltration,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,14:Infiltration,false_alarm_rate,0.002742905369764743
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,14:Infiltration,detector_alerts,2
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,14:Infiltration,adaptations,2
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,15:Infiltration - Portscan,recall,0.9846458642892522
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,15:Infiltration - Portscan,flows_until_first_flagged,14
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,15:Infiltration - Portscan,false_alarm_rate,0.024210526315789474
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,15:Infiltration - Portscan,detector_alerts,2
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,15:Infiltration - Portscan,adaptations,2
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,16:Infiltration,recall,0.19047619047619047
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,16:Infiltration,flows_until_first_flagged,7
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,16:Infiltration,false_alarm_rate,0.056885632957479206
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,16:Infiltration,detector_alerts,77
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,16:Infiltration,adaptations,77
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,17:Infiltration - Portscan,recall,0.9694154928553778
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,17:Infiltration - Portscan,flows_until_first_flagged,11
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,17:Infiltration - Portscan,false_alarm_rate,0.07355206847360914
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,17:Infiltration - Portscan,detector_alerts,77
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,17:Infiltration - Portscan,adaptations,77
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,18:Botnet,recall,0.3423913043478261
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,18:Botnet,flows_until_first_flagged,128
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,18:Botnet,false_alarm_rate,0.003542679446554744
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,18:Botnet,detector_alerts,5
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,18:Botnet,adaptations,5
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,19:Portscan,recall,0.20353982300884957
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,19:Portscan,flows_until_first_flagged,27
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,19:Portscan,false_alarm_rate,0.012271689497716894
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,19:Portscan,detector_alerts,3
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,19:Portscan,adaptations,3
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,20:Portscan,recall,0.07627118644067797
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,20:Portscan,flows_until_first_flagged,16
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,20:Portscan,false_alarm_rate,0.00954328561690525
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,20:Portscan,detector_alerts,1
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,20:Portscan,adaptations,1
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,21:Portscan,recall,0.9951298496742732
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,21:Portscan,flows_until_first_flagged,26
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,21:Portscan,false_alarm_rate,0.041036184210526315
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,21:Portscan,detector_alerts,29
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,21:Portscan,adaptations,29
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,22:DDoS,recall,0.9944610274951652
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,22:DDoS,flows_until_first_flagged,31
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,22:DDoS,false_alarm_rate,0.12277569115202266
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,22:DDoS,detector_alerts,53
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,adaptive__standard__max__s42,adaptive,period,22:DDoS,adaptations,53
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,overall,,n,2098976
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,overall,,accuracy,0.9985950291951885
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,overall,,precision,0.9972922579955583
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,overall,,recall,0.9968719765902764
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,overall,,f1,0.9970820730045743
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,overall,,tp,503850
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,overall,,fp,1368
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,overall,,tn,1592177
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,overall,,fn,1581
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,overall,,kappa,0.9961568394050461
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,overall,,kappa_temporal,0.8916207276736483
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,overall,,no_change_accuracy,0.9870365359108442
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,overall,,macro_f1,0.998078419675459
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,overall,,positive_rate_true,0.24079884667571236
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,overall,,positive_rate_predicted,0.2406973686216517
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,overall,,latency_us_mean,656.5509730439986
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,overall,,latency_us_p50,558.917
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,overall,,latency_us_p95,1350.958
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,overall,,latency_us_p99,1842.5
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,overall,,latency_us_max,133060.083
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,overall,,peak_rss_mb,191.840256
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,BENIGN,flagged_share,0.000813750422050044
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,BENIGN,rows,1581566
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,FTP-Patator - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,FTP-Patator - Attempted,rows,12
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,FTP-Patator,flagged_share,0.9942094662638469
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,FTP-Patator,rows,3972
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,SSH-Patator,flagged_share,0.9881796690307328
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,SSH-Patator,rows,2961
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,SSH-Patator - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,SSH-Patator - Attempted,rows,27
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,DoS Slowloris - Attempted,flagged_share,0.0016242555495397943
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,DoS Slowloris - Attempted,rows,1847
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,DoS Slowloris,flagged_share,0.9782327027727391
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,DoS Slowloris,rows,3859
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,DoS Slowhttptest - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,DoS Slowhttptest - Attempted,rows,3368
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,DoS Slowhttptest,flagged_share,0.9459770114942528
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,DoS Slowhttptest,rows,1740
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,DoS Hulk,flagged_share,0.9994636141050559
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,DoS Hulk,rows,158468
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,DoS Hulk - Attempted,flagged_share,0.0017211703958691911
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,DoS Hulk - Attempted,rows,581
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,DoS GoldenEye,flagged_share,0.9941852781815779
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,DoS GoldenEye,rows,7567
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,DoS GoldenEye - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,DoS GoldenEye - Attempted,rows,80
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Heartbleed,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Heartbleed,rows,11
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Web Attack - Brute Force - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Web Attack - Brute Force - Attempted,rows,1292
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Web Attack - Brute Force,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Web Attack - Brute Force,rows,73
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Web Attack - XSS - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Web Attack - XSS - Attempted,rows,655
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Web Attack - XSS,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Web Attack - XSS,rows,18
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Web Attack - SQL Injection - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Web Attack - SQL Injection - Attempted,rows,5
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Web Attack - SQL Injection,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Web Attack - SQL Injection,rows,13
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Infiltration - Portscan,flagged_share,0.990747836749481
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Infiltration - Portscan,rows,71767
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Infiltration - Attempted,flagged_share,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Infiltration - Attempted,rows,45
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Infiltration,flagged_share,0.027777777777777776
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Infiltration,rows,36
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Botnet,flagged_share,0.7771739130434783
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Botnet,rows,736
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Botnet - Attempted,flagged_share,0.0189328743545611
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Botnet - Attempted,rows,4067
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Portscan,flagged_share,0.998623213005922
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,Portscan,rows,159066
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,DDoS,flagged_share,0.9998003026990667
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,label,DDoS,rows,95144
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,1:FTP-Patator,recall,0.9942094662638469
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,1:FTP-Patator,flows_until_first_flagged,4
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,1:FTP-Patator,false_alarm_rate,3.2831018746511706e-05
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,1:FTP-Patator,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,1:FTP-Patator,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,2:SSH-Patator,recall,0.9885135135135135
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,2:SSH-Patator,flows_until_first_flagged,4
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,2:SSH-Patator,false_alarm_rate,8.432414200185513e-05
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,2:SSH-Patator,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,2:SSH-Patator,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,3:SSH-Patator,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,3:SSH-Patator,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,3:SSH-Patator,false_alarm_rate,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,3:SSH-Patator,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,3:SSH-Patator,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,4:DoS Slowloris,recall,0.9782327027727391
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,4:DoS Slowloris,flows_until_first_flagged,27
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,4:DoS Slowloris,false_alarm_rate,0.00046516435807318586
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,4:DoS Slowloris,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,4:DoS Slowloris,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,5:DoS Slowhttptest,recall,0.9459770114942528
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,5:DoS Slowhttptest,flows_until_first_flagged,15
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,5:DoS Slowhttptest,false_alarm_rate,0.0006866784382970375
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,5:DoS Slowhttptest,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,5:DoS Slowhttptest,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,6:DoS Hulk,recall,0.9994636141050559
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,6:DoS Hulk,flows_until_first_flagged,6
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,6:DoS Hulk,false_alarm_rate,0.01789172023855627
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,6:DoS Hulk,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,6:DoS Hulk,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,7:DoS GoldenEye,recall,0.9941852781815779
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,7:DoS GoldenEye,flows_until_first_flagged,24
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,7:DoS GoldenEye,false_alarm_rate,0.0037779237844940868
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,7:DoS GoldenEye,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,7:DoS GoldenEye,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,8:Heartbleed,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,8:Heartbleed,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,8:Heartbleed,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,8:Heartbleed,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,8:Heartbleed,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,9:Web Attack - Brute Force,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,9:Web Attack - Brute Force,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,9:Web Attack - Brute Force,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,9:Web Attack - Brute Force,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,9:Web Attack - Brute Force,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,10:Web Attack - XSS,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,10:Web Attack - XSS,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,10:Web Attack - XSS,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,10:Web Attack - XSS,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,10:Web Attack - XSS,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,11:Web Attack - SQL Injection,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,11:Web Attack - SQL Injection,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,11:Web Attack - SQL Injection,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,11:Web Attack - SQL Injection,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,11:Web Attack - SQL Injection,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,12:Infiltration - Portscan,recall,0.987434554973822
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,12:Infiltration - Portscan,flows_until_first_flagged,7
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,12:Infiltration - Portscan,false_alarm_rate,0.06572769953051644
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,12:Infiltration - Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,12:Infiltration - Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,13:Infiltration,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,13:Infiltration,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,13:Infiltration,false_alarm_rate,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,13:Infiltration,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,13:Infiltration,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,14:Infiltration,recall,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,14:Infiltration,flows_until_first_flagged,
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,14:Infiltration,false_alarm_rate,0.00031648908112670115
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,14:Infiltration,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,14:Infiltration,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,15:Infiltration - Portscan,recall,0.986627043090639
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,15:Infiltration - Portscan,flows_until_first_flagged,14
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,15:Infiltration - Portscan,false_alarm_rate,0.002105263157894737
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,15:Infiltration - Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,15:Infiltration - Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,16:Infiltration,recall,0.047619047619047616
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,16:Infiltration,flows_until_first_flagged,7
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,16:Infiltration,false_alarm_rate,0.008715991085416713
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,16:Infiltration,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,16:Infiltration,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,17:Infiltration - Portscan,recall,0.9909147733054235
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,17:Infiltration - Portscan,flows_until_first_flagged,13
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,17:Infiltration - Portscan,false_alarm_rate,0.011269614835948644
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,17:Infiltration - Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,17:Infiltration - Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,18:Botnet,recall,0.7771739130434783
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,18:Botnet,flows_until_first_flagged,128
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,18:Botnet,false_alarm_rate,0.0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,18:Botnet,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,18:Botnet,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,19:Portscan,recall,0.9336283185840708
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,19:Portscan,flows_until_first_flagged,4
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,19:Portscan,false_alarm_rate,0.0028538812785388126
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,19:Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,19:Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,20:Portscan,recall,0.7796610169491526
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,20:Portscan,flows_until_first_flagged,5
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,20:Portscan,false_alarm_rate,0.004771642808452625
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,20:Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,20:Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,21:Portscan,recall,0.9988785423570772
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,21:Portscan,flows_until_first_flagged,4
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,21:Portscan,false_alarm_rate,0.024835526315789475
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,21:Portscan,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,21:Portscan,adaptations,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,22:DDoS,recall,0.9998003026990667
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,22:DDoS,flows_until_first_flagged,3
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,22:DDoS,false_alarm_rate,0.00246290253063235
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,22:DDoS,detector_alerts,0
+20261111-145934-568975-experiment-phase-2-core-methods-on-cic-ids2017,arf__standard__max__s42,arf,period,22:DDoS,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,overall,,n,2098976
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,overall,,accuracy,0.9989537755553184
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,overall,,precision,0.9985930982552437
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,overall,,recall,0.9970599349861801
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,overall,,f1,0.9978259276932855
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,overall,,tp,503945
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,overall,,fp,710
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,overall,,tn,1592835
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,overall,,fn,1486
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,overall,,kappa,0.9971370661497876
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,overall,,kappa_temporal,0.9192943770672536
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,overall,,no_change_accuracy,0.9870365359108442
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,overall,,macro_f1,0.998568532807195
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,overall,,positive_rate_true,0.24079884667571236
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,overall,,positive_rate_predicted,0.24042914259143505
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,overall,,latency_us_mean,4790.0421224706715
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,overall,,latency_us_p50,4017.667
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,overall,,latency_us_p95,9236.59425
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,overall,,latency_us_p99,16156.37525
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,overall,,latency_us_max,427666.541
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,overall,,peak_rss_mb,212.074496
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,BENIGN,flagged_share,0.0004236307558457883
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,BENIGN,rows,1581566
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,FTP-Patator - Attempted,flagged_share,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,FTP-Patator - Attempted,rows,12
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,FTP-Patator,flagged_share,0.9954682779456193
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,FTP-Patator,rows,3972
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,SSH-Patator,flagged_share,0.9810874704491725
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,SSH-Patator,rows,2961
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,SSH-Patator - Attempted,flagged_share,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,SSH-Patator - Attempted,rows,27
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,DoS Slowloris - Attempted,flagged_share,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,DoS Slowloris - Attempted,rows,1847
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,DoS Slowloris,flagged_share,0.9847110650427572
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,DoS Slowloris,rows,3859
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,DoS Slowhttptest - Attempted,flagged_share,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,DoS Slowhttptest - Attempted,rows,3368
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,DoS Slowhttptest,flagged_share,0.9362068965517242
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,DoS Slowhttptest,rows,1740
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,DoS Hulk,flagged_share,0.9995267183279906
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,DoS Hulk,rows,158468
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,DoS Hulk - Attempted,flagged_share,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,DoS Hulk - Attempted,rows,581
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,DoS GoldenEye,flagged_share,0.9929959032641734
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,DoS GoldenEye,rows,7567
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,DoS GoldenEye - Attempted,flagged_share,0.0125
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,DoS GoldenEye - Attempted,rows,80
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Heartbleed,flagged_share,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Heartbleed,rows,11
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Web Attack - Brute Force - Attempted,flagged_share,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Web Attack - Brute Force - Attempted,rows,1292
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Web Attack - Brute Force,flagged_share,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Web Attack - Brute Force,rows,73
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Web Attack - XSS - Attempted,flagged_share,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Web Attack - XSS - Attempted,rows,655
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Web Attack - XSS,flagged_share,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Web Attack - XSS,rows,18
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Web Attack - SQL Injection - Attempted,flagged_share,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Web Attack - SQL Injection - Attempted,rows,5
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Web Attack - SQL Injection,flagged_share,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Web Attack - SQL Injection,rows,13
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Infiltration - Portscan,flagged_share,0.9922945086181671
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Infiltration - Portscan,rows,71767
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Infiltration - Attempted,flagged_share,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Infiltration - Attempted,rows,45
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Infiltration,flagged_share,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Infiltration,rows,36
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Botnet,flagged_share,0.748641304347826
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Botnet,rows,736
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Botnet - Attempted,flagged_share,0.009589377919842636
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Botnet - Attempted,rows,4067
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Portscan,flagged_share,0.998748946977984
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,Portscan,rows,159066
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,DDoS,flagged_share,0.9997267300092492
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,label,DDoS,rows,95144
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,1:FTP-Patator,recall,0.9954682779456193
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,1:FTP-Patator,flows_until_first_flagged,1
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,1:FTP-Patator,false_alarm_rate,0.00039397222495814047
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,1:FTP-Patator,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,1:FTP-Patator,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,2:SSH-Patator,recall,0.981418918918919
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,2:SSH-Patator,flows_until_first_flagged,5
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,2:SSH-Patator,false_alarm_rate,0.00014756724850324647
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,2:SSH-Patator,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,2:SSH-Patator,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,3:SSH-Patator,recall,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,3:SSH-Patator,flows_until_first_flagged,
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,3:SSH-Patator,false_alarm_rate,
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,3:SSH-Patator,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,3:SSH-Patator,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,4:DoS Slowloris,recall,0.9847110650427572
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,4:DoS Slowloris,flows_until_first_flagged,34
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,4:DoS Slowloris,false_alarm_rate,0.000361794500723589
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,4:DoS Slowloris,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,4:DoS Slowloris,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,5:DoS Slowhttptest,recall,0.9362068965517242
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,5:DoS Slowhttptest,flows_until_first_flagged,19
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,5:DoS Slowhttptest,false_alarm_rate,0.0020600353148911123
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,5:DoS Slowhttptest,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,5:DoS Slowhttptest,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,6:DoS Hulk,recall,0.9995267183279906
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,6:DoS Hulk,flows_until_first_flagged,6
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,6:DoS Hulk,false_alarm_rate,0.017349546897993957
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,6:DoS Hulk,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,6:DoS Hulk,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,7:DoS GoldenEye,recall,0.9929959032641734
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,7:DoS GoldenEye,flows_until_first_flagged,30
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,7:DoS GoldenEye,false_alarm_rate,0.001478318002628121
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,7:DoS GoldenEye,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,7:DoS GoldenEye,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,8:Heartbleed,recall,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,8:Heartbleed,flows_until_first_flagged,
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,8:Heartbleed,false_alarm_rate,5.001000200040008e-05
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,8:Heartbleed,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,8:Heartbleed,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,9:Web Attack - Brute Force,recall,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,9:Web Attack - Brute Force,flows_until_first_flagged,
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,9:Web Attack - Brute Force,false_alarm_rate,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,9:Web Attack - Brute Force,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,9:Web Attack - Brute Force,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,10:Web Attack - XSS,recall,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,10:Web Attack - XSS,flows_until_first_flagged,
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,10:Web Attack - XSS,false_alarm_rate,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,10:Web Attack - XSS,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,10:Web Attack - XSS,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,11:Web Attack - SQL Injection,recall,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,11:Web Attack - SQL Injection,flows_until_first_flagged,
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,11:Web Attack - SQL Injection,false_alarm_rate,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,11:Web Attack - SQL Injection,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,11:Web Attack - SQL Injection,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,12:Infiltration - Portscan,recall,0.9979057591623036
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,12:Infiltration - Portscan,flows_until_first_flagged,1
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,12:Infiltration - Portscan,false_alarm_rate,0.046948356807511735
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,12:Infiltration - Portscan,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,12:Infiltration - Portscan,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,13:Infiltration,recall,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,13:Infiltration,flows_until_first_flagged,
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,13:Infiltration,false_alarm_rate,
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,13:Infiltration,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,13:Infiltration,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,14:Infiltration,recall,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,14:Infiltration,flows_until_first_flagged,
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,14:Infiltration,false_alarm_rate,0.0005274818018778352
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,14:Infiltration,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,14:Infiltration,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,15:Infiltration - Portscan,recall,0.9841505695889053
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,15:Infiltration - Portscan,flows_until_first_flagged,28
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,15:Infiltration - Portscan,false_alarm_rate,0.003157894736842105
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,15:Infiltration - Portscan,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,15:Infiltration - Portscan,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,16:Infiltration,recall,0.0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,16:Infiltration,flows_until_first_flagged,
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,16:Infiltration,false_alarm_rate,0.0032878042322204816
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,16:Infiltration,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,16:Infiltration,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,17:Infiltration - Portscan,recall,0.9924556277528237
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,17:Infiltration - Portscan,flows_until_first_flagged,14
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,17:Infiltration - Portscan,false_alarm_rate,0.004251069900142654
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,17:Infiltration - Portscan,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,17:Infiltration - Portscan,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,18:Botnet,recall,0.748641304347826
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,18:Botnet,flows_until_first_flagged,173
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,18:Botnet,false_alarm_rate,0.00011808931488515814
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,18:Botnet,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,18:Botnet,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,19:Portscan,recall,0.9380530973451328
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,19:Portscan,flows_until_first_flagged,1
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,19:Portscan,false_alarm_rate,0.00684931506849315
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,19:Portscan,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,19:Portscan,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,20:Portscan,recall,0.8305084745762712
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,20:Portscan,flows_until_first_flagged,2
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,20:Portscan,false_alarm_rate,0.0013633265167007499
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,20:Portscan,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,20:Portscan,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,21:Portscan,recall,0.9989604465669535
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,21:Portscan,flows_until_first_flagged,1
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,21:Portscan,false_alarm_rate,0.004152960526315789
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,21:Portscan,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,21:Portscan,adaptations,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,22:DDoS,recall,0.9997267300092492
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,22:DDoS,flows_until_first_flagged,1
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,22:DDoS,false_alarm_rate,0.004864232497998892
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,22:DDoS,detector_alerts,0
+20261111-145938-211780-experiment-phase-2-srp-methods-on-cic-ids2017,srp__standard__max__s42,srp,period,22:DDoS,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,overall,,n,2098976
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,overall,,accuracy,0.9976393250804202
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,overall,,precision,0.9985754304590899
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,overall,,recall,0.9916111200144035
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,overall,,f1,0.9950810900423592
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,overall,,tp,501191
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,overall,,fp,715
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,overall,,tn,1592830
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,overall,,fn,4240
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,overall,,kappa,0.993528122928306
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,overall,,kappa_temporal,0.8178978316795311
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,overall,,no_change_accuracy,0.9870365359108442
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,overall,,macro_f1,0.996764048953807
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,overall,,positive_rate_true,0.24079884667571236
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,overall,,positive_rate_predicted,0.239119456344427
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,overall,,latency_us_mean,5751.131364726419
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,overall,,latency_us_p50,4911.167
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,overall,,latency_us_p95,11377.4685
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,overall,,latency_us_p99,16436.95825
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,overall,,latency_us_max,432521.5
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,overall,,peak_rss_mb,199.196672
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,BENIGN,flagged_share,0.0004229984711355707
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,BENIGN,rows,1581566
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,FTP-Patator - Attempted,flagged_share,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,FTP-Patator - Attempted,rows,12
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,FTP-Patator,flagged_share,0.9680261832829808
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,FTP-Patator,rows,3972
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,SSH-Patator,flagged_share,0.9132049983113812
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,SSH-Patator,rows,2961
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,SSH-Patator - Attempted,flagged_share,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,SSH-Patator - Attempted,rows,27
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,DoS Slowloris - Attempted,flagged_share,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,DoS Slowloris - Attempted,rows,1847
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,DoS Slowloris,flagged_share,0.9582793469810832
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,DoS Slowloris,rows,3859
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,DoS Slowhttptest - Attempted,flagged_share,0.0002969121140142518
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,DoS Slowhttptest - Attempted,rows,3368
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,DoS Slowhttptest,flagged_share,0.9166666666666666
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,DoS Slowhttptest,rows,1740
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,DoS Hulk,flagged_share,0.9996150642400989
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,DoS Hulk,rows,158468
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,DoS Hulk - Attempted,flagged_share,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,DoS Hulk - Attempted,rows,581
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,DoS GoldenEye,flagged_share,0.9894277785119598
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,DoS GoldenEye,rows,7567
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,DoS GoldenEye - Attempted,flagged_share,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,DoS GoldenEye - Attempted,rows,80
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Heartbleed,flagged_share,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Heartbleed,rows,11
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Web Attack - Brute Force - Attempted,flagged_share,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Web Attack - Brute Force - Attempted,rows,1292
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Web Attack - Brute Force,flagged_share,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Web Attack - Brute Force,rows,73
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Web Attack - XSS - Attempted,flagged_share,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Web Attack - XSS - Attempted,rows,655
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Web Attack - XSS,flagged_share,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Web Attack - XSS,rows,18
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Web Attack - SQL Injection - Attempted,flagged_share,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Web Attack - SQL Injection - Attempted,rows,5
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Web Attack - SQL Injection,flagged_share,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Web Attack - SQL Injection,rows,13
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Infiltration - Portscan,flagged_share,0.9647748965401926
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Infiltration - Portscan,rows,71767
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Infiltration - Attempted,flagged_share,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Infiltration - Attempted,rows,45
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Infiltration,flagged_share,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Infiltration,rows,36
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Botnet,flagged_share,0.6494565217391305
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Botnet,rows,736
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Botnet - Attempted,flagged_share,0.011064666830587657
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Botnet - Attempted,rows,4067
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Portscan,flagged_share,0.9971521255327978
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,Portscan,rows,159066
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,DDoS,flagged_share,0.9998003026990667
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,label,DDoS,rows,95144
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,1:FTP-Patator,recall,0.9680261832829808
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,1:FTP-Patator,flows_until_first_flagged,1
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,1:FTP-Patator,false_alarm_rate,0.0002790636593453495
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,1:FTP-Patator,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,1:FTP-Patator,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,2:SSH-Patator,recall,0.9135135135135135
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,2:SSH-Patator,flows_until_first_flagged,3
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,2:SSH-Patator,false_alarm_rate,8.432414200185513e-05
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,2:SSH-Patator,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,2:SSH-Patator,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,3:SSH-Patator,recall,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,3:SSH-Patator,flows_until_first_flagged,
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,3:SSH-Patator,false_alarm_rate,
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,3:SSH-Patator,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,3:SSH-Patator,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,4:DoS Slowloris,recall,0.9582793469810832
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,4:DoS Slowloris,flows_until_first_flagged,120
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,4:DoS Slowloris,false_alarm_rate,0.0003101095720487906
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,4:DoS Slowloris,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,4:DoS Slowloris,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,5:DoS Slowhttptest,recall,0.9166666666666666
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,5:DoS Slowhttptest,flows_until_first_flagged,13
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,5:DoS Slowhttptest,false_alarm_rate,0.0014224053364724348
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,5:DoS Slowhttptest,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,5:DoS Slowhttptest,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,6:DoS Hulk,recall,0.9996150642400989
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,6:DoS Hulk,flows_until_first_flagged,1
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,6:DoS Hulk,false_alarm_rate,0.014793586863914491
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,6:DoS Hulk,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,6:DoS Hulk,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,7:DoS GoldenEye,recall,0.9894277785119598
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,7:DoS GoldenEye,flows_until_first_flagged,64
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,7:DoS GoldenEye,false_alarm_rate,0.000657030223390276
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,7:DoS GoldenEye,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,7:DoS GoldenEye,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,8:Heartbleed,recall,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,8:Heartbleed,flows_until_first_flagged,
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,8:Heartbleed,false_alarm_rate,5.001000200040008e-05
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,8:Heartbleed,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,8:Heartbleed,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,9:Web Attack - Brute Force,recall,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,9:Web Attack - Brute Force,flows_until_first_flagged,
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,9:Web Attack - Brute Force,false_alarm_rate,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,9:Web Attack - Brute Force,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,9:Web Attack - Brute Force,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,10:Web Attack - XSS,recall,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,10:Web Attack - XSS,flows_until_first_flagged,
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,10:Web Attack - XSS,false_alarm_rate,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,10:Web Attack - XSS,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,10:Web Attack - XSS,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,11:Web Attack - SQL Injection,recall,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,11:Web Attack - SQL Injection,flows_until_first_flagged,
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,11:Web Attack - SQL Injection,false_alarm_rate,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,11:Web Attack - SQL Injection,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,11:Web Attack - SQL Injection,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,12:Infiltration - Portscan,recall,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,12:Infiltration - Portscan,flows_until_first_flagged,
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,12:Infiltration - Portscan,false_alarm_rate,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,12:Infiltration - Portscan,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,12:Infiltration - Portscan,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,13:Infiltration,recall,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,13:Infiltration,flows_until_first_flagged,
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,13:Infiltration,false_alarm_rate,
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,13:Infiltration,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,13:Infiltration,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,14:Infiltration,recall,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,14:Infiltration,flows_until_first_flagged,
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,14:Infiltration,false_alarm_rate,0.00010549636037556704
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,14:Infiltration,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,14:Infiltration,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,15:Infiltration - Portscan,recall,0.5829618623080733
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,15:Infiltration - Portscan,flows_until_first_flagged,807
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,15:Infiltration - Portscan,false_alarm_rate,0.0010526315789473684
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,15:Infiltration - Portscan,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,15:Infiltration - Portscan,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,16:Infiltration,recall,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,16:Infiltration,flows_until_first_flagged,
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,16:Infiltration,false_alarm_rate,0.002316909022705708
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,16:Infiltration,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,16:Infiltration,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,17:Infiltration - Portscan,recall,0.9893739188580234
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,17:Infiltration - Portscan,flows_until_first_flagged,239
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,17:Infiltration - Portscan,false_alarm_rate,0.0029957203994293866
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,17:Infiltration - Portscan,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,17:Infiltration - Portscan,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,18:Botnet,recall,0.6494565217391305
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,18:Botnet,flows_until_first_flagged,245
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,18:Botnet,false_alarm_rate,0.0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,18:Botnet,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,18:Botnet,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,19:Portscan,recall,0.4690265486725664
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,19:Portscan,flows_until_first_flagged,1
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,19:Portscan,false_alarm_rate,0.0045662100456621
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,19:Portscan,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,19:Portscan,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,20:Portscan,recall,0.6864406779661016
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,20:Portscan,flows_until_first_flagged,10
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,20:Portscan,false_alarm_rate,0.0006816632583503749
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,20:Portscan,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,20:Portscan,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,21:Portscan,recall,0.998135104144353
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,21:Portscan,flows_until_first_flagged,1
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,21:Portscan,false_alarm_rate,0.007483552631578947
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,21:Portscan,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,21:Portscan,adaptations,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,22:DDoS,recall,0.9998003026990667
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,22:DDoS,flows_until_first_flagged,4
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,22:DDoS,false_alarm_rate,0.007819715534757712
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,22:DDoS,detector_alerts,0
+20261111-145941-337166-experiment-phase-2-levbag-methods-on-cic-ids2017,lev_bag__standard__max__s42,lev_bag,period,22:DDoS,adaptations,0

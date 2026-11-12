@@ -1,0 +1,23 @@
+# POST HOC: this option was added after seeing the Wednesday delay-1000 result (see research/effort_results.md).
+# It is exploratory and needs a held-out stretch before any claim.
+name: Effort POST-HOC variant — delay 1000, replacement must beat the old model
+base:
+  seed: 11
+  methods:
+  - effort
+  stream:
+    scenario: csv
+    dataset: cicids2017
+    noise: 0
+    start: 693702
+    length: 300000
+    label_delay: 1000
+  evaluation:
+    warmup: 1000
+  controller:
+    effort:
+      delay_race_only: true
+profiles:
+- small_sim
+seeds:
+- 11

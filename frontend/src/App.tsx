@@ -4,22 +4,54 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ExplainLayer } from "./components/Explain";
 import Logo from "./components/Logo";
 import { Badge } from "./components/ui";
+import { JOURNEY, journeyIndex } from "./lib/journey";
 import { store, useLive } from "./lib/live";
 import { setPresentation, usePresentation } from "./lib/present";
 import { href, useRoute } from "./lib/router";
 import { setTheme, useTheme } from "./lib/theme";
 import ExperimentDetail from "./pages/ExperimentDetail";
 import Experiments from "./pages/Experiments";
+import Findings from "./pages/Findings";
 import Home from "./pages/Home";
 import Live from "./pages/Live";
 import Method from "./pages/Method";
+import Testbed from "./pages/Testbed";
 
-const TABS = [
-  { page: "home" as const, label: "Home" },
-  { page: "live" as const, label: "Dataset test" },
-  { page: "experiments" as const, label: "Experiments" },
-  { page: "method" as const, label: "Method" },
-];
+/** "Step 3 of 6" and the way on, under every page: a visitor being walked through the project always
+ *  knows where they are and what comes next. */
+function JourneyBar({ index }: { index: number }) {
+  const step = JOURNEY[index];
+  const previous = JOURNEY[index - 1];
+  const next = JOURNEY[index + 1];
+  return (
+    <nav className="journey-bar" aria-label="Walkthrough">
+      <div className="journey-inner">
+        <div className="journey-here">
+          <span className="journey-count">
+            Step {index + 1} of {JOURNEY.length} · {step.title}
+          </span>
+          <span className="journey-shows">{step.shows}</span>
+        </div>
+        <div className="journey-links">
+          {previous && (
+            <a className="btn small" href={href({ page: previous.page })}>
+              ← {previous.label}
+            </a>
+          )}
+          {next ? (
+            <a className="btn small primary" href={href({ page: next.page })}>
+              Next: {next.label} — {next.title.toLowerCase()} →
+            </a>
+          ) : (
+            <a className="btn small primary" href={href({ page: "home" })}>
+              Back to the start →
+            </a>
+          )}
+        </div>
+      </div>
+    </nav>
+  );
+}
 
 /** True once the page has been scrolled away from the very top.
  *
@@ -63,6 +95,7 @@ export default function App() {
   const floating = useScrolledPastTop();
   /** Home is the explanation; the other three are the instrument. The top bar is quieter on Home. */
   const lab = route.page !== "home";
+  const step = journeyIndex(route);
 
   // A hash change keeps the scroll position, which would drop a visitor into the middle of the next
   // page. Every page starts at its own beginning.
@@ -85,13 +118,15 @@ export default function App() {
             </span>
           </a>
           <nav className="tabs" aria-label="Main">
-            {TABS.map((tab) => (
+            {JOURNEY.map((tab, index) => (
               <a
                 key={tab.page}
                 className="tab"
                 href={href({ page: tab.page })}
-                aria-current={route.page === tab.page || (tab.page === "experiments" && route.page === "experiment") ? "page" : undefined}
+                title={`Step ${index + 1}: ${tab.title}`}
+                aria-current={index === step ? "page" : undefined}
               >
+                <span className="tab-step" aria-hidden="true">{index + 1}</span>
                 {tab.label}
               </a>
             ))}
@@ -127,13 +162,28 @@ export default function App() {
         </div>
       </header>
 
+      {lab && step >= 0 && (
+        <div className="journey-top">
+          <div className="journey-top-inner">
+            <span className="journey-count">
+              Step {step + 1} of {JOURNEY.length} · {JOURNEY[step].title}
+            </span>
+            <span className="journey-shows">{JOURNEY[step].shows}</span>
+          </div>
+        </div>
+      )}
+
       <ErrorBoundary key={route.page}>
         {route.page === "home" && <Home />}
         {route.page === "live" && <Live />}
         {route.page === "experiments" && <Experiments />}
         {route.page === "experiment" && <ExperimentDetail id={route.id} trial={route.trial} />}
+        {route.page === "testbed" && <Testbed report={route.report} />}
+        {route.page === "findings" && <Findings />}
         {route.page === "method" && <Method />}
       </ErrorBoundary>
+
+      {step >= 0 && <JourneyBar index={step} />}
 
       <ExplainLayer />
     </div>

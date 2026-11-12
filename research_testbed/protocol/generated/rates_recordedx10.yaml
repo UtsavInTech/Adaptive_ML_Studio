@@ -1,0 +1,24 @@
+# Generated from protocol.yaml v1 (full), grid 'rates'. Do not edit; edit the protocol and re-expand.
+name: Protocol v1 — rates_recordedx10
+base:
+  seed: 11
+  methods:
+  - adaptive
+  - joint
+  stream:
+    scenario: csv
+    dataset: cicids2017
+    noise: 0
+    length: 2099976
+    start: 0
+    arrival: recorded
+    rate_scale: 10
+  evaluation:
+    warmup: 1000
+profiles:
+- small_sim
+- micro_sim
+seeds:
+- 11
+- 23
+- 37

@@ -1,0 +1,11 @@
+# Held-out test: friday's traffic was not used to design, calibrate or check the effort controller
+# (design used Wednesday; cost calibration and dev checks used Tuesday). Defaults unchanged.
+# One trial at a time. Simulated tiers, placeholder budgets.
+name: "Held-out friday — references"
+base:
+  seed: 11
+  methods: [no_change, incremental]
+  stream: {scenario: csv, dataset: cicids2017, start: 1552419, length: 547557, noise: 0}
+  evaluation: {warmup: 1000}
+profiles: [small_sim, micro_sim]
+seeds: [11]

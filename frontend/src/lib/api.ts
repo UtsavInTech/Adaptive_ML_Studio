@@ -72,6 +72,29 @@ export type MethodSummary = {
   stability_reference: StabilityReference | null;
   drift_phases?: DriftPhases | null;
   predictions_sha256: string;
+  // Research testbed fields: present only in runs made after phases 2-3, so every one is optional.
+  stream_scores_after_warmup?: StreamScores | null;
+  cost_terms_us_per_row?: Record<string, number | null> | null;
+  attack_types_after_warmup?: Record<string, AttackTypeScore> | null;
+  attack_periods?: AttackPeriodScore[] | null;
+  controller?: ControllerSummary | null;
+};
+
+export type StreamScores = {
+  kappa?: number | null; kappa_temporal?: number | null; no_change_accuracy?: number | null; macro_f1?: number | null;
+  positive_rate_true?: number | null; positive_rate_predicted?: number | null;
+};
+export type AttackTypeScore = { rows: number; counted_as_attack: boolean; flagged: number; flagged_share: number | null };
+export type AttackPeriodScore = {
+  attack_type: string; start_row: number; end_row: number; flows: number; recall: number | null;
+  flows_until_first_flagged: number | null; false_alarm_rate?: number | null; detector_alerts?: number | null; adaptations?: number | null;
+};
+export type ControllerSummary = {
+  rules?: string[]; resource_gating?: boolean; actions?: Record<string, number>; decisions?: number;
+  rows_in_lightweight_mode?: number | null; final_features?: number | null; final_update_stride?: number | null;
+  final_narrow_processing?: boolean | null;
+  budgets?: { cpu_us_per_row?: number | null; cpu_us_per_row_lowest?: number | null; cpu_follows_arrival_rate?: boolean; deadline_ms?: number | null; model_memory_mib?: number | null };
+  last_model_bytes?: number | null; memory_probes?: number | null; memory_probes_over_budget?: number | null; peak_model_bytes?: number | null;
 };
 
 /** Scores over one row window, plus what the detector did inside it. */
@@ -126,7 +149,7 @@ export type Profile = { name: string; label: string; simulated: boolean; placeho
 export type Manifest = {
   id: string; kind: string; name: string; status: string; error: string | null;
   created_utc: string; finished_utc: string | null; config_hash: string;
-  provenance: { measured_on: string; simulated_profiles: string[]; placeholder_budgets: boolean; real_data: boolean; injected_drift?: boolean };
+  provenance: { measured_on: string; device_model?: string | null; simulated_profiles: string[]; placeholder_budgets: boolean; real_data: boolean; injected_drift?: boolean };
   environment: Record<string, unknown>;
   app_version: { commit: string | null; uncommitted_changes: boolean };
   trials: TrialEntry[];
@@ -160,6 +183,37 @@ export type Dataset = {
   row_seconds?: number; span?: string;
   drift_injection?: { swap: [string, string]; rule: string };
   recommended_warmup?: number; warmup_reason?: string;
+  /** Large datasets read from disk row by row (the research testbed). They have real, dated changes. */
+  streaming?: boolean;
+};
+
+export type AttackPeriod = { attack_type: string; start_row: number; end_row: number; flows: number; start: string; end: string };
+export type StreamSlice = { id: string; label: string; start: number; length: number; said: string };
+export type TestbedTier = {
+  name: string; label: string; simulated: boolean; placeholder: boolean; note: string;
+  budgets: {
+    cpu_us_per_row: number | null; deadline_ms: number | null; model_memory_mib: number | null;
+    background_replacement: boolean; max_update_stride: number; min_features: number;
+  };
+};
+export type TestbedOptions = {
+  datasets: {
+    id: string; name: string; rows: number; available: boolean; sha256: string; n_features: number;
+    schedule: { day_start_rows: Record<string, number>; attack_periods: AttackPeriod[]; first_flow_end?: string; last_flow_end?: string } | null;
+    slices: StreamSlice[];
+  }[];
+  tiers: TestbedTier[];
+  methods: { id: string; said: string; us_per_row: number; slow?: boolean }[];
+  read_us_per_row: number;
+  rules: { id: string; title: string; said: string }[];
+  resource_check: { id: string; title: string; said: string };
+  defaults: { warmup: number; seeds: number[]; slice: string; large_rows: number };
+};
+export type ReportSummary = { name: string; title: string; modified: number; figures: number; tables: number };
+export type Report = {
+  name: string; markdown: string;
+  figures: { path: string; svg: string | null }[];
+  tables: { path: string; columns: string[]; rows: string[][] }[];
 };
 
 export type LiveSnapshot = {
@@ -234,6 +288,13 @@ export const api = {
   stopJob: () => post("/api/experiments/job/stop"),
   rerun: (id: string) => post<{ rerun_of: string }>(`/api/experiments/${encodeURIComponent(id)}/rerun`),
   exportUrl: (id: string) => `/api/experiments/${encodeURIComponent(id)}/export`,
+
+  testbedOptions: () => request<TestbedOptions>("/api/testbed/options"),
+  reports: () => request<ReportSummary[]>("/api/testbed/reports"),
+  report: (name: string) => request<Report>(`/api/testbed/reports/${encodeURIComponent(name)}`),
+  /** A report's file. Paths come from the report listing ("figures/x.png"); each segment is encoded. */
+  reportFileUrl: (name: string, path: string, download = false) =>
+    `/api/testbed/reports/${encodeURIComponent(name)}/files/${path.split("/").map(encodeURIComponent).join("/")}${download ? "?download=true" : ""}`,
 };
 
 /** One trial of a running experiment: a single method, alone in its own process. */

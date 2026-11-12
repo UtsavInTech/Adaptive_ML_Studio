@@ -1,0 +1,20 @@
+# Generated from protocol.yaml v1 (quick), grid 'ensembles'. Do not edit; edit the protocol and re-expand.
+name: Protocol v1 quick — ensembles
+base:
+  seed: 11
+  methods:
+  - arf
+  stream:
+    scenario: csv
+    dataset: cicids2017
+    noise: 0
+    length: 300000
+    start: 693702
+  evaluation:
+    warmup: 1000
+profiles:
+- standard
+- small_sim
+- micro_sim
+seeds:
+- 11

@@ -22,3 +22,6 @@ results/*
 .DS_Store
 .idea/
 .vscode/
+
+# Device kit outputs (phase 7)
+research_testbed/device/out/

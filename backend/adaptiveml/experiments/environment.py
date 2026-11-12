@@ -7,6 +7,7 @@ import os
 import platform
 import subprocess
 import sys
+from pathlib import Path
 from datetime import datetime, timezone
 
 import psutil
@@ -28,13 +29,48 @@ def _power_source() -> str | None:
     return out.split("'")[1]  # e.g. "AC Power" / "Battery Power"
 
 
+def _read(path: str) -> str | None:
+    try:
+        return Path(path).read_text(errors="replace").strip("\x00 \n") or None
+    except OSError:
+        return None
+
+
+def device_model() -> str | None:
+    """The board's own name, on single-board computers that state one (e.g. "Raspberry Pi 4 Model B
+    Rev 1.4"). None on laptops and servers, so a result is never labelled as a device by mistake."""
+    return _read("/proc/device-tree/model") or _read("/sys/firmware/devicetree/base/model")
+
+
+def _linux_cpu() -> str | None:
+    info = _read("/proc/cpuinfo") or ""
+    for key in ("model name", "Model", "Hardware"):
+        for line in info.splitlines():
+            if line.split(":")[0].strip() == key and ":" in line:
+                return line.split(":", 1)[1].strip()
+    return None
+
+
+def cpu_temperature_c() -> float | None:
+    raw = _read("/sys/class/thermal/thermal_zone0/temp")
+    try:
+        return round(int(raw) / 1000, 1) if raw else None
+    except ValueError:
+        return None
+
+
 def capture_environment() -> dict:
     darwin = sys.platform == "darwin"
+    model = device_model()
     return {
+        # Present only when the run was measured on a single-board computer.
+        "device_model": model,
+        "cpu_governor": _read("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor"),
+        "cpu_temperature_c": cpu_temperature_c(),
         "timestamp_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "os": platform.platform(),
         "machine": platform.machine(),
-        "cpu": (_run("sysctl", "-n", "machdep.cpu.brand_string") if darwin else None) or platform.processor(),
+        "cpu": (_run("sysctl", "-n", "machdep.cpu.brand_string") if darwin else None) or _linux_cpu() or model or platform.processor() or platform.machine(),
         "cores_logical": os.cpu_count(),
         "cores_performance": _run("sysctl", "-n", "hw.perflevel0.physicalcpu") if darwin else None,
         "cores_efficiency": _run("sysctl", "-n", "hw.perflevel1.physicalcpu") if darwin else None,

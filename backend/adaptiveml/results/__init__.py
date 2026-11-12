@@ -150,6 +150,8 @@ def _trial_entry(trial_id: str, payload: dict) -> dict:
                 "precision": s["scores_after_warmup"]["precision"],
                 "recall": s["scores_after_warmup"]["recall"],
                 "f1": s["scores_after_warmup"]["f1"],
+                **{k: (s.get("stream_scores_after_warmup") or {}).get(k)
+                   for k in ("kappa", "kappa_temporal", "macro_f1", "no_change_accuracy")},
                 "latency_us": s["latency_us"],
                 "adaptations": s["adaptations"]["count"],
                 "predictions_sha256": s["predictions_sha256"],
@@ -170,6 +172,7 @@ class ExperimentBundle:
         self.config_payload = config_payload
         self.environment = capture_environment()
         self.trials: list[dict] = []
+        self.extra: dict = {}  # run-level facts for the manifest, e.g. how many trials ran in parallel
         (self.dir / "config.resolved.yaml").write_text(yaml.safe_dump(config_payload, sort_keys=False))
         self.write_manifest("running")
 
@@ -190,6 +193,7 @@ class ExperimentBundle:
             "name": self.name,
             "status": status,
             "error": error,
+            **self.extra,
             "created_utc": self.created,
             "finished_utc": finished,
             "app_version": app_version(),
@@ -197,6 +201,8 @@ class ExperimentBundle:
             "environment": env,
             "provenance": {
                 "measured_on": f"{env['cpu']}, {env['ram_gb']} GB RAM, {env['os']}, power: {env['power_source']}",
+                # Set only when the machine names itself as a single-board computer (Raspberry Pi etc.).
+                "device_model": env.get("device_model"),
                 "simulated_profiles": sorted(n for n, p in profiles.items() if p["simulated"]),
                 "placeholder_budgets": any(p["placeholder"] for p in profiles.values()),
                 "real_data": any(t["scenario"]["real"] for t in self.trials),

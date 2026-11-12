@@ -1,0 +1,95 @@
+{
+  "name": "Darwin arm64 (utsavs-MacBook-Air)",
+  "real_device": false,
+  "tag": "rehearsal-20261112-090522",
+  "environment": {
+    "device_model": null,
+    "cpu_governor": null,
+    "cpu_temperature_c": null,
+    "timestamp_utc": "2026-11-12T09:05:22+00:00",
+    "os": "macOS-27.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "cpu": "Apple M1",
+    "cores_logical": 8,
+    "cores_performance": "4",
+    "cores_efficiency": "4",
+    "ram_gb": 8.6,
+    "python": "3.11.18",
+    "packages": {
+      "river": "0.26.1",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "pydantic": "2.13.5",
+      "psutil": "7.2.2"
+    },
+    "power_source": "Battery Power",
+    "pythonhashseed": "0",
+    "cpu_affinity_supported": false
+  },
+  "slice": {
+    "start": 730000,
+    "length": 40000,
+    "said": "40,000 Wednesday rows with two attacks (the Studio's demo slice)"
+  },
+  "seeds": [
+    11
+  ],
+  "calibrated_us_per_row": 82.84517461666667,
+  "budget_rule": {
+    "device_small": {
+      "times_calibrated_cost": 1.2489072061945798,
+      "deadline_times_budget": 5,
+      "model_memory_mib": 8.0,
+      "allow_background": true,
+      "max_update_stride": 4,
+      "min_features": 4,
+      "like": "small_sim"
+    },
+    "device_micro": {
+      "times_calibrated_cost": 0.6244536030972899,
+      "deadline_times_budget": 4,
+      "model_memory_mib": 1.0,
+      "allow_background": false,
+      "max_update_stride": 8,
+      "min_features": 2,
+      "like": "micro_sim"
+    }
+  },
+  "profiles": [
+    {
+      "name": "device_small",
+      "label": "Small budget, 103 \u00b5s per row (REHEARSAL on Darwin arm64 (utsavs-MacBook-Air), not a device)",
+      "simulated": true,
+      "placeholder": true,
+      "budgets": {
+        "compute_share": 1.0,
+        "nominal_rate": 9665.016746055795,
+        "latency_deadline_ms": 0.5173296778860165,
+        "model_memory_mib": 8.0,
+        "allow_background": true,
+        "max_update_stride": 4,
+        "min_features": 4
+      }
+    },
+    {
+      "name": "device_micro",
+      "label": "Micro budget, 52 \u00b5s per row (REHEARSAL on Darwin arm64 (utsavs-MacBook-Air), not a device)",
+      "simulated": true,
+      "placeholder": true,
+      "budgets": {
+        "compute_share": 1.0,
+        "nominal_rate": 19330.03349211159,
+        "latency_deadline_ms": 0.2069318711544066,
+        "model_memory_mib": 1.0,
+        "allow_background": false,
+        "max_update_stride": 8,
+        "min_features": 2
+      }
+    }
+  ],
+  "temperature_c": {
+    "before": null,
+    "after": null
+  },
+  "note": "Budgets follow a rule from the calibration run; they are placeholders. Energy not measured."
+}

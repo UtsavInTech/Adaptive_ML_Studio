@@ -104,6 +104,135 @@ def classification_scores(tp: int, fp: int, tn: int, fn: int) -> dict:
     }
 
 
+def cost_terms(pipe, stage_us: dict, total_us: float | None, rows: int) -> dict | None:
+    """Mean cost per row after warm-up, split by the review's terms (§4.3):
+
+        C_total = C_pre + C_fs + C_drift + C_inf + C_upd + C_ret (+ C_comm)
+
+    - C_pre: preprocessing — transform, plus updating its running statistics.
+    - C_fs: feature selection — projecting the row, plus updating the relevance ranking.
+    - C_inf: prediction.  C_drift: the detector update.  C_upd: the active model's update.
+    - C_ret: adaptation and retraining — swaps, resets, a replacement model's training, and
+      buffered retraining (R4).
+    - C_ctrl: the controller's own decisions and measurements. Not a term of the review's formula;
+      reported so that the cost of deciding is visible.
+    - C_comm: not applicable — everything runs in one local process; reported as None, not zero.
+    - unattributed: bookkeeping between the timers (label counts, update stride, warm-up buffer).
+    Stage means come from blocks starting after warm-up and the split counters restart at the end
+    of warm-up, so the two can differ slightly at the boundary.
+    """
+    if not rows or total_us is None:
+        return None
+    pre_learn, fs_learn, model_learn, replacement = (v / rows / 1_000.0 for v in pipe.cost_ns)
+    ctrl, retrain = (v / rows / 1_000.0 for v in pipe.controller_cost_ns)
+    terms = {
+        "C_pre": stage_us["preprocess"] + pre_learn,
+        "C_fs": stage_us["select"] + fs_learn,
+        "C_inf": stage_us["predict"],
+        "C_drift": stage_us["detect"],
+        "C_upd": model_learn,
+        "C_ret": max(0.0, stage_us["adapt"] - ctrl - retrain) + replacement + retrain,
+        "C_ctrl": ctrl,
+        "C_comm": None,
+    }
+    terms["unattributed"] = total_us - sum(v for v in terms.values() if v is not None)
+    terms["total"] = total_us
+    return terms
+
+
+def _kappa_like(p0: float, reference: float) -> float | None:
+    return None if reference >= 1.0 else (p0 - reference) / (1.0 - reference)
+
+
+def stream_scores(y_true: np.ndarray, y_pred: np.ndarray, lo: int) -> dict | None:
+    """Scores that account for chance and for labels arriving in runs, over rows [lo, end).
+
+    - kappa: agreement beyond what the two label frequencies give by chance (Cohen).
+    - kappa_temporal: accuracy beyond the "repeat the last label" classifier, whose accuracy is
+      `no_change_accuracy` (Žliobaitė et al., 2015). At or below 0 a method does no better than
+      copying the previous row's label, whatever its accuracy.
+    - macro_f1: the mean of the F1 scores of both classes, so the majority class cannot dominate.
+    The previous label of row `lo` is row `lo - 1`'s label, which the stream has already revealed.
+    None where a score is undefined.
+    """
+    hi = len(y_true)
+    if hi - lo < 1 or lo < 1:
+        return None
+    t, p = y_true[lo:hi], y_pred[lo:hi]
+    n = len(t)
+    tp, fp = int(np.sum(t & p)), int(np.sum(~t & p))
+    tn, fn = int(np.sum(~t & ~p)), int(np.sum(t & ~p))
+    p0 = (tp + tn) / n
+    chance = ((tp + fn) * (tp + fp) + (tn + fp) * (tn + fn)) / (n * n)
+    no_change = float(np.mean(y_true[lo - 1:hi - 1] == t))
+    f1_pos = _ratio(2 * tp, 2 * tp + fp + fn)
+    f1_neg = _ratio(2 * tn, 2 * tn + fn + fp)
+    return {
+        "kappa": _kappa_like(p0, chance),
+        "kappa_temporal": _kappa_like(p0, no_change),
+        "no_change_accuracy": no_change,
+        "macro_f1": None if f1_pos is None or f1_neg is None else (f1_pos + f1_neg) / 2,
+        "positive_rate_true": (tp + fn) / n,
+        "positive_rate_predicted": (tp + fp) / n,
+    }
+
+
+def attack_type_scores(y_true: np.ndarray, y_pred: np.ndarray, codes: np.ndarray, names: list[str], lo: int) -> dict:
+    """Per original label over rows [lo, end): how many rows, and how many were flagged as attacks.
+
+    For an attack type `flagged_share` is its recall. For benign traffic, and for the "Attempted"
+    flows that count as benign, it is the false-alarm rate.
+    """
+    t, p, c = y_true[lo:], y_pred[lo:], codes[lo:len(y_true)]
+    out = {}
+    for k, name in enumerate(names):
+        mask = c == k
+        rows = int(mask.sum())
+        if rows:
+            out[name] = {"rows": rows, "counted_as_attack": bool(t[mask][0]), "flagged": int(p[mask].sum()),
+                         "flagged_share": float(p[mask].mean())}
+    return out
+
+
+def attack_period_scores(
+    y_true: np.ndarray, y_pred: np.ndarray, codes: np.ndarray, names: list[str], periods: list[dict],
+    events: list[dict], warmup: int,
+) -> list[dict]:
+    """For each dated attack period: how much of it was caught, how fast, and what the detector did.
+
+    - recall: share of that attack type's flows in the period flagged as attacks.
+    - flows_until_first_flagged: how many of its flows passed before the first was flagged (0 = the first).
+    - false_alarm_rate: share of benign rows inside the period flagged as attacks.
+    - detector_alerts / adaptations: pipeline events inside the period (adaptive pipeline only).
+    Periods that start before the end of warm-up are skipped.
+    """
+    index = {name: k for k, name in enumerate(names)}
+    alerts = [e["i"] for e in events if e["type"] == "drift_detected" and e.get("error_increased")]
+    adapted = [e["i"] for e in events if e["type"] == "adaptation_completed"]
+    n = len(y_true)
+    out = []
+    for period in periods:
+        lo, hi = period["start_row"], period["end_row"] + 1
+        if lo < warmup or lo >= n:
+            continue
+        hi = min(hi, n)
+        c, t, p = codes[lo:hi], y_true[lo:hi], y_pred[lo:hi]
+        mine = c == index.get(period["attack_type"], -1)
+        flagged = p[mine]
+        benign = ~t
+        first = np.flatnonzero(flagged)
+        out.append({
+            "attack_type": period["attack_type"],
+            "start_row": lo, "end_row": hi - 1, "flows": int(mine.sum()),
+            "recall": float(flagged.mean()) if len(flagged) else None,
+            "flows_until_first_flagged": int(first[0]) if len(first) else None,
+            "false_alarm_rate": float(p[benign].mean()) if benign.any() else None,
+            "detector_alerts": sum(lo <= i < hi for i in alerts),
+            "adaptations": sum(lo <= i < hi for i in adapted),
+        })
+    return out
+
+
 def _scores_between(y_true: np.ndarray, y_pred: np.ndarray, lo: int, hi: int) -> dict | None:
     lo, hi = max(lo, 0), min(hi, len(y_true))
     if hi <= lo:
@@ -246,6 +375,7 @@ def stability_reference(
 def summarize_method(
     rec: MethodRecorder, pipe, *, warmup: int, drift_index: int | None, stability: StabilityConfig,
     phases: PhaseConfig | None = None, phase_window: tuple[int, int, int | None, str] | None = None,
+    row_types: tuple[np.ndarray, list[str]] | None = None, periods: list[dict] | None = None,
 ) -> dict:
     predicted = rec.predicted_labels()
     y_true = rec.true_labels().astype(bool)
@@ -273,9 +403,19 @@ def summarize_method(
         }
     else:  # e.g. a trial stopped during warm-up: no post-warm-up samples to summarise
         latency = dict.fromkeys(("mean", "p50", "p95", "p99", "max"))
+    by_type = periods_scored = None
+    if row_types is not None:
+        codes, names = row_types
+        by_type = attack_type_scores(y_true, y_pred, codes, names, warmup)
+        if periods is not None:
+            periods_scored = attack_period_scores(y_true, y_pred, codes, names, periods, pipe.events, warmup)
     return {
         "method": rec.method,
         "scores_after_warmup": scores,
+        "cost_terms_us_per_row": cost_terms(pipe, stage_us, latency["mean"], len(svc_us)),
+        "stream_scores_after_warmup": stream_scores(y_true, y_pred, warmup),
+        "attack_types_after_warmup": by_type,
+        "attack_periods": periods_scored,
         "latency_us": latency,
         "stage_mean_us": stage_us,
         "processing_throughput_per_s": 1e6 / latency["mean"] if latency["mean"] else None,

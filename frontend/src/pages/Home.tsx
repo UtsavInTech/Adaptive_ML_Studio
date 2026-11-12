@@ -11,6 +11,7 @@ import { useRef } from "react";
 import { ExplainButton } from "../components/Explain";
 import Reveal from "../components/Reveal";
 import RunPreview from "../components/RunPreview";
+import { JOURNEY } from "../lib/journey";
 import { href } from "../lib/router";
 
 const PROBLEM_STEPS = [
@@ -77,19 +78,39 @@ const EXISTING_WORK = [
 ];
 
 const IMPLEMENTED = [
-  "A controlled evolving stream with drift at a known position",
-  "Adaptive preprocessing and online feature selection",
-  "Drift detection with ADWIN",
-  "Model adaptation with a background replacement model",
-  "Accuracy, latency, CPU, memory and model size from the same run",
-  "A simulated resource-constrained profile",
-  "Fixed seeds, stored configuration and a reproducibility check",
+  "One pipeline: adaptive preprocessing, online feature selection, ADWIN drift detection, model adaptation",
+  "Three real datasets (electricity prices, room occupancy, network intrusions) and a synthetic stream",
+  "A week of real network traffic, 2.1 million connections, with dated attack periods",
+  "The review's five decision rules (R1–R5) as a working controller, each rule switchable",
+  "A new budgeted effort controller, with a switch for each of its parts",
+  "Accuracy, per-stage time, CPU, memory and model size from the same run",
+  "Simulated device tiers, late and partial labels, fixed seeds and saved reports",
 ];
 
 const NEXT_STEPS = [
-  "Real-world evolving datasets rather than a synthetic generator",
-  "Measurement on physical edge hardware",
-  "Adaptation that responds to more than one resource at once",
+  "Test the new controller on days it was not designed on, with repeated seeds",
+  "Adaptation that still works when the true answers arrive late",
+  "A second dataset from a different network",
+  "Measurement on physical edge hardware, including energy",
+];
+
+/** The project in three moves. Wording only: the measurements are on the Findings page. */
+const ARC = [
+  {
+    cap: "1 · The review",
+    title: "A proposal without a test.",
+    text: "Our review of adaptive machine learning found the parts studied separately and mostly on accuracy alone. It proposed five decision rules for adapting to drift and to resources together, and left them untested.",
+  },
+  {
+    cap: "2 · The testbed",
+    title: "A real case under device limits.",
+    text: "We replay a week of real network traffic with dated cyber-attacks, on simulated small devices with a time and memory budget, and record accuracy and the cost of every pipeline stage in the same run.",
+  },
+  {
+    cap: "3 · The controller",
+    title: "Spend the budget where it matters.",
+    text: "The measurements showed where the rules fall short. A new controller does less work on easy connections and more during attacks, while holding the device's time budget on average.",
+  },
 ];
 
 /** A schematic of the story the platform exists to show. Explicitly not data: it is drawn from
@@ -340,39 +361,21 @@ export default function Home() {
       <section className="band">
         <div className="band-inner">
           <Reveal className="section-intro">
-            <span className="eyebrow">Explore</span>
-            <h2 className="section-type">Three ways into the system.</h2>
+            <span className="eyebrow">This project</span>
+            <h2 className="section-type">From a review paper to a tested system.</h2>
+            <p className="lead">
+              Our published review ended with a proposal it did not test: a pipeline that adapts to changing data and
+              to a device's limited resources at the same time. This project builds that proposal and measures it.
+            </p>
           </Reveal>
-          <div className="explore-grid">
-            {[
-              {
-                to: href({ page: "live" }),
-                cap: "Live",
-                title: "Watch a model adapt as the stream changes.",
-                text: "Run the validated scenario and follow drift, detection, adaptation and recovery as they happen.",
-              },
-              {
-                to: href({ page: "experiments" }),
-                cap: "Experiments",
-                title: "Compare methods under controlled conditions.",
-                text: "Static, incremental, adaptive and ARF on the same stream, each in its own process, with every run stored.",
-              },
-              {
-                to: href({ page: "method" }),
-                cap: "Method",
-                title: "Understand the architecture and the methodology.",
-                text: "How each component works, how every number is measured, and which research gap it addresses.",
-              },
-            ].map((card, index) => (
+          <div className="arc-grid">
+            {ARC.map((card, index) => (
               <Reveal key={card.cap} delay={index * 70}>
-                <a className="explore-card" href={card.to}>
-                  <span className="explore-cap">{card.cap}</span>
+                <div className="arc-card">
+                  <span className="gap-cap">{card.cap}</span>
                   <strong>{card.title}</strong>
-                  <span className="explore-text">{card.text}</span>
-                  <span className="explore-go" aria-hidden="true">
-                    →
-                  </span>
-                </a>
+                  <p>{card.text}</p>
+                </div>
               </Reveal>
             ))}
           </div>
@@ -382,11 +385,41 @@ export default function Home() {
       <section className="band">
         <div className="band-inner">
           <Reveal className="section-intro">
+            <span className="eyebrow">Walkthrough</span>
+            <h2 className="section-type">The project in six steps.</h2>
+            <p className="lead">
+              The pages follow the order of the work. Each one ends with a link to the next.
+            </p>
+          </Reveal>
+          <Reveal>
+            <ol className="step-list">
+              {JOURNEY.map((step, index) => (
+                <li key={step.page}>
+                  <a href={href({ page: step.page })} aria-current={index === 0 ? "step" : undefined}>
+                    <span className="step-n">{index + 1}</span>
+                    <strong>
+                      {step.label} — {step.title.toLowerCase()}
+                    </strong>
+                    <span className="step-shows">{step.shows}</span>
+                    <span className="step-go" aria-hidden="true">
+                      {index === 0 ? "you are here" : "→"}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="band">
+        <div className="band-inner">
+          <Reveal className="section-intro">
             <span className="eyebrow">Current scope</span>
             <h2 className="section-type">What the prototype does, and what it does not.</h2>
             <p className="lead">
-              The constrained profile is enforced in software on this computer. No edge device is involved, no
-              energy is measured, and the stream is synthetic — the interface says so wherever such a run appears.
+              Device limits are enforced in software on this computer, with placeholder budgets. No edge device is
+              involved and no energy is measured — the interface says so wherever such a run appears.
             </p>
           </Reveal>
           <div className="scope-grid">

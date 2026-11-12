@@ -31,10 +31,19 @@ def load_experiment(path: Path) -> ExperimentConfig:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("config", type=Path)
+    parser.add_argument("--workers", type=int, default=1,
+                        help="trials run at once, each in its own process (timings then include contention)")
     args = parser.parse_args()
     exp = load_experiment(args.config)
     print(f"{exp.name}: {len(exp.trials())} trials")
-    manifest = run_experiment(exp, on_progress=lambda p: p["trial"] and print(f"  [{p['done'] + 1}/{p['total']}] {p['trial']}", flush=True))
+    seen: set[str] = set()
+
+    def announce(p: dict) -> None:  # progress arrives many times per trial; say each trial once
+        if p["trial"] and p["trial"] not in seen:
+            seen.add(p["trial"])
+            print(f"  [{p['done'] + 1}/{p['total']}] {p['trial']}", flush=True)
+
+    manifest = run_experiment(exp, workers=args.workers, on_progress=announce)
     print(f"\nstatus: {manifest['status']} — results/experiments/{manifest['id']}")
     def fmt(value, spec):
         return "—" if value is None else format(value, spec)
@@ -43,6 +52,7 @@ def main() -> None:
         for method, s in t["methods"].items():
             print(
                 f"  {t['trial_id']:<44} acc {fmt(s['accuracy'], '.4f')}  f1 {fmt(s['f1'], '.4f')}  "
+                f"κ_temporal {fmt(s.get('kappa_temporal'), '.4f')}  "
                 f"mean {fmt(s['latency_us']['mean'], '.1f')} µs  adaptations {s['adaptations']}"
             )
 

@@ -1,0 +1,21 @@
+# Generated from protocol.yaml v1 (quick), grid 'ablations'. Do not edit; edit the protocol and re-expand.
+name: Protocol v1 quick — ablations_without_resource_checks
+base:
+  seed: 11
+  methods:
+  - joint
+  stream:
+    scenario: csv
+    dataset: cicids2017
+    noise: 0
+    length: 300000
+    start: 693702
+  evaluation:
+    warmup: 1000
+  controller:
+    resource_gating: false
+profiles:
+- small_sim
+- micro_sim
+seeds:
+- 11

@@ -1,0 +1,11 @@
+# Phase 2 check: the comparison methods on the whole corrected CIC-IDS2017 stream, seed 42,
+# default settings, one method per fresh process. Three of these files ran in parallel on one
+# machine, so timings include contention. Not an experiment of record.
+#
+#   cd backend && PYTHONHASHSEED=0 .venv/bin/python -m adaptiveml.experiments.run ../research_testbed/presets/phase2_core.yaml
+name: "Phase 2 — core methods on CIC-IDS2017"
+base:
+  seed: 42
+  methods: [no_change, static, incremental, adaptive, arf]
+  stream: {scenario: csv, dataset: cicids2017, length: 2099976, noise: 0}
+seeds: [42]

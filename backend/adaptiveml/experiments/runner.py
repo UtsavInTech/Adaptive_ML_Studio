@@ -71,6 +71,53 @@ def run_isolated(configs: list[TrialConfig], trial_dirs: list[Path] | None = Non
     return results
 
 
+def _run_parallel(bundle, trials, plan, workers, should_stop, progress) -> dict:
+    """Fleet runner: up to `workers` trials at once, each alone in its own spawned process."""
+    import threading
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+
+    lock = threading.Lock()
+    status, error = "completed", None
+
+    def one(k: int, trial_id: str, cfg: TrialConfig):
+        if should_stop is not None and should_stop():
+            return k, None
+        with lock:
+            plan[k]["status"] = "running"
+        began = time.monotonic()
+        payload = run_isolated_streaming(cfg, bundle.trial_dir(trial_id), lambda message: None)
+        return k, (payload, round(time.monotonic() - began, 1))
+
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = [pool.submit(one, k, trial_id, cfg) for k, (trial_id, cfg) in enumerate(trials)]
+        for future in as_completed(futures):
+            try:
+                k, result = future.result()
+            except Exception as exc:  # noqa: BLE001 — keep the other trials; record the failure
+                status, error = "error", repr(exc).split("\n")[0][:600]
+                continue
+            trial_id, cfg = trials[k]
+            with lock:
+                if result is None:
+                    plan[k]["status"], status = "skipped", "stopped"
+                    continue
+                payload, seconds = result
+                bundle.record_trial(trial_id, payload)
+                summary = payload["summaries"].get(cfg.methods[0])
+                plan[k].update(status="done", seconds=seconds)
+                if summary is not None:
+                    plan[k].update(accuracy=summary["scores_after_warmup"]["accuracy"],
+                                   precision=summary["scores_after_warmup"]["precision"],
+                                   adaptations=summary["adaptations"]["count"])
+                progress(len(bundle.trials), trial_id)
+    for entry in plan:
+        if entry["status"] == "running":
+            entry["status"] = "failed"
+    manifest = bundle.finish(status, error)
+    progress(len(bundle.trials), None)
+    return manifest
+
+
 PROGRESS_INTERVAL_S = 0.2  # a running trial reports at most five times a second
 RECENT_BLOCKS = 10  # "recent accuracy" covers this many blocks (1,000 rows at the default block size)
 FEED_LENGTH = 14
@@ -189,13 +236,19 @@ def run_experiment(
     root: Path | None = None,
     on_progress: Callable[[dict], None] | None = None,
     should_stop: Callable[[], bool] | None = None,
+    workers: int = 1,
 ) -> dict:
-    """Run every trial of an experiment in sequence (fresh process each) and write its bundle."""
+    """Run every trial of an experiment (fresh process each) and write its bundle.
+
+    `workers` > 1 runs that many trials at once (the fleet runner: one process per node). Parallel
+    trials share the machine, so their timings include contention, and a controller that reacts to
+    measured time can decide differently. The manifest records `parallel_workers`.
+    """
     from adaptiveml.results import ExperimentBundle
-    from adaptiveml.stream.static import StaticScenario
+    from adaptiveml.stream import dataset_scenario
 
     if exp.base.stream.scenario == "csv":
-        source = StaticScenario(exp.base.stream)
+        source = dataset_scenario(exp.base.stream)
         stream = exp.base.stream.model_copy(update={"dataset_sha256": source.sha256})
         exp = exp.model_copy(update={"base": exp.base.model_copy(update={"stream": stream})})
 
@@ -223,6 +276,7 @@ def run_experiment(
         for trial_id, cfg in trials
     ]
     feed: deque = deque(maxlen=FEED_LENGTH)
+    bundle.extra["parallel_workers"] = workers
 
     def progress(done: int, trial: str | None, current: dict | None = None) -> None:
         if on_progress is not None:
@@ -231,6 +285,8 @@ def run_experiment(
                 "context": context, "plan": plan, "current": current, "feed": list(feed),
             })
 
+    if workers > 1:
+        return _run_parallel(bundle, trials, plan, workers, should_stop, progress)
     try:
         for k, (trial_id, cfg) in enumerate(trials):
             if should_stop is not None and should_stop():

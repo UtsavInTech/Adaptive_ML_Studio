@@ -1,0 +1,12 @@
+# Phase 1 check: the whole corrected CIC-IDS2017 stream (2,099,976 flows, 3-7 July 2017)
+# through the Studio's own pipeline, one method per fresh process, at max speed.
+# This tests the data path and memory use. It is not an experiment of record:
+# one seed, default settings, and nothing tuned.
+#
+#   cd backend && PYTHONHASHSEED=0 .venv/bin/python -m adaptiveml.experiments.run ../research_testbed/presets/phase1_full_stream.yaml
+name: "Phase 1 — full CIC-IDS2017 stream through the pipeline"
+base:
+  seed: 42
+  methods: [static, adaptive]
+  stream: {scenario: csv, dataset: cicids2017, length: 2099976, noise: 0}
+seeds: [42]

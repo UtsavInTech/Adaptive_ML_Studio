@@ -1,0 +1,22 @@
+# Generated from protocol.yaml v1 (quick), grid 'labels'. Do not edit; edit the protocol and re-expand.
+name: Protocol v1 quick — labels_delay1000_cov1
+base:
+  seed: 11
+  methods:
+  - incremental
+  - adaptive
+  - joint
+  stream:
+    scenario: csv
+    dataset: cicids2017
+    noise: 0
+    length: 300000
+    start: 693702
+    label_delay: 1000
+    label_coverage: 1.0
+  evaluation:
+    warmup: 1000
+profiles:
+- small_sim
+seeds:
+- 11

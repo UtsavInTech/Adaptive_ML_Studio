@@ -1,0 +1,58 @@
+name: Device run rehearsal-20261112-090522 — rules (R1–R5) vs effort controller
+base:
+  seed: 11
+  stream:
+    scenario: csv
+    dataset: cicids2017
+    noise: 0
+    start: 730000
+    length: 40000
+  evaluation:
+    warmup: 1000
+  methods:
+  - joint
+  - effort
+  controller:
+    effort:
+      cost:
+        base_ns: 16165.7
+        transform_ns_per_input: 105.5
+        stats_ns_per_input: 394.0
+        rank_ns_per_input: 155.5
+        select_ns_per_feature: 26.1
+        predict_ns: 3039.2
+        predict_ns_per_feature: 355.8
+        detect_ns_per_label: 1483.6
+        update_ns: 6463.9
+        update_ns_per_feature: 969.8
+        split_ns_per_feature: 23638.3
+        controller_ns: 6585.5
+profiles:
+- name: device_small
+  label: Small budget, 103 µs per row (REHEARSAL on Darwin arm64 (utsavs-MacBook-Air),
+    not a device)
+  simulated: true
+  placeholder: true
+  budgets:
+    compute_share: 1.0
+    nominal_rate: 9665.016746055795
+    latency_deadline_ms: 0.5173296778860165
+    model_memory_mib: 8.0
+    allow_background: true
+    max_update_stride: 4
+    min_features: 4
+- name: device_micro
+  label: Micro budget, 52 µs per row (REHEARSAL on Darwin arm64 (utsavs-MacBook-Air),
+    not a device)
+  simulated: true
+  placeholder: true
+  budgets:
+    compute_share: 1.0
+    nominal_rate: 19330.03349211159
+    latency_deadline_ms: 0.2069318711544066
+    model_memory_mib: 1.0
+    allow_background: false
+    max_update_stride: 8
+    min_features: 2
+seeds:
+- 11

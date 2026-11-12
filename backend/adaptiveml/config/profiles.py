@@ -26,17 +26,55 @@ EDGE_SIM = ProfileConfig(
         min_features=1,
     ),
 )
-BUILTIN_PROFILES = {p.name: p for p in (STANDARD, EDGE_SIM)}
+# Research testbed device tiers (phase 4). SIMULATED, with PLACEHOLDER budgets: they describe what a
+# device class might allow, enforced in software on this machine. No slower CPU is emulated, so a
+# tier's CPU budget is a share of this machine's time, not a measurement of the device.
+SMALL_SIM = ProfileConfig(
+    name="small_sim",
+    label="Small device, Raspberry Pi class (simulated)",
+    simulated=True,
+    placeholder=True,
+    budgets=ResourceBudgets(
+        compute_share=0.5, nominal_rate=5_000, latency_deadline_ms=0.5, model_memory_mib=8.0,
+        max_update_stride=4, min_features=4,
+    ),
+)
+MICRO_SIM = ProfileConfig(
+    name="micro_sim",
+    label="Micro device, IoT gateway class (simulated)",
+    simulated=True,
+    placeholder=True,
+    budgets=ResourceBudgets(
+        compute_share=0.25, nominal_rate=5_000, latency_deadline_ms=0.2, model_memory_mib=1.0,
+        allow_background=False, max_update_stride=8, min_features=2,
+    ),
+)
+# Memory only: no CPU or deadline budget, so R5 is the one resource rule that can act. 256 KiB is a
+# PLACEHOLDER chosen from measurement: without a cap the joint pipeline's model is usually ~216 KB,
+# 602 KB at the 90th percentile and 1.2 MB at most on CIC-IDS2017, so this budget binds often.
+MEMORY_SIM = ProfileConfig(
+    name="memory_sim",
+    label="Memory-limited device (simulated)",
+    simulated=True,
+    placeholder=True,
+    budgets=ResourceBudgets(model_memory_mib=0.25, min_features=4),
+)
+BUILTIN_PROFILES = {p.name: p for p in (STANDARD, EDGE_SIM, SMALL_SIM, MICRO_SIM, MEMORY_SIM)}
+TESTBED_TIERS = ("standard", "small_sim", "micro_sim")
 
 
-def apply_profile(cfg: PipelineConfig, profile: ProfileConfig) -> PipelineConfig:
-    """The static part of a profile: caps that hold for the whole trial."""
+def apply_profile(cfg: PipelineConfig, profile: ProfileConfig, *, cap_model_memory: bool = True) -> PipelineConfig:
+    """The static part of a profile: caps that hold for the whole trial.
+
+    `cap_model_memory=False` leaves River's own tree-size limit alone, so the memory budget is
+    enforced only by the joint controller's R5 (otherwise River prunes the tree first and R5
+    never has anything to do)."""
     b = profile.budgets
     fs, learner, adaptation = cfg.feature_selection, cfg.learner, cfg.adaptation
     if b.feature_budget_k is not None:
         cap = b.feature_budget_k if fs.k_max is None else min(fs.k_max, b.feature_budget_k)
         fs = fs.model_copy(update={"k_max": cap})
-    if b.model_memory_mib is not None:
+    if b.model_memory_mib is not None and cap_model_memory:
         learner = learner.model_copy(
             update={
                 "max_size_mib": min(learner.max_size_mib, b.model_memory_mib),

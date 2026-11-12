@@ -9,6 +9,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { api, type Dataset, type DriftKind, type DriftKinds } from "../lib/api";
 import { methodLabel } from "../lib/format";
+import { href } from "../lib/router";
 import DriftShape from "./DriftShape";
 import { ExplainButton } from "./Explain";
 
@@ -59,6 +60,7 @@ export default function ReplaySetup({ experiment = false, disabled, onStart }: P
   const [rate, setRate] = useState(1000);
   const [busy, setBusy] = useState(false);
   const [problem, setProblem] = useState<string | null>(null);
+  const [large, setLarge] = useState<Dataset[]>([]);
 
   /** Defaults follow the dataset: the whole file for a comparison, a warm-up that covers a full
    *  cycle of the data, and a change in the middle of what will be replayed. */
@@ -74,7 +76,11 @@ export default function ReplaySetup({ experiment = false, disabled, onStart }: P
   const load = () => {
     setProblem(null);
     api.driftKinds().then(setKinds).catch(() => {});
-    api.datasets().then((data) => {
+    api.datasets().then((all) => {
+      // Large streaming datasets have real, dated changes and refuse the column exchange offered here.
+      // They are run from the Testbed page instead.
+      const data = all.filter((d) => !d.streaming);
+      setLarge(all.filter((d) => d.streaming));
       setDatasets(data);
       const first = data.find((d) => d.available);
       if (first) choose(first);
@@ -170,6 +176,12 @@ export default function ReplaySetup({ experiment = false, disabled, onStart }: P
         <div className="setup-heading"><span className="step-number">01</span><h2>Choose your dataset</h2><span className="tag">Kaggle · local snapshots</span></div>
         {datasets === null && !problem && <p role="status">Loading datasets…</p>}
         {datasets?.length === 0 && <p>No dataset snapshots installed yet. Add a verified file to the dataset catalog.</p>}
+        {large.length > 0 && (
+          <p className="small muted" style={{ marginTop: -8 }}>
+            {large.map((d) => d.name).join(", ")} {large.length === 1 ? "is" : "are"} too large for this form and {large.length === 1 ? "has" : "have"} real,
+            dated attacks instead of an added change. <a href={href({ page: "testbed" })}>Run it on the Testbed page →</a>
+          </p>
+        )}
         <div className="dataset-options">
           {datasets?.map((d) => (
             <label key={d.id} className={`dataset-option ${selected === d.id ? "selected" : ""}`}>

@@ -23,6 +23,7 @@ from pydantic import ValidationError
 
 from adaptiveml.api.jobs import ExperimentJobs
 from adaptiveml.api.live import Hub, LiveRunManager
+from adaptiveml.api.testbed import router as testbed_router
 from adaptiveml.config import ExperimentConfig, PhaseConfig, TrialConfig
 from adaptiveml.config.profiles import BUILTIN_PROFILES
 from adaptiveml.experiments.run import resolve_profiles
@@ -37,7 +38,8 @@ from adaptiveml.results import (
     windowed_scores,
 )
 from adaptiveml.stream.sea import SEA_THRESHOLDS, label_flip_fraction
-from adaptiveml.stream.static import DRIFT_KINDS, StaticScenario, catalog
+from adaptiveml.stream import dataset_scenario
+from adaptiveml.stream.static import DRIFT_KINDS, catalog
 
 PRESETS_DIR = Path(__file__).resolve().parents[2] / "presets"
 FRONTEND_DIST = REPO_ROOT / "frontend" / "dist"
@@ -57,6 +59,7 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(title="AdaptiveML Studio API", version="0.1.0", lifespan=lifespan)
+app.include_router(testbed_router)
 
 
 def _load_presets(kind: str) -> dict[str, dict]:
@@ -108,7 +111,7 @@ def _pin_dataset(cfg: TrialConfig) -> TrialConfig:
     if cfg.stream.scenario != "csv":
         return cfg
     try:
-        source = StaticScenario(cfg.stream)
+        source = dataset_scenario(cfg.stream)
     except (ValueError, OSError) as exc:
         raise HTTPException(422, str(exc)) from exc
     return cfg.model_copy(update={"stream": cfg.stream.model_copy(update={"dataset_sha256": source.sha256})})

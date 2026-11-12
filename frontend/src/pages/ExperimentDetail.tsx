@@ -8,6 +8,7 @@ import UPlotChart from "../charts/UPlot";
 import { css, lineChart, methodColor, pointsChart, type Band, type Marker } from "../charts/plots";
 import DriftShape from "../components/DriftShape";
 import EventLog from "../components/EventLog";
+import TestbedResults from "../components/TestbedResults";
 import { ExplainButton } from "../components/Explain";
 import {
   Badge, EmptyState, ErrorState, Legend, Loading, MetricCard, MetricGrid, Panel, ProvenanceBadge, SectionHead, TechnicalDetails,
@@ -17,6 +18,7 @@ import type { ExplainId } from "../lib/explain";
 import { DASH, kb, methodLabel, num, pct, samples, us } from "../lib/format";
 import { store, useLive } from "../lib/live";
 import { usePresentation } from "../lib/present";
+import { hasTestbedFields } from "../lib/testbed";
 import { useTheme } from "../lib/theme";
 
 type TrialData = { summaries: Record<string, MethodSummary>; timing: Timing; scenario: any; config: any };
@@ -151,6 +153,16 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
   const firstScenario = manifest?.trials.find((t) => !t.control)?.scenario;
   const injection = firstScenario?.injection ?? null;
   const hasControls = all.some((row) => row.control);
+  /** Runs made with the research testbed store stream-aware scores, cost terms and per-attack figures. */
+  const isTestbed = useMemo(
+    () => Object.values(trials).some((t) => Object.values(t.summaries ?? {}).some(hasTestbedFields)),
+    [trials],
+  );
+  const [openedTestbed, setOpenedTestbed] = useState(false);
+  useEffect(() => { setOpenedTestbed(false); setView("overview"); }, [id]);
+  useEffect(() => {
+    if (isTestbed && !openedTestbed) { setView("testbed"); setOpenedTestbed(true); }
+  }, [isTestbed, openedTestbed]);
 
   // Every method on one chart: needs each trial's series, so only fetched when there is a known change.
   useEffect(() => {
@@ -323,7 +335,7 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
   const job = store.job;
   return (
     <div className={`page experiment-results results-${view}`}>
-      <a className="results-back" href="#/experiments">← Experiment workspace</a>
+      <a className="results-back" href={isTestbed ? "#/testbed" : "#/experiments"}>{isTestbed ? "← Research testbed" : "← Experiment workspace"}</a>
       <Panel
         title={manifest.name}
         sub={manifest.kind}
@@ -338,7 +350,9 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
       >
         <div className="row wrap" style={{ gap: 10 }}>
           <Badge tone={manifest.status === "completed" ? "ok" : manifest.status === "error" ? "error" : "warn"}>{manifest.status}</Badge>
-          <ProvenanceBadge kind="measured" detail={manifest.provenance.measured_on} />
+          {manifest.provenance.device_model
+            ? <span className="tag real" title={manifest.provenance.measured_on}>Measured on a real device · {manifest.provenance.device_model}</span>
+            : <ProvenanceBadge kind="measured" detail={manifest.provenance.measured_on} />}
           {manifest.provenance.simulated_profiles.length > 0 && <ProvenanceBadge kind="simulated" detail={manifest.provenance.simulated_profiles.join(", ")} />}
           {manifest.provenance.placeholder_budgets && <ProvenanceBadge kind="placeholder" />}
           <ProvenanceBadge kind={manifest.provenance.injected_drift ? "injected" : manifest.provenance.real_data ? "real" : "synthetic"} />
@@ -356,13 +370,14 @@ export default function ExperimentDetail({ id, trial }: { id: string; trial?: st
       </Panel>
 
       <nav className="workspace-nav results-nav" aria-label="Result views">
-        {[{ id: "overview", title: "Overview" }, ...(hasPhases ? [{ id: "change", title: "Response to change" }] : []), { id: "resources", title: "Processing & resources" }, { id: "trial", title: "Trial explorer" }].map((item) =>
+        {[...(isTestbed ? [{ id: "testbed", title: "Testbed measures" }] : []), { id: "overview", title: "Overview" }, ...(hasPhases ? [{ id: "change", title: "Response to change" }] : []), { id: "resources", title: "Processing & resources" }, { id: "trial", title: "Trial explorer" }].map((item) =>
           <button key={item.id} type="button" aria-current={view === item.id ? "page" : undefined} onClick={() => setView(item.id)}>{item.title}</button>)}
       </nav>
       <div className="result-orientation" aria-live="polite">
-        <span className="eyebrow">{view === "overview" ? "The big picture" : view === "change" ? "Recovery & drift" : view === "resources" ? "The cost of learning" : "Inside one trial"}</span>
-        <p>{view === "overview" ? "Start with the measured outcomes, then compare methods below. Explore the other views for recovery, resource use, and individual events." : view === "change" ? "Did accuracy drop when the data changed, and did it recover? Compare the same before, during, and after windows for every method." : view === "resources" ? "How much computation does each strategy need? Compare accuracy against processing time, memory, and model size." : "Follow one trial over time. Select a method, inspect its accuracy, and read the events it reported."}</p>
+        <span className="eyebrow">{view === "testbed" ? "Research testbed" : view === "overview" ? "The big picture" : view === "change" ? "Recovery & drift" : view === "resources" ? "The cost of learning" : "Inside one trial"}</span>
+        <p>{view === "testbed" ? "Stream-aware scores for every method and device tier, where the time per row goes, each attack type and attack period, and what the joint controller decided." : view === "overview" ? "Start with the measured outcomes, then compare methods below. Explore the other views for recovery, resource use, and individual events." : view === "change" ? "Did accuracy drop when the data changed, and did it recover? Compare the same before, during, and after windows for every method." : view === "resources" ? "How much computation does each strategy need? Compare accuracy against processing time, memory, and model size." : "Follow one trial over time. Select a method, inspect its accuracy, and read the events it reported."}</p>
       </div>
+      <div hidden={view !== "testbed"}>{isTestbed && <TestbedResults manifest={manifest} trials={trials} />}</div>
       <section className="stack tight run-facts" hidden={view !== "overview"}>
         <SectionHead title="What this run contains" hint="counts from the stored bundle — not conclusions" />
         <MetricGrid>

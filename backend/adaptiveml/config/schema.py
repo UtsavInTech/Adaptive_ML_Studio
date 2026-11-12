@@ -10,7 +10,8 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
-MethodName = Literal["static", "incremental", "adaptive", "arf"]
+MethodName = Literal["static", "incremental", "adaptive", "arf", "no_change", "srp", "lev_bag", "joint", "effort"]
+RuleName = Literal["R1", "R2", "R3", "R4", "R5"]
 DriftKind = Literal["abrupt", "gradual", "incremental", "recurring"]
 
 
@@ -76,6 +77,16 @@ class StreamConfig(_Frozen):
     initial_variant: int = Field(default=0, ge=0, le=3)
     drifts: tuple[DriftSpec, ...] = ()
     rate: float | None = Field(default=None, gt=0, le=1_000_000, description="samples/s; None = max speed")
+    # Research testbed (large datasets only): where the replay starts, and how fast rows "arrive".
+    start: int = Field(default=0, ge=0, description="first dataset row of the replay")
+    arrival: Literal["constant", "recorded"] = Field(
+        default="constant",
+        description="'recorded': the arrival rate follows the dataset's timestamps, which sets the per-row CPU budget",
+    )
+    rate_scale: float = Field(default=1.0, gt=0, description="speed-up applied to the recorded arrival rate")
+    # Labels in deployment come late, or only for some rows. Warm-up rows are always labelled at once.
+    label_delay: int = Field(default=0, ge=0, description="rows between a prediction and its label")
+    label_coverage: float = Field(default=1.0, gt=0, le=1, description="share of rows whose label ever arrives")
 
     @model_validator(mode="after")
     def _drifts_inside_stream(self) -> StreamConfig:
@@ -91,6 +102,8 @@ class StreamConfig(_Frozen):
                 )
         elif self.dataset is not None or self.dataset_sha256 is not None or self.injection is not None:
             raise ValueError("dataset and injection fields are only valid for CSV replay")
+        if self.scenario != "csv" and (self.start or self.arrival != "constant"):
+            raise ValueError("start and recorded arrival are only valid for dataset replay")
         positions = [d.position for d in self.drifts]
         if any(b <= a for a, b in zip(positions, positions[1:])):
             raise ValueError("drift positions must be strictly increasing")
@@ -118,11 +131,11 @@ class FeatureSelectionConfig(_Frozen):
 
 
 class LearnerConfig(_Frozen):
-    type: Literal["hoeffding_tree", "logistic_regression", "gaussian_nb", "arf"] = "hoeffding_tree"
+    type: Literal["hoeffding_tree", "logistic_regression", "gaussian_nb", "arf", "no_change", "srp", "lev_bag"] = "hoeffding_tree"
     grace_period: int = Field(default=200, ge=1)
     max_size_mib: float = Field(default=100.0, gt=0.0)
     memory_estimate_period: int = Field(default=1_000_000, ge=1, description="how often River checks max_size")
-    n_models: int = Field(default=10, ge=1, description="ARF only")
+    n_models: int = Field(default=10, ge=1, description="ensembles only: ARF, SRP, leveraging bagging")
 
 
 class DetectorConfig(_Frozen):
@@ -193,6 +206,7 @@ class ResourceBudgets(_Frozen):
     compute_share: float | None = Field(default=None, gt=0, le=1, description="max fraction of one core")
     nominal_rate: float | None = Field(default=None, gt=0, description="samples/s for the budget at max speed")
     model_memory_mib: float | None = Field(default=None, gt=0)
+    latency_deadline_ms: float | None = Field(default=None, gt=0, description="per-row service deadline (joint controller, R3)")
     feature_budget_k: int | None = Field(default=None, ge=1)
     allow_background: bool = True
     max_update_stride: int = Field(default=1, ge=1)
@@ -200,6 +214,146 @@ class ResourceBudgets(_Frozen):
     down_blocks: int = Field(default=3, ge=1, description="blocks over budget before stepping down")
     up_blocks: int = Field(default=10, ge=1, description="blocks under the margin before stepping up")
     up_margin: float = Field(default=0.8, gt=0, lt=1)
+
+
+class EffortLevel(_Frozen):
+    """One effort level of the budgeted effort controller: how much work a row gets.
+
+    Levels are ordered cheapest first. `benefit` is the share of the activity signal a level is
+    worth (0 = nothing beyond the cheapest level, 1 = everything); the controller picks the level
+    with the highest benefit × activity − price × cost."""
+
+    name: str = Field(min_length=1, max_length=20)
+    stats_every: int = Field(default=1, ge=1, description="update scaler/imputer statistics on 1 row in this many")
+    rank_every: int = Field(default=10, ge=1, description="update the feature ranking (over all inputs) on 1 row in this many")
+    skip_easy: bool = Field(default=False, description="skip the model update on easy rows (lever 4)")
+    easy_learn_every: int = Field(default=10, ge=1, description="with skip_easy: still learn from 1 easy row in this many")
+    benefit: float = Field(default=1.0, ge=0.0, le=1.0)
+
+
+class EffortCostModel(_Frozen):
+    """Per-row cost model of the effort method (ns), used for decisions when cost_source = modelled.
+
+    Each coefficient multiplies a count the pipeline records for the row (inputs preprocessed,
+    statistics and ranking updated, features used, model updated, splits, replacement work).
+    Calibrated by research_testbed/scripts/calibrate_effort_cost.py on Tuesday rows (not the
+    Wednesday evaluation slice); see research_testbed/research/effort_results.md."""
+
+    base_ns: float = Field(default=12_878.0, ge=0)
+    transform_ns_per_input: float = Field(default=212.0, ge=0)
+    stats_ns_per_input: float = Field(default=321.0, ge=0)
+    rank_ns_per_input: float = Field(default=148.0, ge=0)
+    select_ns_per_feature: float = Field(default=26.0, ge=0)
+    predict_ns: float = Field(default=1_763.0, ge=0)
+    predict_ns_per_feature: float = Field(default=363.0, ge=0, description="the tree's naive-Bayes leaves read every feature")
+    detect_ns_per_label: float = Field(default=1_498.0, ge=0)
+    update_ns: float = Field(default=6_688.0, ge=0)
+    update_ns_per_feature: float = Field(default=935.0, ge=0)
+    split_ns_per_feature: float = Field(default=22_807.0, ge=0, description="extra on a row whose update split a leaf")
+    controller_ns: float = Field(default=6_794.0, ge=0)
+
+
+def _default_levels() -> tuple[EffortLevel, ...]:
+    return (
+        EffortLevel(name="cheap", stats_every=16, rank_every=20, skip_easy=True, easy_learn_every=20, benefit=0.0),
+        EffortLevel(name="medium", stats_every=4, rank_every=10, skip_easy=True, easy_learn_every=10, benefit=0.5),
+        EffortLevel(name="rich", stats_every=1, rank_every=10, skip_easy=False, benefit=1.0),
+    )
+
+
+class EffortConfig(_Frozen):
+    """Budgeted effort controller (method "effort"); see research_testbed/research/METHOD.md.
+
+    Every lever and repair has its own switch, for ablations. The pipeline levers are off for every
+    other method; these switches only matter for "effort". Defaults are implementation choices, not
+    tuned on the evaluation slice (any later change is recorded in effort_results.md).
+    """
+
+    cost_source: Literal["measured", "modelled"] = Field(
+        default="modelled", description="what decisions read: measured service time, or the calibrated cost model")
+    cost: EffortCostModel = Field(default_factory=EffortCostModel)
+    levels: tuple[EffortLevel, ...] = Field(default_factory=_default_levels)
+    # Levers (B1-B5)
+    narrow_preprocessing: bool = Field(default=True, description="B1: preprocess only the inputs the models need")
+    sample_statistics: bool = Field(default=True, description="B2: update scaler/imputer statistics on 1 row in s")
+    live_ranking: bool = Field(default=True, description="B3: update the ranking on 1 row in r, over all inputs")
+    skip_easy_updates: bool = Field(default=True, description="B4: skip model updates on easy rows")
+    easy_k: int = Field(default=100, ge=1, description="B4: easy = the last k arrived labels agree and were all predicted right")
+    feature_gate: bool = Field(default=True, description="B5: cut features only after both classes were ranked; floor")
+    gate_rows_per_class: int = Field(default=200, ge=1, description="B5: rows of each class the ranker must have seen")
+    min_features: int = Field(default=8, ge=1, description="B5: feature floor")
+    # Budget mechanism (C)
+    budget_control: bool = Field(default=True, description="the price of compute; off = always the richest feasible level")
+    activity_signal: bool = Field(default=True, description="off = a constant activity of 0.5 (uniform effort)")
+    price_step: float = Field(default=0.002, gt=0, description="η in λ ← clip(λ + η·(cost/budget − 1), 0, λ_max)")
+    price_max: float = Field(default=5.0, gt=0)
+    free_price: float = Field(default=0.05, ge=0, description="price used when the tier has no CPU budget")
+    tight_price: float = Field(default=4.0, gt=0, description="resources tight (R2) at or above this price")
+    spare_price: float = Field(default=2.0, ge=0, description="resources spare again below this price")
+    activity_window: int = Field(default=200, ge=10, description="arrived labels in the switch and error rates")
+    switch_ref: float = Field(default=0.02, gt=0, description="label-switch rate that counts as full activity")
+    error_ref: float = Field(default=0.02, gt=0, description="error rate that counts as full activity")
+    alarm_hold: int = Field(default=500, ge=0, description="rows of full activity after a drift alarm")
+    cut_after: int = Field(default=2_000, ge=1, description="rows at the price ceiling before features are halved")
+    restore_share: float = Field(default=0.7, gt=0, le=1, description="restore features if 2k fits in this share of the budget")
+    # Repairs (D)
+    fast_switch: bool = Field(default=True, description="D1: promote the replacement once it beats the active model")
+    switch_window: int = Field(default=20, ge=1)
+    damp_realarms: bool = Field(default=True, description="D2: ignore re-alarms after an adaptation while the label mix is stable")
+    damp_rows: int = Field(default=2_000, ge=0)
+    mix_window: int = Field(default=500, ge=10)
+    mix_tolerance: float = Field(default=0.1, ge=0, le=1)
+    delay_aware: bool = Field(default=True, description="D3: with delayed/partial labels, keep the old model, warm-start, mute")
+    warm_start_rows: int = Field(default=100, ge=0)
+    delay_race_only: bool = Field(
+        default=False, description="POST HOC (added after the Wednesday delay run): with delayed labels, a replacement "
+        "replaces the old model only once it beats it on the last switch_window arrived labels; discarded otherwise")
+
+    @model_validator(mode="after")
+    def _coherent(self) -> EffortConfig:
+        if not self.levels:
+            raise ValueError("at least one effort level is required")
+        if len({lv.name for lv in self.levels}) != len(self.levels):
+            raise ValueError("effort level names must not repeat")
+        if self.spare_price >= self.tight_price or self.tight_price > self.price_max:
+            raise ValueError("need spare_price < tight_price <= price_max")
+        return self
+
+
+class ControllerConfig(_Frozen):
+    """Joint drift-and-resource controller (method "joint"): the review's decision rules R1-R5.
+
+    Defaults are implementation choices for the research team to vary; none is tuned on results.
+    Fractions are of the profile's budgets. Without a budget a resource never counts as tight.
+    """
+
+    rules: tuple[RuleName, ...] = ("R1", "R2", "R3", "R4", "R5")
+    resource_gating: bool = Field(default=True, description="R1/R2 and R4 read the resource state; off = ablation")
+    window: int = Field(default=500, ge=10, description="rows in the rolling accuracy")
+    accuracy_floor: float = Field(default=0.7, gt=0, lt=1, description="R4 trigger")
+    cooldown: int = Field(default=500, ge=0, description="rows between structural actions (R3, R4, R5)")
+    deadline_window: int = Field(default=200, ge=10, description="rows checked for missed deadlines")
+    deadline_misses: int = Field(default=20, ge=1, description="misses within the window that trigger R3")
+    relax_after: int = Field(default=5_000, ge=1, description="calm rows before R3 steps back up")
+    cpu_high: float = Field(default=0.9, gt=0, description="tight above this share of the CPU budget")
+    cpu_low: float = Field(default=0.7, gt=0, description="spare below this share")
+    memory_high: float = Field(default=0.9, gt=0, description="tight above this share of the memory budget")
+    memory_low: float = Field(default=0.7, gt=0, description="spare below this share")
+    cpu_smoothing: float = Field(default=0.01, gt=0, le=1, description="EWMA weight of the newest row's service time")
+    memory_check_every: int = Field(default=1_000, ge=1, description="rows between model-size measurements")
+    retrain_buffer: int = Field(default=2_000, ge=1, description="recent labelled rows kept for R4 retraining")
+    # Method "effort" only: the budgeted effort controller. Ignored by "joint".
+    effort: EffortConfig = Field(default_factory=EffortConfig)
+
+    @model_validator(mode="after")
+    def _ordered(self) -> ControllerConfig:
+        if len(set(self.rules)) != len(self.rules):
+            raise ValueError("rules must not repeat")
+        if not (self.cpu_low < self.cpu_high and self.memory_low < self.memory_high):
+            raise ValueError("the 'low' thresholds must be below the 'high' ones")
+        if self.deadline_misses > self.deadline_window:
+            raise ValueError("deadline_misses cannot exceed deadline_window")
+        return self
 
 
 class ProfileConfig(_Frozen):
@@ -217,6 +371,7 @@ class TrialConfig(_Frozen):
     pipeline: PipelineConfig = Field(default_factory=PipelineConfig)
     evaluation: EvaluationConfig = Field(default_factory=EvaluationConfig)
     profile: ProfileConfig = Field(default_factory=ProfileConfig)
+    controller: ControllerConfig = Field(default_factory=ControllerConfig)
 
     @model_validator(mode="after")
     def _consistent(self) -> TrialConfig:

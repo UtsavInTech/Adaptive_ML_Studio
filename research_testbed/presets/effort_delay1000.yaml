@@ -1,0 +1,24 @@
+# Exploratory evaluation of the budgeted effort controller (research/effort_results.md).
+# Wednesday slice (rows 693,702 + 300,000), seed 11, warm-up 1,000. Tiers are SIMULATED with PLACEHOLDER budgets.
+name: Effort — label delay 1000, small_sim
+base:
+  seed: 11
+  methods:
+  - no_change
+  - incremental
+  - adaptive
+  - joint
+  - effort
+  stream:
+    scenario: csv
+    dataset: cicids2017
+    noise: 0
+    start: 693702
+    length: 300000
+    label_delay: 1000
+  evaluation:
+    warmup: 1000
+profiles:
+- small_sim
+seeds:
+- 11

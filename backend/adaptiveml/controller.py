@@ -70,7 +70,9 @@ instance is checked; dashboard blocks only aggregate the resulting measurements.
         prediction, service, stages = self.pipe.process(index, x, y)
         start = perf_counter_ns()
         if index >= self.pipe._warmup:
-            self.window.append(int(prediction == y))
+            # with delayed labels only the labels that have arrived are known
+            for correct in (self.pipe.revealed if self.pipe.delayed else (prediction == y,)):
+                self.window.append(int(correct))
         accuracy = sum(self.window)/len(self.window) if len(self.window) == self.window.maxlen else None
         self.constrained = service > self.budget_ns
         actions = self.policy.step(index, service/1e6, accuracy, self, self.pipe.events[offset:])
@@ -78,6 +80,8 @@ instance is checked; dashboard blocks only aggregate the resulting measurements.
             if action != 'COOLDOWN':
                 self.pipe.emit(index, 'controller_action', action=action, service_ms=service/1e6, accuracy=accuracy)
         elapsed = perf_counter_ns() - start
+        if index >= self.pipe._warmup:
+            self.pipe.controller_cost_ns[0] += elapsed
         measured = list(stages)
         measured[4] += elapsed
         return prediction, service + elapsed, tuple(measured)

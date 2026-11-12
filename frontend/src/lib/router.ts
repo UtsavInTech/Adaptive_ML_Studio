@@ -1,4 +1,4 @@
-/** Hash routing for five views — no router dependency.
+/** Hash routing for seven views — no router dependency.
  *
  *  Home is the default: someone opening the app for the first time should meet an explanation of the
  *  project, not the instrument panel. */
@@ -10,6 +10,8 @@ export type Route =
   | { page: "live" }
   | { page: "experiments" }
   | { page: "experiment"; id: string; trial?: string }
+  | { page: "testbed"; report?: string }
+  | { page: "findings" }
   | { page: "method" };
 
 export function parseHash(hash: string): Route {
@@ -20,6 +22,8 @@ export function parseHash(hash: string): Route {
     return { page: "experiment", id: decodeURIComponent(parts[1]), trial };
   }
   if (parts[0] === "experiments") return { page: "experiments" };
+  if (parts[0] === "testbed") return parts[1] === "reports" && parts[2] ? { page: "testbed", report: decodeURIComponent(parts[2]) } : { page: "testbed" };
+  if (parts[0] === "findings") return { page: "findings" };
   if (parts[0] === "method") return { page: "method" };
   if (parts[0] === "live") return { page: "live" };
   return { page: "home" };
@@ -33,6 +37,10 @@ export function href(route: Route): string {
       return "#/experiments";
     case "experiment":
       return `#/experiments/${encodeURIComponent(route.id)}${route.trial ? `?trial=${encodeURIComponent(route.trial)}` : ""}`;
+    case "testbed":
+      return route.report ? `#/testbed/reports/${encodeURIComponent(route.report)}` : "#/testbed";
+    case "findings":
+      return "#/findings";
     case "method":
       return "#/method";
     default:
@@ -54,8 +62,11 @@ const subscribe = (listener: () => void) => {
 function markPage() {
   document.documentElement.dataset.page = parseHash(window.location.hash).page;
 }
-window.addEventListener("hashchange", markPage);
-markPage();
+// Guarded so the pure parsing above can be tested outside a browser.
+if (typeof window !== "undefined") {
+  window.addEventListener("hashchange", markPage);
+  markPage();
+}
 
 export function useRoute(): Route {
   const hash = useSyncExternalStore(subscribe, () => window.location.hash, () => "#/live");

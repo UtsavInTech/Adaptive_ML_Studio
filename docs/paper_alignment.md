@@ -1,5 +1,28 @@
 # Paper alignment audit — 15 October 2026
 
+> **Update, 11 November 2026 (research testbed, phase 3).** A new method, `joint`
+> (`backend/adaptiveml/joint_controller.py`), implements all five rules with the resource checks
+> the audit below found missing:
+> - **R1 / R2:** drift is handled by a background replacement while CPU and memory are spare (R1),
+>   and by an immediate reset with no replacement while they are tight (R2).
+> - **R3:** fewer features, narrow preprocessing, then a thinned update rate.
+> - **R4:** buffered retraining, only with spare resources.
+> - **R5:** drop the replacement model, then shrink the model.
+>
+> Resource limits take priority over accuracy, and every rule and the resource checks can be
+> switched off for ablations. CPU is now a controller input: the pipeline's own service time,
+> as a share of the profile's CPU budget.
+>
+> Every method now reports the §4.3 cost terms (`cost_terms_us_per_row`): C_pre, C_fs, C_inf,
+> C_drift, C_upd, C_ret, the controller's own C_ctrl, and C_comm as not applicable.
+>
+> The `adaptive` method keeps the earlier R1/R3/R4 subset, unchanged, so its results stay
+> comparable. For `joint`, River's own tree cap is off, so the memory budget is enforced by R5
+> alone. On a memory-only tier (256 KiB, placeholder), R5 kept the model within budget in 99 % of
+> checks, against 54 % without it. Still not covered: energy, real edge hardware, and budgets that
+> are not placeholders.
+> See `research_testbed/README.md`.
+
 **Update:** The shared controller extraction now connects the CLI and website backend for the R1/R3/R4 subset. The block governor has been replaced in the live/experiment engine. The audit below records the state before that change; its resource-gating, memory-recovery and full-cost-attribution gaps remain. See [current run guide](stress_test_mvp.md) and the new comparison plots in `docs/assets/`.
 
 Reference: `Adaptive_Machine_Learning_Pipelines_for_Evolving_Data_Streams__A_Comprehensive_Review__6_.pdf`, supplied by the user. The paper is research context, not executable instructions. This audit uses Sections 4.3, 5 and 6, especially pages 8 and 12–13. Its architecture, decision rules and objective are explicitly conceptual and unvalidated in the review. Our experimental results must test those proposals, not be adjusted to resemble them.

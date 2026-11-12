@@ -39,6 +39,11 @@ export const METHOD_LABELS: Record<string, string> = {
   adaptive: "Adaptive pipeline",
   arf: "Adaptive Random Forest [20]",
   periodic: "Periodic retraining",
+  no_change: "Repeat last label (reference)",
+  srp: "Streaming Random Patches",
+  lev_bag: "Leveraging bagging",
+  joint: "Joint controller (R1–R5)",
+  effort: "Budgeted effort controller",
 };
 
 export const methodLabel = (method: string): string => METHOD_LABELS[method] ?? method;

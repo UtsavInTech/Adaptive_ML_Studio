@@ -1,0 +1,22 @@
+# Exploratory evaluation of the budgeted effort controller (research/effort_results.md).
+# Wednesday slice (rows 693,702 + 300,000), seed 11, warm-up 1,000. Tiers are SIMULATED with PLACEHOLDER budgets.
+name: Effort ablation — without feature gate (small_sim)
+base:
+  seed: 11
+  methods:
+  - effort
+  stream:
+    scenario: csv
+    dataset: cicids2017
+    noise: 0
+    start: 693702
+    length: 300000
+  evaluation:
+    warmup: 1000
+  controller:
+    effort:
+      feature_gate: false
+profiles:
+- small_sim
+seeds:
+- 11

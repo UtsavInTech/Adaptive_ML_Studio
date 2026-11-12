@@ -32,6 +32,16 @@ function working(method: string, state: JobCurrent["methods"][string] | undefine
         : "It predicts each row, learns from the true label, and watches its own error rate. If the errors rise and stay up, it trains a replacement model.";
     case "arf":
       return "Ten decision trees vote on every row. Each tree learns from the row and watches its own errors; a tree that falls behind is replaced on its own.";
+    case "joint":
+      return "The adaptive pipeline under the joint controller: it reads drift, accuracy, deadline misses, CPU and memory together, and follows the review's rules R1–R5.";
+    case "effort":
+      return "The adaptive pipeline under the budgeted effort controller: it spends more work on rows in hard stretches and less on easy ones, holding the CPU budget on average.";
+    case "no_change":
+      return "It ignores the inputs and predicts the label of the previous row. It shows how far copying the last label gets on this data.";
+    case "srp":
+      return "Ten decision trees, each trained on a random subset of the inputs, vote on every row. A tree that falls behind is replaced.";
+    case "lev_bag":
+      return "Ten decision trees, each trained on a reweighted copy of the rows, vote on every row. Each watches its own errors and is reset when they rise.";
     default:
       return "It predicts each row, then learns from it.";
   }

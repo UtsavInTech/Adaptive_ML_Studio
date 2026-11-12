@@ -1,0 +1,96 @@
+# Evaluation protocol v1 for the research testbed (phase 5).
+#
+# Fixed before any protocol run. Change it only by making a new version (protocol v2, …) and
+# saying why; never edit a version after results exist. `scripts/protocol.py expand` turns this
+# file into one experiment file per setting; `run` executes them; `report` builds the figures.
+#
+# Budgets of the simulated tiers are PLACEHOLDERS (adaptiveml/config/profiles.py). Seeds only
+# change the randomised learners (ARF, SRP, leveraging bagging) and which rows get labels under
+# partial coverage; the data order never changes. Uncertainty over time comes from the block
+# bootstrap in the report (block_rows).
+
+version: 2
+# v2 (11 November 2026): adds the budgeted effort controller ("effort") to the core and labels grids
+# and a new grid `effort_ablations`. Nothing else changed; v1 runs remain valid for the methods they hold.
+dataset: cicids2017
+stream: {length: 2099976, start: 0}   # the whole corrected stream, 3-7 July 2017
+warmup: 1000
+seeds: [11, 23, 37, 41, 53, 67, 71, 83, 97, 101]
+block_rows: 10000                     # bootstrap and Friedman blocks
+
+# Compute (estimated from the phase 1-3 runs on an 8 GB Apple Silicon Mac, one worker): a full-stream
+# trial takes ~5 min for the pipeline methods, ~25 min for ARF and ~2 h each for SRP and leveraging
+# bagging. The whole protocol (333 trials in v2; 231 in v1) is about two days on one worker; `--workers 4` cuts the
+# wall time but adds contention to every timing. Timing figures of record come from one worker.
+grids:
+  # RQ1/RQ2: the pipeline methods on every device tier, immediate labels. They are deterministic
+  # for a given machine load, so repeated seeds show timing variability, not model variability.
+  core:
+    methods: [no_change, static, incremental, adaptive, joint, effort]
+    profiles: [standard, small_sim, micro_sim]
+    seeds: first3
+  # The literature ensembles are randomised: their seeds change the models.
+  ensembles:
+    methods: [arf, srp, lev_bag]
+    profiles: [standard, small_sim, micro_sim]
+    seeds: first3
+  # RQ1: which part of the joint controller helps (each rule, and the resource checks, removed).
+  ablations:
+    methods: [joint]
+    profiles: [small_sim, micro_sim]
+    seeds: first3
+    controller:
+      without_resource_checks: {resource_gating: false}
+      without_R1: {rules: [R2, R3, R4, R5]}
+      without_R2: {rules: [R1, R3, R4, R5]}
+      without_R3: {rules: [R1, R2, R4, R5]}
+      without_R4: {rules: [R1, R2, R3, R5]}
+      without_R5: {rules: [R1, R2, R3, R4]}
+  # The budgeted effort controller with each lever group, the budget mechanism and each repair removed
+  # (research/METHOD.md). Decisions use the modelled cost, so repeated seeds give identical predictions.
+  effort_ablations:
+    methods: [effort]
+    profiles: [small_sim, micro_sim]
+    seeds: first3
+    controller:
+      without_narrow_preprocessing: {effort: {narrow_preprocessing: false}}
+      without_sampled_statistics: {effort: {sample_statistics: false}}
+      without_live_ranking: {effort: {live_ranking: false}}
+      without_easy_skip: {effort: {skip_easy_updates: false}}
+      without_feature_gate: {effort: {feature_gate: false}}
+      without_price: {effort: {budget_control: false}}
+      without_activity_signal: {effort: {activity_signal: false}}
+      without_fast_switch: {effort: {fast_switch: false}}
+      without_damping: {effort: {damp_realarms: false}}
+      without_delay_awareness: {effort: {delay_aware: false}}
+      measured_cost: {effort: {cost_source: measured}}
+  # R5 in isolation: a memory-only tier (256 KiB, placeholder), where River's own tree cap is off for
+  # the joint method, so the budget is enforced by R5 or not at all.
+  memory:
+    methods: [joint]
+    profiles: [memory_sim]
+    seeds: first3
+    controller:
+      full: {}
+      without_R5: {rules: [R1, R2, R3, R4]}
+  # RQ3: labels that arrive late, or only for some rows.
+  labels:
+    methods: [incremental, adaptive, joint, effort]
+    profiles: [small_sim]
+    seeds: first3
+    label_delay: [0, 1000, 10000]
+    label_coverage: [1.0, 0.5, 0.1]
+  # RQ2 (stream scale): rows arrive at the recorded rate, sped up; the CPU budget per row follows it.
+  rates:
+    methods: [adaptive, joint]
+    profiles: [small_sim, micro_sim]
+    seeds: first3
+    arrival: recorded
+    rate_scale: [10, 100, 1000]
+
+# A short version for checking the whole chain in minutes: Wednesday's denial-of-service attacks
+# (Slowloris, Slowhttptest, Hulk, GoldenEye), one seed, no SRP or leveraging bagging (too slow).
+quick:
+  stream: {start: 693702, length: 300000}
+  seeds: [11]
+  drop_methods: [srp, lev_bag]

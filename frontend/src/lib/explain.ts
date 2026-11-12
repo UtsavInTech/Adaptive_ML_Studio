@@ -342,6 +342,73 @@ export const EXPLANATIONS = {
     how: "It is run separately and scored over the identical row windows.",
     why: "Real data changes on its own. Comparing with the control shows how much of a drop comes from the injected change rather than from the data itself.",
   },
+  // ---------------------------------------------------------------- research testbed
+  kappaTemporal: {
+    term: "κ-temporal (kappa-temporal)",
+    what: "Gain over repeating the previous row's label; 0 = no better.",
+    how: "Compares a method's errors with the errors of a reference that simply copies the previous row's label. 1 means no errors; 0 means as many errors as copying; below 0 means more.",
+    formula: "κ-temporal = (accuracy − copy accuracy) / (1 − copy accuracy)",
+    why: "On network traffic, attacks arrive in long runs, so copying the last label is already very accurate. Accuracy alone cannot tell methods apart here; κ-temporal can.",
+    ref: "Žliobaitė et al., 2015",
+  },
+  macroF1: {
+    term: "Macro-F1",
+    what: "The F1 score of the benign class and of the attack class, averaged with equal weight.",
+    how: "F1 is computed once with attacks as the positive class and once with benign traffic as the positive class, and the two are averaged.",
+    why: "It does not let the larger class hide poor results on the smaller one.",
+  },
+  attackRecall: {
+    term: "Attack recall",
+    what: "Of all the flows that really were attacks, the share the method flagged as an attack.",
+    how: "Counted after the warm-up, per method. In the per-attack table the same share is given for each original label.",
+    formula: "attack recall = attacks flagged / all attacks",
+    why: "It shows what a detector misses. Flows marked “Attempted” count as benign, following the dataset's corrected release.",
+  },
+  falseAlarm: {
+    term: "False-alarm rate",
+    what: "Of all the benign flows, the share the method wrongly flagged as an attack.",
+    how: "Counted after the warm-up, from the benign rows only.",
+    formula: "false-alarm rate = benign flows flagged / all benign flows",
+    why: "A detector that flags too much benign traffic is not usable, however many attacks it catches.",
+  },
+  costTerms: {
+    term: "Cost terms",
+    what: "The time a method spends on each row, split into the review paper's cost terms.",
+    how: "C_pre preprocessing, C_fs feature selection, C_inf prediction, C_drift drift detection, C_upd learning from the label, C_ret retraining and replacement, C_ctrl the controller itself. C_comm (sending data elsewhere) does not apply here. “Unattributed” is the measured time no term accounts for.",
+    formula: "C_total = C_pre + C_fs + C_inf + C_drift + C_upd + C_ret (+ C_ctrl)",
+    why: "It shows where the time goes, so a cost can be traced to a step of the pipeline.",
+  },
+  attackPeriods: {
+    term: "Attack periods",
+    what: "The dated stretches of the stream in which one kind of attack was recorded.",
+    how: "Taken from the dataset's schedule: a new period starts when an attack type reappears after a 10-minute gap. Only periods that start inside the replayed rows are listed.",
+    why: "They are the dataset's real, dated changes. Recall per period and the flows before the first flag show how quickly a method picked each one up.",
+  },
+  deviceTier: {
+    term: "Device tier",
+    what: "A set of resource budgets that stands for a class of device: CPU time per row, a per-row deadline and a model-memory limit.",
+    how: "The budgets are enforced in software on this computer. No slower processor is emulated, and the values are placeholders until the research team sets them.",
+    why: "It shows how a method behaves when it must stay within a smaller device's limits. Results under a simulated tier are not measurements on that device.",
+    pending: "Every budget except Standard's is a placeholder awaiting a decision from the research team.",
+  },
+  labelDelay: {
+    term: "Label delay and coverage",
+    what: "How late the true label of a row arrives, and for what share of rows it arrives at all.",
+    how: "After the warm-up a row's label reaches the pipeline the set number of rows later, and only for the chosen share of rows (the same rows for every method). Scores still use every row's true label.",
+    why: "In a deployment, the true answer usually comes late, or only for some rows. Learning and drift detection can only use labels that have arrived.",
+  },
+  arrivalRate: {
+    term: "Arrival",
+    what: "How fast rows are taken to arrive, which sets each row's CPU budget.",
+    how: "“As fast as possible” uses the tier's nominal rate. “Recorded rate” follows the dataset's own timestamps, sped up by the chosen factor, so the budget per row shrinks during attack bursts. The replay itself still runs at full speed.",
+    why: "A device on a busy network has less time per row exactly when attacks arrive.",
+  },
+  lightweightMode: {
+    term: "Lightweight mode",
+    what: "The joint controller's cheap way of adapting while resources are tight (rule R2).",
+    how: "On drift, the model is reset at once instead of training a replacement alongside it.",
+    why: "It saves CPU and memory at a moment when there is little to spare, at some cost in quality.",
+  },
 } satisfies Record<string, Explanation>;
 
 /** Keys stay a narrow union for type-safe ids, while values widen to Explanation so that optional

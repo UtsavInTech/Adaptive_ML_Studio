@@ -112,6 +112,8 @@ class StaticScenario:
         self.entry = next((e for e in catalog() if e["id"] == cfg.dataset), None)
         if self.entry is None:
             raise ValueError(f"unknown dataset: {cfg.dataset}")
+        if cfg.start or cfg.arrival != "constant":
+            raise ValueError("start and recorded arrival need a large (streaming) dataset")
         entry = self.entry
         if not entry["available"]:
             raise ValueError(f"dataset file is missing: {entry['file']}")

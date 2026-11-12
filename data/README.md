@@ -66,6 +66,45 @@ There is no download or network dependency while running experiments.
 - Raw source files are retained beside the prepared CSV for inspection.
 - This is chronological prequential replay, not the source paper's train/test protocol.
 
+## Network intrusions (CIC-IDS2017, corrected)
+
+Used by the research testbed (`research_testbed/`). Downloaded 11 November 2026.
+
+- Source: the improved CIC-IDS2017 by Liu, Engelen, Lynar, Essam and Joosen, *Error Prevalence in
+  NIDS datasets: A Case Study on CIC-IDS-2017 and CSE-CIC-IDS-2018*, IEEE CNS 2022, pp. 254–262,
+  published by KU Leuven DistriNet:
+  https://intrusion-detection.distrinet-research.be/CNS2022/Dataset_Download.html
+  (`CICIDS2017_improved.zip`, 343,549,013 bytes, dated 27 April 2023). It re-extracts and relabels the
+  original capture by Sharafaldin, Lashkari and Ghorbani (ICISSP 2018, UNB CIC). Cite both.
+- Licence: none is stated on the download page. The original CIC-IDS2017 page asks users to
+  cite the ICISSP 2018 paper. **Check the terms before redistributing the data.**
+- Restore with `backend/.venv/bin/python scripts/prepare_cicids2017.py` (about one minute,
+  about 0.6 GB of memory). It needs no account. The archive, the prepared stream and the schedule are
+  all pinned by SHA-256 in `catalog.json`. Raw files stay in `data/cicids2017/raw/`.
+- **2,099,976 flows** over five working days, 3–7 July 2017: 1,594,545 benign and 505,431 attacks
+  (24.1 %). Monday has no attacks.
+- **Order.** The day files are *not* in time order (about 45 % of rows are earlier than the row
+  before them). The prepared stream puts all five days in one sequence, ordered by the time each
+  flow **ends** (start + duration). A detector can only score a flow once its features are
+  complete, so this is the order in which a gateway would see them. Ties keep the start time,
+  day and original id order. Timestamps are as recorded. They match the published attack times
+  shifted by +3 hours, so they read as UTC.
+- **Labels.** Binary: `ATTACK` (positive) or `BENIGN`. Flows marked "Attempted" (attack attempts the authors found to
+  carry no actual attack content) count as `BENIGN`, as the authors instruct. The original label is kept
+  unchanged in `attack_type`, so per-attack scores remain possible.
+- **Inputs: 83 flow features**, including destination port and protocol. Identifiers are never
+  inputs: id, flow id, source and destination IP, source port and timestamp. No column is constant.
+  Five zero-duration flows have undefined `Flow Bytes/s` and `Flow Packets/s`. They are written as
+  blanks and filled by the pipeline's running-mean imputation. No other value is changed.
+- **Real, dated changes.** `prepared/schedule.json` lists the 22 attack periods: the rows where an
+  attack type starts and stops, split when an attack type is absent for more than 10 minutes. It also
+  lists the first row of each day. These are the dataset's own changes, so this dataset offers no
+  added column exchange. Like all such lists, a period's start is when an attack type first appears.
+  It is not a detector's ground truth.
+- Known limits: the capture comes from one lab network with scripted attacks. Studies report that some
+  flow features (e.g. initial TCP window sizes) identify the attack tools rather than the attacks. Heartbleed (11 flows) and SQL
+  injection (13) are far too rare for reliable per-type scores.
+
 ## Shared evaluation
 
 After a configurable initial warm-up (default 1,000 rows), score each prediction

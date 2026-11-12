@@ -1,0 +1,43 @@
+{
+  "data": "CIC-IDS2017 rows 371,624\u2013432,624 (Tuesday), warm-up 1000, k = 8, 28, 56, standard tier, levels chosen by the controller",
+  "rows": 180000,
+  "machine": "Darwin arm64, Python 3.11.18",
+  "date_utc": "2026-11-12 09:05",
+  "seconds": 18.7,
+  "coefficients_ns": {
+    "base_ns": 16165.7,
+    "transform_ns_per_input": 105.5,
+    "stats_ns_per_input": 394.0,
+    "rank_ns_per_input": 155.5,
+    "select_ns_per_feature": 26.1,
+    "predict_ns": 3039.2,
+    "predict_ns_per_feature": 355.8,
+    "detect_ns_per_label": 1483.6,
+    "update_ns": 6463.9,
+    "update_ns_per_feature": 969.8,
+    "split_ns_per_feature": 23638.3,
+    "controller_ns": 6585.5
+  },
+  "check": {
+    "mean_measured_us": 82.84517461666667,
+    "mean_modelled_us": 80.98681137207836,
+    "per_k_measured_vs_modelled_us": [
+      [
+        8,
+        46.421558266666665,
+        48.813742602833
+      ],
+      [
+        28,
+        78.45710443333333,
+        76.28905708337142
+      ],
+      [
+        56,
+        123.65686115,
+        117.85763443003064
+      ]
+    ],
+    "corr_per_row": 0.41894341119215417
+  }
+}

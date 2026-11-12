@@ -1,0 +1,12 @@
+# Phase 3: the joint controller (R1-R5) on the whole corrected CIC-IDS2017 stream, seed 42.
+# "gateway_sim" is a SIMULATED profile with PLACEHOLDER budgets (100 us CPU per row, 0.15 ms
+# per-row deadline, 2 MiB model memory), chosen so the full pipeline runs slightly over them.
+# They are not measured on any device. The controller reacts to measured time, so its decisions
+# depend on machine load: not bit-reproducible. Not an experiment of record.
+name: "Phase 3 — adaptive vs joint, standard and gateway"
+base:
+  seed: 42
+  methods: [adaptive, joint]
+  stream: {scenario: csv, dataset: cicids2017, length: 2099976, noise: 0}
+profiles: [standard, {name: gateway_sim, label: "Gateway (simulated)", simulated: true, placeholder: true, budgets: {compute_share: 0.5, nominal_rate: 5000, latency_deadline_ms: 0.15, model_memory_mib: 2.0, max_update_stride: 4, min_features: 4}}]
+seeds: [42]

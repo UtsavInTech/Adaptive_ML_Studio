@@ -72,3 +72,45 @@ components:
     implemented_in: backend/adaptiveml/pipeline (method preset "arf")
     status: implemented (choice of comparators is a Research + Review decision)
     verified_by: pending
+  - component: Comparator — streaming random patches
+    technique: River SRPClassifier, 10 Hoeffding trees on random feature subsets with bootstrap weights and per-member drift detection
+    references: ["Gomes, Read & Bifet 2019, Streaming Random Patches for Evolving Data Stream Classification, ICDM (not in the review's reference list)"]
+    gaps: [G2, G6]
+    implemented_in: backend/adaptiveml/models, backend/adaptiveml/pipeline (method preset "srp")
+    status: implemented (research testbed phase 2; Review to confirm it as a second comparator)
+    verified_by: pending
+  - component: Comparator — leveraging bagging
+    technique: River LeveragingBaggingClassifier, 10 Hoeffding trees, Poisson(6) bagging with ADWIN per member
+    references: ["Bifet, Holmes & Pfahringer 2010, Leveraging Bagging for Evolving Data Streams, ECML PKDD (not in the review's reference list)", "[5] Bifet & Gavaldà 2007 (ADWIN)"]
+    gaps: [G2, G6]
+    implemented_in: backend/adaptiveml/models, backend/adaptiveml/pipeline (method preset "lev_bag")
+    status: implemented (research testbed phase 2; Review to confirm it as a second comparator)
+    verified_by: pending
+  - component: Reference baseline and temporal-dependence scores
+    technique: '"Repeat last label" (no-change) classifier; Cohen''s kappa, kappa-temporal against the no-change classifier, macro-F1; per-label and per-attack-period scores'
+    references: ["Žliobaitė, Bifet, Read, Pfahringer & Holmes 2015, Evaluation methods and decision theory for classification of streaming data with temporal dependence, Machine Learning 98", "Bifet et al. 2015, Efficient Online Evaluation of Big Data Stream Classifiers, KDD"]
+    gaps: [G6]
+    implemented_in: backend/adaptiveml/models (NoChangeClassifier), backend/adaptiveml/metrics
+    status: implemented (research testbed phase 2)
+    verified_by: pending
+  - component: Joint drift-and-resource controller (R1-R5)
+    technique: Per-row rule ladder reading drift, rolling accuracy, per-row deadline misses, CPU share of budget (EWMA of service time) and model memory; R5 memory > R3 latency (fewer features, narrow preprocessing, thinned updates; relaxes when calm) > R1/R2 drift handling chosen by resource state > R4 buffered retraining with spare resources; per-rule and resource-check ablation switches
+    references: ["§6.2 decision rules R1-R5 and §VI: adapt the adaptation process to data and resources", "§4.3 cost model C_total", "[12] Petri et al. 2022", "[14] Disabato & Roveri 2024"]
+    gaps: [G2, G3, G4 (partial — simulated budgets), G5]
+    implemented_in: backend/adaptiveml/joint_controller.py, backend/adaptiveml/pipeline (method preset "joint"), backend/adaptiveml/metrics (cost_terms)
+    status: implemented (research testbed phase 3; placeholder budgets)
+    verified_by: pending
+  - component: Budgeted effort controller (proposed method "effort")
+    technique: 'Per-row choice of an effort level (preprocessing width, sampled scaler statistics with a gap-aware fading factor, sampled live feature ranking over all inputs, selective model update on easy rows) by a dual variable (price of compute, λ ← clip(λ + η(c/B − 1), 0, λ_max)) that holds the CPU budget on average, weighted by an activity signal (label-switch rate, error rate, drift alarms); per-row deadline and memory as hard limits (R5, deadline → gated feature cuts with a floor of 8, then thinned updates); repairs: fast replacement switch, damped re-alarms, delay-aware adaptation; deterministic decisions from a calibrated per-stage cost model; every lever and repair switchable for ablations'
+    references: ["§6.3 configuration θ minimising J under hard limits", "§4.3 cost model C_total", "RCCDA (NeurIPS 2025) — Lyapunov update/no-update control under an average budget", "Online Cascade Learning (Nie et al., ICML 2024)", "research_testbed/research/METHOD.md"]
+    gaps: [G2, G3, G4 (partial — simulated budgets), G5]
+    implemented_in: backend/adaptiveml/effort_controller.py, backend/adaptiveml/pipeline (Levers, _process_effort), backend/adaptiveml/preprocessing (gap-aware scaler), backend/adaptiveml/config/schema.py (EffortConfig, EffortLevel, EffortCostModel), research_testbed/scripts/calibrate_effort_cost.py
+    status: implemented (research testbed; under evaluation)
+    verified_by: backend/tests/test_effort_controller.py; research_testbed/research/effort_results.md (exploratory, one seed)
+  - component: Testbed scale and evaluation protocol
+    technique: Simulated device tiers (placeholder budgets); replay from any row; recorded arrival rate with speed-up driving the per-row CPU budget; delayed and partial labels; parallel fleet runner; fixed protocol (protocol.yaml v1) with block-bootstrap confidence intervals, Friedman / Iman-Davenport and Nemenyi critical difference; report generator with run IDs on every table
+    references: ["Table III — unified evaluation gap", "§VI: compare with existing adaptive approaches", "Demšar 2006, Statistical Comparisons of Classifiers over Multiple Data Sets, JMLR 7", "Gomes et al. 2019 / Žliobaitė et al. 2015 on delayed labels and temporal dependence (not in the review's reference list)"]
+    gaps: [G4 (partial — simulated), G6]
+    implemented_in: backend/adaptiveml/config/profiles.py, backend/adaptiveml/stream/streaming.py, backend/adaptiveml/pipeline, backend/adaptiveml/experiments/runner.py, backend/adaptiveml/analysis, research_testbed/protocol, research_testbed/scripts
+    status: implemented (research testbed phases 4-5; full protocol not yet run)
+    verified_by: pending
